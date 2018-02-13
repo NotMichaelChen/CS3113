@@ -3,7 +3,7 @@
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 
-#include "entity.hpp"
+#include "paddle.hpp"
 
 #include "ShaderProgram.h"
 
@@ -26,26 +26,23 @@ int main(int argc, char *argv[])
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    //Declare matrices
-    Matrix projectionMatrix;
-    Matrix modelMatrix;
-    Matrix viewMatrix;
-
     //Load shader program
     ShaderProgram program;
     program.Load("vertex.glsl", "fragment.glsl");
     program.SetColor(1, 1, 1, 1);
     glUseProgram(program.programID);
 
-    //Set orthographic projection
-    projectionMatrix.SetOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
+    //Declare matrices
+    Matrix projectionMatrix;
+    Matrix viewMatrix;
 
+    projectionMatrix.SetOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
 
     //Create entities
-    Entity foo(0, 0, 0, 0.5, 0.5);
-    Entity bar(1, 1, 0, 0.5, 0.5);
+    Paddle leftpaddle(true);
+    Paddle rightpaddle(false);
 
     SDL_Event event;
     bool done = false;
@@ -60,8 +57,8 @@ int main(int argc, char *argv[])
         }
         glClear(GL_COLOR_BUFFER_BIT);
 
-        foo.Draw(program);
-        bar.Draw(program);
+        leftpaddle.Draw(program);
+        rightpaddle.Draw(program);
 
         SDL_GL_SwapWindow(displayWindow);
     }
