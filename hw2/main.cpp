@@ -22,6 +22,9 @@ int main(int argc, char *argv[])
 
     glViewport(0, 0, 1280, 720);
 
+    //Initialize keystate array
+    const Uint8 *keys = SDL_GetKeyboardState(NULL);
+
     //Enable blending
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -44,10 +47,15 @@ int main(int argc, char *argv[])
     Paddle leftpaddle(true);
     Paddle rightpaddle(false);
 
+    float lastFrameTicks = 0.0f;
     SDL_Event event;
     bool done = false;
     while (!done)
     {
+        float ticks = (float)SDL_GetTicks()/1000.0f;
+        float elapsed = ticks - lastFrameTicks;
+        lastFrameTicks = ticks;
+
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE)
@@ -55,6 +63,16 @@ int main(int argc, char *argv[])
                 done = true;
             }
         }
+
+        if(keys[SDL_SCANCODE_UP])
+            rightpaddle.Move(elapsed);
+        if(keys[SDL_SCANCODE_DOWN])
+            rightpaddle.Move(-elapsed);
+        if(keys[SDL_SCANCODE_W])
+            leftpaddle.Move(elapsed);
+        if(keys[SDL_SCANCODE_S])
+            leftpaddle.Move(-elapsed);
+
         glClear(GL_COLOR_BUFFER_BIT);
 
         leftpaddle.Draw(program);
