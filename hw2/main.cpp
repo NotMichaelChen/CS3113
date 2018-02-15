@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 
 #include "paddle.hpp"
+#include "ball.hpp"
 
 #include "ShaderProgram.h"
 
@@ -46,6 +47,7 @@ int main(int argc, char *argv[])
     //Create entities
     Paddle leftpaddle(true);
     Paddle rightpaddle(false);
+    Ball ball;
 
     float lastFrameTicks = 0.0f;
     SDL_Event event;
@@ -72,11 +74,18 @@ int main(int argc, char *argv[])
             leftpaddle.Move(elapsed);
         if(keys[SDL_SCANCODE_S])
             leftpaddle.Move(-elapsed);
+        
+        bool success = ball.Step(elapsed);
+        if(!success)
+            glClearColor(1, 0, 0, 1);
+        ball.CheckPaddle(leftpaddle);
+        ball.CheckPaddle(rightpaddle);
 
         glClear(GL_COLOR_BUFFER_BIT);
 
         leftpaddle.Draw(program);
         rightpaddle.Draw(program);
+        ball.Draw(program);
 
         SDL_GL_SwapWindow(displayWindow);
     }
