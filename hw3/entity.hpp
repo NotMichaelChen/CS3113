@@ -2,10 +2,11 @@
 #define ENTITY_HPP
 
 #include "ShaderProgram.h"
+#include "SheetSprite.hpp"
 
 class Entity {
 public:
-    Entity(float nx, float ny, float nr, float nw, float nh);
+    Entity(float nx, float ny, float nr, float nw, float nh, SheetSprite& nsprite);
     void Draw(ShaderProgram& program);
 
     float x;
@@ -17,6 +18,8 @@ public:
     
     float velocity_x;
     float velocity_y;
+private:
+    SheetSprite sprite;
 };
 
 #endif

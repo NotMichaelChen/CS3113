@@ -2,14 +2,15 @@
 
 #include "Matrix.h"
 
-SheetSprite::SheetSprite(unsigned int textureID, float u, float v, float width, float height, float size) :
+SheetSprite::SheetSprite(unsigned int textureID, float x, float y, float spritewidth, float spriteheight, float size, float sheetwidth, float sheetheight) :
     textureID(textureID),
-    u(u),
-    v(v),
-    width(width),
-    height(height),
     size(size)
-{}
+{
+    u = x / sheetwidth;
+    v = y / sheetheight;
+    width = spritewidth / sheetwidth;
+    height = spriteheight / sheetheight;
+}
 
 void SheetSprite::Draw(ShaderProgram *program, float x, float y, float rot) {
     glBindTexture(GL_TEXTURE_2D, textureID);

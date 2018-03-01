@@ -12,7 +12,7 @@ class MainMenu {
 public:
     MainMenu(ShaderProgram* prg);
 
-    //0 = do nothing, 1 = switch to game, 2 = exit program
+    //0 = exit, 1 = current state, 2 = game state
     int processInput();
     void render();
 

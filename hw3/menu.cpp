@@ -13,15 +13,15 @@ int MainMenu::processInput() {
     {
         if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE)
         {
-            return 2;
+            return 0;
         }
         else if(event.type == SDL_KEYDOWN) {
             if(event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
-                return 1;
+                return 2;
             }
         }
     }
-    return 0;
+    return 1;
 }
 
 void MainMenu::render() {

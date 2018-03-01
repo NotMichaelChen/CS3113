@@ -7,8 +7,6 @@
 
 #include "util.hpp"
 
-#include "paddle.hpp"
-#include "ball.hpp"
 #include "menu.hpp"
 
 #include "ShaderProgram.h"
@@ -47,6 +45,9 @@ int main(int argc, char *argv[])
     program.SetViewMatrix(viewMatrix);
 
     MainMenu menu(&program);
+    
+    //Using int to track state so that I don't need to put an enum in a header file and include it everywhere
+    int program_state = 1;
 
     float lastFrameTicks = 0.0f;
     SDL_Event event;
@@ -58,14 +59,16 @@ int main(int argc, char *argv[])
         lastFrameTicks = ticks;
 
         glClear(GL_COLOR_BUFFER_BIT);
-
-        int result = menu.processInput();
-        if(result == 2)
-            done = true;
         
-        menu.render();
-
-        //Draw here
+        if(program_state == 1) {
+            program_state = menu.processInput();
+            if(program_state == 0)
+                done = true;
+            
+            menu.render();
+        }
+        else if(program_state == 2) {
+        }
 
         SDL_GL_SwapWindow(displayWindow);
     }

@@ -1,6 +1,6 @@
 #include "entity.hpp"
 
-Entity::Entity(float nx, float ny, float nr, float nw, float nh) : x(nx), y(ny), rotation(nr), width(nw), height(nh) {
+Entity::Entity(float nx, float ny, float nr, float nw, float nh, SheetSprite& nsprite) : x(nx), y(ny), rotation(nr), width(nw), height(nh), sprite(nsprite) {
     velocity_x = 0;
     velocity_y = 0;
 }
