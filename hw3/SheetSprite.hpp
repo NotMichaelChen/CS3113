@@ -5,6 +5,7 @@
 
 class SheetSprite {
 public:
+    //This x,y are the coordinates in the texture sheet, not the location in the game window
     SheetSprite(unsigned int textureID, float x, float y, float spritewidth, float spriteheight, float size, float sheetwidth, float sheetheight);
 
 
