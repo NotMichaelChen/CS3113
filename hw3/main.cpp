@@ -8,6 +8,7 @@
 #include "util.hpp"
 
 #include "menu.hpp"
+#include "gamestate.hpp"
 
 #include "ShaderProgram.h"
 
@@ -22,9 +23,6 @@ int main(int argc, char *argv[])
     glewInit();
 
     glViewport(0, 0, 1280, 720);
-
-    //Initialize keystate array
-    const Uint8 *keys = SDL_GetKeyboardState(NULL);
 
     //Enable blending
     glEnable(GL_BLEND);
@@ -45,6 +43,7 @@ int main(int argc, char *argv[])
     program.SetViewMatrix(viewMatrix);
 
     MainMenu menu(&program);
+    GameState gamestate(&program);
     
     //Using int to track state so that I don't need to put an enum in a header file and include it everywhere
     int program_state = 1;
@@ -61,13 +60,19 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT);
         
         if(program_state == 1) {
-            program_state = menu.processInput();
+            program_state = menu.processEvents();
             if(program_state == 0)
                 done = true;
             
             menu.render();
         }
         else if(program_state == 2) {
+            program_state = gamestate.processEvents();
+            if(program_state == 0)
+                done = true;
+
+            gamestate.update(elapsed);
+            gamestate.render();
         }
 
         SDL_GL_SwapWindow(displayWindow);

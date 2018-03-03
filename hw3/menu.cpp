@@ -6,7 +6,7 @@ MainMenu::MainMenu(ShaderProgram* prg) : program(prg) {
     textureID = LoadTexture("./assets/font1.png", GL_LINEAR);
 }
 
-int MainMenu::processInput() {
+int MainMenu::processEvents() {
     SDL_Event event;
 
     while (SDL_PollEvent(&event))

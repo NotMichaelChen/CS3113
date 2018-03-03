@@ -13,7 +13,7 @@ public:
     MainMenu(ShaderProgram* prg);
 
     //0 = exit, 1 = current state, 2 = game state
-    int processInput();
+    int processEvents();
     void render();
 
 private:
