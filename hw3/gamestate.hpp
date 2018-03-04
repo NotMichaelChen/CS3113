@@ -11,6 +11,7 @@
 
 #include "./Entities/player.hpp"
 #include "./Entities/bullet.hpp"
+#include "./Entities/enemy.hpp"
 
 class GameState {
 public:
@@ -24,6 +25,7 @@ private:
     //constructor body. This lets me load the sprite before constructing the player
     std::shared_ptr<PlayerEntity> player;
     std::vector<Bullet> bullets;
+    std::vector<EnemyEntity> enemies;
 
     GLuint textureID;
     const Uint8 *keys;

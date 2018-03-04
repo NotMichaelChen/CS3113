@@ -6,7 +6,7 @@
 class Bullet : public Entity {
 public:
     Bullet(SheetSprite& nsprite, float x, float y);
-    bool Step();
+    bool Step(float amount);
 };
 
 #endif
