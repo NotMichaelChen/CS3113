@@ -26,17 +26,26 @@ void EnemyEntity::ShiftDown() {
     velocity_x = -velocity_x;
 }
 
-int EnemyEntity::CheckCollision(std::vector<Bullet>& bullets) {
-    int returnindex = 0;
-    
-    for(int i = 0; i < bullets.size(); ++i) {
+//Returns which bullet to erase
+std::vector<Bullet>::iterator EnemyEntity::CheckCollision(std::vector<Bullet>& bullets) {
+    for(auto iter = bullets.begin(); iter != bullets.end(); iter++) {
         //~ is R1’s bottom higher than R2’s top?
         //~ is R1’s top lower than R2’s bottom?
         //~ is R1’s left larger than R2’s right?
         //~ is R1’s right smaller than R2’s left
         //~ If ANY of the above are true, then the two
         //~ rectangles are NOT intersecting!
+        if(y - getHeight()/2 > iter->y + iter->getHeight()/2 ||
+            y + getHeight()/2 < iter->y - iter->getHeight()/2 ||
+            x - getWidth()/2 > iter->x + iter->getWidth()/2 ||
+            x + getWidth()/2 < iter->x - iter->getWidth()/2)
+        {
+            continue;
+        }
+        else {
+            return iter;
+        }
     }
 
-    return returnindex;
+    return bullets.end();
 }

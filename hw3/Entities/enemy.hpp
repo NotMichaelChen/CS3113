@@ -13,7 +13,8 @@ public:
     bool MoveAcross(float amount);
     void ShiftDown();
 
-    int CheckCollision(std::vector<Bullet>& bullets);
+    //Returns which bullet to erase
+    std::vector<Bullet>::iterator CheckCollision(std::vector<Bullet>& bullets);
 };
 
 #endif

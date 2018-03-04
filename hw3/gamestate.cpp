@@ -70,6 +70,14 @@ void GameState::update(float elapsed) {
             //Delay shift until end of update to avoid desyncing enemies
             is_shift = true;
             iter++;
+            continue;
+        }
+        //Check if bullets hit current enemy
+        auto removeiter = iter->CheckCollision(bullets);
+        if(removeiter != bullets.end()) {
+            //Remove enemy then remove bullet
+            iter = enemies.erase(iter);
+            bullets.erase(removeiter);
         }
         else {
             iter++;
