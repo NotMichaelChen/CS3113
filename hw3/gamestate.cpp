@@ -61,19 +61,24 @@ void GameState::update(float elapsed) {
             iter++;
     }
 
+    bool is_shift = false;
+
     //Update enemies
     for(auto iter = enemies.begin(); iter != enemies.end();) {
         //Edge has been hit
         if(iter->MoveAcross(elapsed)) {
-            //Shift all enemies down
-            for(auto shiftiter = enemies.begin(); shiftiter != enemies.end(); shiftiter++) {
-                shiftiter->ShiftDown();
-            }
-            //Restart loop by setting iter to begin
-            iter = enemies.begin();
+            //Delay shift until end of update to avoid desyncing enemies
+            is_shift = true;
+            iter++;
         }
         else {
             iter++;
+        }
+    }
+    if(is_shift) {
+        //Shift all enemies down
+        for(auto shiftiter = enemies.begin(); shiftiter != enemies.end(); shiftiter++) {
+            shiftiter->ShiftDown();
         }
     }
 }

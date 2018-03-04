@@ -10,6 +10,9 @@ public:
     Entity(float nx, float ny, float nr, SheetSprite& nsprite);
     void Draw(ShaderProgram* program);
 
+    float getHeight();
+    float getWidth();
+
     float x;
     float y;
     float rotation;

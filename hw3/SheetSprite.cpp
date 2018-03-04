@@ -12,6 +12,15 @@ SheetSprite::SheetSprite(unsigned int textureID, float x, float y, float spritew
     height = spriteheight / sheetheight;
 }
 
+float SheetSprite::getRealWidth() {
+    float aspect = width / height;
+    return size * aspect;
+}
+
+float SheetSprite::getRealHeight() {
+    return size;
+}
+
 void SheetSprite::Draw(ShaderProgram *program, float x, float y, float rot) {
     glBindTexture(GL_TEXTURE_2D, textureID);
 

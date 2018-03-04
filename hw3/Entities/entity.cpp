@@ -8,3 +8,11 @@ Entity::Entity(float nx, float ny, float nr, SheetSprite& nsprite) : x(nx), y(ny
 void Entity::Draw(ShaderProgram* program) {
     sprite.Draw(program, x, y, rotation);
 }
+
+float Entity::getWidth() {
+    return sprite.getRealWidth();
+}
+
+float Entity::getHeight() {
+    return sprite.getRealHeight();
+}
