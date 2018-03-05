@@ -18,8 +18,13 @@ public:
     GameState(ShaderProgram* p);
 
     int processEvents();
-    void update(float elapsed);
+    //Returns whether the player won or lost, or nothing happened
+    //0 = nothing, 1 = win, 2 = lose
+    int update(float elapsed);
     void render();
+
+    void reset();
+    
 private:
     //A little overkill for this homework, but making player a smart pointer allows me to defer construction until the
     //constructor body. This lets me load the sprite before constructing the player

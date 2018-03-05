@@ -1,5 +1,5 @@
-#ifndef MENU_HPP
-#define MENU_HPP
+#ifndef ENDSTATE_HPP
+#define ENDSTATE_HPP
 
 #include <GL/glew.h>
 #include <SDL.h>
@@ -8,12 +8,12 @@
 
 #include "ShaderProgram.h"
 
-class MainMenu {
+class EndState {
 public:
-    MainMenu(ShaderProgram* prg);
+    EndState(ShaderProgram* prg);
 
     int processEvents();
-    void render();
+    void render(bool won);
 
 private:
     GLuint textureID;

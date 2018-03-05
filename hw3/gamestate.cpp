@@ -47,7 +47,11 @@ int GameState::processEvents() {
     return 2;
 }
 
-void GameState::update(float elapsed) {
+//0 = nothing, 1 = win, 2 = lose
+int GameState::update(float elapsed) {
+    if(enemies.empty())
+        return 1;
+    
     //Update player
     if(keys[SDL_SCANCODE_LEFT])
         player->Move(-elapsed);
@@ -55,7 +59,7 @@ void GameState::update(float elapsed) {
         player->Move(elapsed);
 
     if(player->CheckCollision(enemybullets) != enemybullets.end()) {
-        //end the game
+        return 2;
     }
 
     //Update bullets
@@ -104,8 +108,13 @@ void GameState::update(float elapsed) {
         //Shift all enemies down
         for(auto shiftiter = enemies.begin(); shiftiter != enemies.end(); shiftiter++) {
             shiftiter->ShiftDown();
+            //Failure if enemies get too low
+            if(shiftiter->y - shiftiter->getHeight()/2 < player->y + player->getHeight()/2 + 0.3)
+                return 2;
         }
     }
+
+    return 0;
 }
 
 void GameState::render() {
@@ -123,5 +132,27 @@ void GameState::render() {
     //Draw enemies
     for(auto enemyiter = enemies.begin(); enemyiter != enemies.end(); enemyiter++) {
         enemyiter->Draw(program);
+    }
+}
+
+void GameState::reset() {
+    //Reset player position
+    player->x = 0;
+
+    //Clear bullet vectors
+    bullets.clear();
+    enemybullets.clear();
+
+    //Remake enemy vector
+    enemies.clear();
+    SheetSprite enemysprite(textureID, 423, 728, 93, 84, 0.35, 1024, 1024);
+    float enemyy = 1.75;
+    for(int i = 0; i < 5; i++) {
+        float enemyx = -3;
+        for(int j = 0; j < 5; j++) {
+            enemies.emplace_back(enemysprite, enemyx, enemyy);
+            enemyx += 0.7;
+        }
+        enemyy -= 0.45;
     }
 }

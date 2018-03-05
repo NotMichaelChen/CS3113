@@ -11,6 +11,7 @@
 
 #include "menu.hpp"
 #include "gamestate.hpp"
+#include "endstate.hpp"
 
 #include "ShaderProgram.h"
 
@@ -42,20 +43,23 @@ int main(int argc, char *argv[])
     Matrix projectionMatrix;
     Matrix viewMatrix;
 
+    //Set matrices
     projectionMatrix.SetOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
 
+    //Create Game objects
     MainMenu menu(&program);
     GameState gamestate(&program);
+    EndState endstate(&program);
     
     //Using int to track state so that I don't need to put an enum in a header file and include it everywhere
-    //0 = exit, 1 = menu, 2 = game
+    //0 = exit, 1 = menu, 2 = game, 3 = end
     int program_state = 1;
 
     float lastFrameTicks = 0.0f;
-    SDL_Event event;
     bool done = false;
+    bool won = false;
     while (!done)
     {
         float ticks = (float)SDL_GetTicks()/1000.0f;
@@ -63,21 +67,39 @@ int main(int argc, char *argv[])
         lastFrameTicks = ticks;
 
         glClear(GL_COLOR_BUFFER_BIT);
-        
+
+        //Start Menu State
         if(program_state == 1) {
             program_state = menu.processEvents();
             if(program_state == 0)
                 done = true;
+            //No need to reset game; cannot come back to start menu state
             
             menu.render();
         }
+        //Game State
         else if(program_state == 2) {
             program_state = gamestate.processEvents();
             if(program_state == 0)
                 done = true;
 
-            gamestate.update(elapsed);
+            int status = gamestate.update(elapsed);
+            if(status != 0) {
+                program_state = 3;
+                won = (status == 1);
+            }
             gamestate.render();
+        }
+        //End Game State
+        else if(program_state == 3) {
+            program_state = endstate.processEvents();
+            if(program_state == 0)
+                done = true;
+            //Reset game before entering
+            else if(program_state == 2)
+                gamestate.reset();
+                
+            endstate.render(won);
         }
 
         SDL_GL_SwapWindow(displayWindow);

@@ -1,12 +1,12 @@
-#include "menu.hpp"
+#include "endstate.hpp"
 
 #include "util.hpp"
 
-MainMenu::MainMenu(ShaderProgram* prg) : program(prg) {
+EndState::EndState(ShaderProgram* prg) : program(prg) {
     textureID = LoadTexture("./assets/font1.png", GL_LINEAR);
 }
 
-int MainMenu::processEvents() {
+int EndState::processEvents() {
     SDL_Event event;
 
     while (SDL_PollEvent(&event))
@@ -21,10 +21,14 @@ int MainMenu::processEvents() {
             }
         }
     }
-    return 1;
+    return 3;
 }
 
-void MainMenu::render() {
-    DrawText(program, textureID, "SPACE INVADERS", 0.3, -0.1, -1.25, 1);
-    DrawText(program, textureID, "press enter to play", 0.2, -0.1, -0.9, 0);
+void EndState::render(bool won) {
+    if(won)
+        DrawText(program, textureID, "YOU WIN", 0.3, -0.1, -0.65, 1);
+    else
+        DrawText(program, textureID, "YOU LOSE", 0.3, -0.1, -0.7, 1);
+        
+    DrawText(program, textureID, "press enter to play again", 0.2, -0.1, -1.25, 0);
 }
