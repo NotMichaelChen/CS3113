@@ -24,7 +24,9 @@ private:
     //A little overkill for this homework, but making player a smart pointer allows me to defer construction until the
     //constructor body. This lets me load the sprite before constructing the player
     std::shared_ptr<PlayerEntity> player;
+    //Two vectors for bullets to distinguish enemy bullets from player bullets
     std::vector<Bullet> bullets;
+    std::vector<Bullet> enemybullets;
     std::vector<EnemyEntity> enemies;
 
     GLuint textureID;

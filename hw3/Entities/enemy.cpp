@@ -1,5 +1,7 @@
 #include "enemy.hpp"
 
+#include <cstdlib>
+
 EnemyEntity::EnemyEntity(SheetSprite& nsprite, float x, float y) : Entity(x, y, 0, nsprite) {
     velocity_x = 0.75;
 }
@@ -24,6 +26,10 @@ bool EnemyEntity::MoveAcross(float amount) {
 void EnemyEntity::ShiftDown() {
     y -= 0.2;
     velocity_x = -velocity_x;
+}
+
+bool EnemyEntity::GenerateBullet() {
+    return rand() % 1000 == 0;
 }
 
 //Returns which bullet to erase

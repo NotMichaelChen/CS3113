@@ -4,6 +4,8 @@
 #include <SDL_image.h>
 
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 #include "util.hpp"
 
@@ -16,6 +18,8 @@ SDL_Window *displayWindow;
 
 int main(int argc, char *argv[])
 {
+    srand(time(NULL));
+    
     SDL_Init(SDL_INIT_VIDEO);
     displayWindow = SDL_CreateWindow("Space Invaders", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
@@ -46,6 +50,7 @@ int main(int argc, char *argv[])
     GameState gamestate(&program);
     
     //Using int to track state so that I don't need to put an enum in a header file and include it everywhere
+    //0 = exit, 1 = menu, 2 = game
     int program_state = 1;
 
     float lastFrameTicks = 0.0f;

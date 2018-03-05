@@ -12,6 +12,8 @@ public:
     //Returns whether an edge has been hit
     bool MoveAcross(float amount);
     void ShiftDown();
+    //Technically doesn't need to be a method, but associates chance of generating bullets with the enemy class
+    bool GenerateBullet();
 
     //Returns which bullet to erase
     std::vector<Bullet>::iterator CheckCollision(std::vector<Bullet>& bullets);
