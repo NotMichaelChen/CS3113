@@ -63,8 +63,7 @@ int main(int argc, char *argv[])
                 done = true;
             }
         }
-        
-        glClear(GL_COLOR_BUFFER_BIT);
+
 
         float ticks = (float)SDL_GetTicks()/1000.0f;
         accumulator += ticks - lastFrameTicks;
@@ -87,6 +86,7 @@ int main(int argc, char *argv[])
         player.Draw(&program);
 
         SDL_GL_SwapWindow(displayWindow);
+        glClear(GL_COLOR_BUFFER_BIT);
     }
 
     SDL_Quit();
