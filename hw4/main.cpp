@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     glewInit();
 
     glViewport(0, 0, 1280, 720);
+    const Uint8* keys = SDL_GetKeyboardState(NULL);
 
     //Enable blending
     glEnable(GL_BLEND);
@@ -49,10 +50,9 @@ int main(int argc, char *argv[])
     SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 1, 512, 512);
 
     //Create entities
-    PlayerEntity player(playersprite);
+    PlayerEntity player(playersprite, keys);
 
     SDL_Event event;
-    const Uint8* keys = SDL_GetKeyboardState(NULL);
     float lastFrameTicks = 0;
     bool done = false;
     float accumulator = 0;
@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
             }
         }
 
-
         float ticks = (float)SDL_GetTicks()/1000.0f;
         accumulator += ticks - lastFrameTicks;
         lastFrameTicks = ticks;
@@ -73,16 +72,7 @@ int main(int argc, char *argv[])
             continue;
 
         //UPDATE
-        while(accumulator >= FIXED_TIMESTEP) {
-            if(keys[SDL_SCANCODE_LEFT]) {
-                player.acceleration[0] = -5;
-            }
-            else if(keys[SDL_SCANCODE_RIGHT]) {
-                player.acceleration[0] = 5;
-            }
-            else {
-                player.acceleration[0] = 0;
-            }
+        while(accumulator >= FIXED_TIMESTEP) {            
             player.Update(FIXED_TIMESTEP);
 
             accumulator -= FIXED_TIMESTEP;
