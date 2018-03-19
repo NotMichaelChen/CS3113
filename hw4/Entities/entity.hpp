@@ -8,13 +8,15 @@ class Entity {
 public:
     //This x,y are the actual locations in the window
     Entity(float nx, float ny, float nr, bool isstat, SheetSprite& nsprite);
-    void Update(float elapsed);
+    virtual void Update(float elapsed);
     void Draw(ShaderProgram* program);
 
     float position[2];
     float size[2];
     float velocity[2];
+    float velcap[2];
     float acceleration[2];
+    float friction[2];
 
     float rotation;
 

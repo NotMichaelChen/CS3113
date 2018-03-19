@@ -75,11 +75,16 @@ int main(int argc, char *argv[])
         //UPDATE
         while(accumulator >= FIXED_TIMESTEP) {
             if(keys[SDL_SCANCODE_LEFT]) {
-                player.Move(-FIXED_TIMESTEP);
+                player.acceleration[0] = -5;
             }
-            if(keys[SDL_SCANCODE_RIGHT]) {
-                player.Move(FIXED_TIMESTEP);
+            else if(keys[SDL_SCANCODE_RIGHT]) {
+                player.acceleration[0] = 5;
             }
+            else {
+                player.acceleration[0] = 0;
+            }
+            player.Update(FIXED_TIMESTEP);
+
             accumulator -= FIXED_TIMESTEP;
         }
 

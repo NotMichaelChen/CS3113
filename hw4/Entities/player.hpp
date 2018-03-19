@@ -8,7 +8,7 @@
 class PlayerEntity : public Entity {
 public:
     PlayerEntity(SheetSprite& nsprite);
-    void Move(float amount);
+    virtual void Update(float elapsed);
 };
 
 #endif
