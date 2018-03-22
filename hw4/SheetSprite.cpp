@@ -22,8 +22,6 @@ float SheetSprite::getRealHeight() {
 }
 
 void SheetSprite::Draw(ShaderProgram *program, float x, float y, float rot) {
-    glBindTexture(GL_TEXTURE_2D, textureID);
-
     GLfloat texCoords[] = {
         u, v+height,
         u+width, v,

@@ -8,6 +8,7 @@
 
 #include "Entities/player.hpp"
 #include "util.hpp"
+#include "tilemap.hpp"
 
 SDL_Window* displayWindow;
 
@@ -43,8 +44,18 @@ int main(int argc, char *argv[])
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
 
+
     //Create textures from sprite sheets
     GLuint playertextureID = LoadTexture("./assets/p1_spritesheet.png", GL_NEAREST);
+    GLuint leveltextureID = LoadTexture("./assets/tiles_spritesheet.png", GL_NEAREST);
+
+    //Create tilemap
+    std::vector<std::vector<unsigned int>> levelData =
+    {
+        {10,0,0,10},
+        {10,10,10,10}
+    };
+    TileMap level(levelData, leveltextureID, 70, 12, 13, 1024, 1024);
 
     //Create sprites
     SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 1, 512, 512);
@@ -72,13 +83,14 @@ int main(int argc, char *argv[])
             continue;
 
         //UPDATE
-        while(accumulator >= FIXED_TIMESTEP) {            
+        while(accumulator >= FIXED_TIMESTEP) {
             player.Update(FIXED_TIMESTEP);
 
             accumulator -= FIXED_TIMESTEP;
         }
 
         player.Draw(&program);
+        level.Draw(&program);
 
         SDL_GL_SwapWindow(displayWindow);
         glClear(GL_COLOR_BUFFER_BIT);

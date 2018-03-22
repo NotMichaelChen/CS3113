@@ -4,7 +4,7 @@ PlayerEntity::PlayerEntity(SheetSprite& nsprite, const Uint8* k) : Entity(0, -2 
     velcap[0] = 25;
     velcap[1] = 25;
     friction[0] = 4;
-    acceleration[1] = -5;
+    acceleration[1] = -10;
 }
 
 void PlayerEntity::Update(float elapsed) {
@@ -20,7 +20,7 @@ void PlayerEntity::Update(float elapsed) {
 
     if(keys[SDL_SCANCODE_SPACE]) {
         if(position[1] <= -2 + size[1]/2)
-            velocity[1] = 3;
+            velocity[1] = 5;
     }
 
     Entity::Update(elapsed);
