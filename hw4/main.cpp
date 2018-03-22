@@ -47,15 +47,15 @@ int main(int argc, char *argv[])
 
     //Create textures from sprite sheets
     GLuint playertextureID = LoadTexture("./assets/p1_spritesheet.png", GL_NEAREST);
-    GLuint leveltextureID = LoadTexture("./assets/tiles_spritesheet.png", GL_NEAREST);
+    GLuint leveltextureID = LoadTexture("./assets/dirt-tiles.png", GL_NEAREST);
 
     //Create tilemap
-    std::vector<std::vector<unsigned int>> levelData =
+    std::vector<std::vector<int>> levelData =
     {
-        {10,0,0,10},
-        {10,10,10,10}
+        {122,-1,-1,122},
+        {4,4,4,4}
     };
-    TileMap level(levelData, leveltextureID, 70, 12, 13, 1024, 1024);
+    TileMap level(levelData, leveltextureID, 0.5, 24, 16);
 
     //Create sprites
     SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 1, 512, 512);

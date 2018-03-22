@@ -7,19 +7,16 @@
 
 class TileMap {
 public:
-    TileMap(std::vector<std::vector<unsigned int>> data, unsigned int tID, float tsize, unsigned int countx, unsigned int county, unsigned int sizex, unsigned int sizey);
+    TileMap(std::vector<std::vector<int>> data, unsigned int tID, float tsize, unsigned int countx, unsigned int county);
     void Draw(ShaderProgram *program);
 
 private:
-    std::vector<std::vector<unsigned int>> levelData;
+    std::vector<std::vector<int>> levelData;
     unsigned int textureID;
     float tilesize;
     //The amount of sprites in the x/y dimension in the tilemap
     unsigned int spritecountX;
     unsigned int spritecountY;
-
-    unsigned int sheetx;
-    unsigned int sheety;
 };
 
 #endif

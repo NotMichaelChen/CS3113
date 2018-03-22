@@ -7,14 +7,12 @@
 
 #include "Matrix.h"
 
-TileMap::TileMap(std::vector<std::vector<unsigned int>> data, unsigned int tID, float tsize, unsigned int countx, unsigned int county, unsigned int sizex, unsigned int sizey) :
+TileMap::TileMap(std::vector<std::vector<int>> data, unsigned int tID, float tsize, unsigned int countx, unsigned int county) :
     levelData(data),
     textureID(tID),
     tilesize(tsize),
     spritecountX(countx),
-    spritecountY(county),
-    sheetx(sizex),
-    sheety(sizey)
+    spritecountY(county)
 {
 }
 
@@ -25,36 +23,21 @@ void TileMap::Draw(ShaderProgram *program) {
     std::vector<float> texCoordData;
     for(int y=0; y < levelData.size(); y++) {
         for(int x=0; x < levelData[y].size(); x++) {
-            //if(levelData[y][x] != 0) {
+            if(levelData[y][x] >= 0) {
+                float u = (float)((levelData[y][x]) % spritecountX) / (float) spritecountX;
+                float v = (float)((levelData[y][x]) / spritecountX) / (float) spritecountY;
 
-                float u = (levelData[y][x] % spritecountX) * tilesize / sheetx;
-                float v = (levelData[y][x] / spritecountX) * tilesize / sheety;
-                
-                //float u = (float)(((int)levelData[y][x]) % spritecountX) / (float) spritecountX;
-                //float v = (float)(((int)levelData[y][x]) / spritecountX) / (float) spritecountY;
+                float spriteWidth = 1.0f/(float)spritecountX;
+                float spriteHeight = 1.0f/(float)spritecountY;
 
-                float spriteHeight = tilesize / sheetx;
-                float spriteWidth = tilesize / sheety;
-
-                // float spriteWidth = 1.0f/(float)spritecountX;
-                // float spriteHeight = 1.0f/(float)spritecountY;
-
-                float scale = 0.5;
                 vertexData.insert(vertexData.end(), {
-                    // tilesize * x, -tilesize * y,
-                    // tilesize * x, (-tilesize * y)-tilesize,
-                    // (tilesize * x)+tilesize, (-tilesize * y)-tilesize,
+                    tilesize * x, -tilesize * y,
+                    tilesize * x, (-tilesize * y)-tilesize,
+                    (tilesize * x)+tilesize, (-tilesize * y)-tilesize,
 
-                    // tilesize * x, -tilesize * y,
-                    // (tilesize * x)+tilesize, (-tilesize * y)-tilesize,
-                    // (tilesize * x)+tilesize, -tilesize * y
-                    scale * x, -scale * y,
-                    scale * x, (-scale * y)-scale,
-                    (scale * x)+scale, (-scale * y)-scale,
-
-                    scale * x, -scale * y,
-                    (scale * x)+scale, (-scale * y)-scale,
-                    (scale * x)+scale, -scale * y
+                    tilesize * x, -tilesize * y,
+                    (tilesize * x)+tilesize, (-tilesize * y)-tilesize,
+                    (tilesize * x)+tilesize, -tilesize * y
                 });
 
                 texCoordData.insert(texCoordData.end(), {
@@ -68,7 +51,7 @@ void TileMap::Draw(ShaderProgram *program) {
                 });
 
                 tiles++;
-            //}
+            }
         }
     }
     Matrix modelMatrix;
