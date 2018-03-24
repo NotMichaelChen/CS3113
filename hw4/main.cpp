@@ -66,11 +66,11 @@ int main(int argc, char *argv[])
 
     //Create sprites
     SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 0.75, 512, 512);
-    SheetSprite starsprite(startextureID, 0, 0, 70, 70, 1, 70, 70);
+    SheetSprite starsprite(startextureID, 18, 19, 34, 32, 0.4, 70, 70);
 
     //Create entities
     PlayerEntity player(playersprite, keys);
-    StarEntity star(starsprite, 2.5, -0.2);
+    StarEntity star(starsprite, 4, -2);
 
     SDL_Event event;
     float lastFrameTicks = 0;
@@ -96,6 +96,9 @@ int main(int argc, char *argv[])
             player.Update(FIXED_TIMESTEP);
             player.CheckCollision(level);
 
+            star.Update(FIXED_TIMESTEP);
+            star.CheckCollision(level);
+
             accumulator -= FIXED_TIMESTEP;
         }
 
@@ -104,6 +107,7 @@ int main(int argc, char *argv[])
         viewMatrix.Identity();
 
         player.Draw(&program);
+        star.Draw(&program);
         level.Draw(&program);
 
         SDL_GL_SwapWindow(displayWindow);

@@ -2,7 +2,12 @@
 
 #include "../util.hpp"
 
-StarEntity::StarEntity(SheetSprite& nsprite, int x, int y) : Entity(x, y, 0, false, nsprite) {}
+StarEntity::StarEntity(SheetSprite& nsprite, int x, int y) : Entity(x, y, 0, false, nsprite) {
+    velocity[0] = 1;
+    velcap[0] = 25;
+    velcap[1] = 25;
+    acceleration[1] = -10;
+}
 
 void StarEntity::CheckCollision(TileMap& tilemap) {
     float tilesize = tilemap.GetTileSize();
@@ -45,7 +50,7 @@ void StarEntity::CheckCollision(TileMap& tilemap) {
         if(position[0] - size[0]/2 < (tilesize * tileleft.first) + tilesize) {
             float diff = ((tilesize * tileleft.first) + tilesize) - (position[0] - size[0]/2);
             position[0] += diff;
-            velocity[0] = 0;
+            velocity[0] = -velocity[0];
         }
     }
     //Collision on right
@@ -54,7 +59,7 @@ void StarEntity::CheckCollision(TileMap& tilemap) {
         if(position[0] + size[0]/2 > tilesize * tileright.first) {
             float diff = (position[0] + size[0]/2) - (tilesize * tileright.first);
             position[0] -= diff;
-            velocity[0] = 0;
+            velocity[0] = -velocity[0];
         }
     }
 }
