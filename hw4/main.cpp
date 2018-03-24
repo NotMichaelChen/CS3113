@@ -52,12 +52,16 @@ int main(int argc, char *argv[])
     //Create tilemap
     std::vector<std::vector<int>> levelData =
     {
-        {99,99,99,99},
-        {122,-1,-1,122},
-        {122,-1,-1,122},
-        {4,4,4,4}
+        { 99, 99, 99, 99, 99, 99, 99, 99, 99, 99},
+        {123, -1, -1, -1, -1, -1, -1, -1, -1,123},
+        {123, -1, -1, -1, -1, -1,217,217, -1,123},
+        {123, -1, -1, -1, -1, -1, -1, -1, -1,123},
+        {123, -1, -1, -1, -1, 96, 97, 98, -1,123},
+        {123, -1, -1, 96, 97, 97, 97, 98, -1,123},
+        {123, -1, -1, -1, -1, -1, -1, -1, -1,123},
+        {123,  4,  4,  4,  4,  4,  4,  4,  4,123}
     };
-    TileMap level(levelData, leveltextureID, 0.6, 24, 16);
+    TileMap level(levelData, leveltextureID, 0.75, 24, 16);
 
     //Create sprites
     SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 0.75, 512, 512);

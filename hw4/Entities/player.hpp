@@ -16,6 +16,7 @@ public:
 
 private:
     const Uint8* keys;
+    bool onground;
 };
 
 #endif

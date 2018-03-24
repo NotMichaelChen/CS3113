@@ -7,6 +7,7 @@ PlayerEntity::PlayerEntity(SheetSprite& nsprite, const Uint8* k) : Entity(1, -0.
     velcap[1] = 25;
     friction[0] = 4;
     acceleration[1] = -10;
+    onground = false;
 }
 
 void PlayerEntity::Update(float elapsed) {
@@ -21,8 +22,8 @@ void PlayerEntity::Update(float elapsed) {
     }
 
     if(keys[SDL_SCANCODE_SPACE]) {
-        //if(position[1] <= -2 + size[1]/2)
-            velocity[1] = 5;
+        if(onground)
+            velocity[1] = 6;
     }
 
     Entity::Update(elapsed);
@@ -52,7 +53,14 @@ void PlayerEntity::CheckCollision(TileMap& tilemap) {
             float diff = (-tilesize * tilebottom.second) - (position[1] - size[1]/2);
             position[1] += diff;
             velocity[1] = 0;
+            onground = true;
         }
+        else {
+            onground = false;
+        }
+    }
+    else {
+        onground = false;
     }
     //Collision on top
     inbounds = inBoundsTilemap(tiletop.second, tiletop.first, dataref);
