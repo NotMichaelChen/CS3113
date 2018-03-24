@@ -52,13 +52,15 @@ int main(int argc, char *argv[])
     //Create tilemap
     std::vector<std::vector<int>> levelData =
     {
+        {99,99,99,99},
+        {122,-1,-1,122},
         {122,-1,-1,122},
         {4,4,4,4}
     };
     TileMap level(levelData, leveltextureID, 0.6, 24, 16);
 
     //Create sprites
-    SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 1, 512, 512);
+    SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 0.75, 512, 512);
 
     //Create entities
     PlayerEntity player(playersprite, keys);
@@ -85,6 +87,7 @@ int main(int argc, char *argv[])
         //UPDATE
         while(accumulator >= FIXED_TIMESTEP) {
             player.Update(FIXED_TIMESTEP);
+            player.CheckCollision(level);
 
             accumulator -= FIXED_TIMESTEP;
         }

@@ -1,6 +1,8 @@
 #include "player.hpp"
 
-PlayerEntity::PlayerEntity(SheetSprite& nsprite, const Uint8* k) : Entity(1, -2 + nsprite.getRealHeight()/2, 0, false, nsprite), keys(k) {
+#include "../util.hpp"
+
+PlayerEntity::PlayerEntity(SheetSprite& nsprite, const Uint8* k) : Entity(1, -0.5, 0, false, nsprite), keys(k) {
     velcap[0] = 25;
     velcap[1] = 25;
     friction[0] = 4;
@@ -19,30 +21,64 @@ void PlayerEntity::Update(float elapsed) {
     }
 
     if(keys[SDL_SCANCODE_SPACE]) {
-        if(position[1] <= -2 + size[1]/2)
+        //if(position[1] <= -2 + size[1]/2)
             velocity[1] = 5;
     }
 
     Entity::Update(elapsed);
+}
 
-    float halfwidth = size[0]/2;
-    float halfheight = size[1]/2;
-    
-    if(position[0] < -3.55 + halfwidth) {
-        position[0] = -3.55 + halfwidth;
-        velocity[0] = 0;
-    }
-    else if(position[0] > 3.55 - halfwidth) {
-        position[0] = 3.55 - halfwidth;
-        velocity[0] = 0;
-    }
+void PlayerEntity::CheckCollision(TileMap& tilemap) {
+    float tilesize = tilemap.GetTileSize();
 
-    if(position[1] < -2 + halfheight) {
-        position[1] = -2 + halfheight;
-        velocity[1] = 0;
+    //Get grid coordinates for the player's top, left, right, and bottom
+    std::vector<std::pair<int, int>> gridcoords;
+    //top
+    std::pair<int, int> tiletop = worldToTileCoordinates(position[0], position[1] + size[1]/2, tilesize);
+    //bottom
+    std::pair<int, int> tilebottom = worldToTileCoordinates(position[0], position[1] - size[1]/2, tilesize);
+    //left
+    std::pair<int, int> tileleft = worldToTileCoordinates(position[0] - size[0]/2, position[1], tilesize);
+    //right
+    std::pair<int, int> tileright = worldToTileCoordinates(position[0] + size[0]/2, position[1], tilesize);
+
+    auto dataref = tilemap.GetData();
+    bool inbounds;
+
+    //Collision on bottom
+    inbounds = inBoundsTilemap(tilebottom.second, tilebottom.first, dataref);
+    if(inbounds && dataref[tilebottom.second][tilebottom.first] >= 0) {
+        if(position[1] - size[1]/2 < -tilesize * tilebottom.second) {
+            float diff = (-tilesize * tilebottom.second) - (position[1] - size[1]/2);
+            position[1] += diff;
+            velocity[1] = 0;
+        }
     }
-    else if(position[1] > 2 - halfheight) {
-        position[1] = 2 - halfheight;
-        velocity[1] = 0;
+    //Collision on top
+    inbounds = inBoundsTilemap(tiletop.second, tiletop.first, dataref);
+    if(inbounds && dataref[tiletop.second][tiletop.first] >= 0) {
+        if(position[1] + size[1]/2 > (-tilesize * tiletop.second) - tilesize) {
+            float diff = (position[1] + size[1]/2) - ((-tilesize * tiletop.second) - tilesize);
+            position[1] -= diff;
+            velocity[1] = 0;
+        }
+    }
+    //Collision on left
+    inbounds = inBoundsTilemap(tileleft.second, tileleft.first, dataref);
+    if(inbounds && dataref[tileleft.second][tileleft.first] >= 0) {
+        if(position[0] - size[0]/2 < (tilesize * tileleft.first) + tilesize) {
+            float diff = ((tilesize * tileleft.first) + tilesize) - (position[0] - size[0]/2);
+            position[0] += diff;
+            velocity[0] = 0;
+        }
+    }
+    //Collision on right
+    inbounds = inBoundsTilemap(tileright.second, tileright.first, dataref);
+    if(inbounds && dataref[tileright.second][tileright.first] >= 0) {
+        if(position[0] + size[0]/2 > tilesize * tileright.first) {
+            float diff = (position[0] + size[0]/2) - (tilesize * tileright.first);
+            position[0] -= diff;
+            velocity[0] = 0;
+        }
     }
 }

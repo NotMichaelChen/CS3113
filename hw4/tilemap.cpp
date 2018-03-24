@@ -16,6 +16,14 @@ TileMap::TileMap(std::vector<std::vector<int>> data, unsigned int tID, float tsi
 {
 }
 
+float TileMap::GetTileSize() {
+    return tilesize;
+}
+
+std::vector<std::vector<int>>& TileMap::GetData() {
+    return levelData;
+}
+
 void TileMap::Draw(ShaderProgram *program) {
     unsigned int tiles = 0;
 

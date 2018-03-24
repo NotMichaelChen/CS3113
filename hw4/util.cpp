@@ -70,3 +70,12 @@ void DrawText(ShaderProgram *program, int fontTexture, std::string text, float s
     // draw this data (use the .data() method of std::vector to get pointer to data)
     // draw this yourself, use text.size() * 6 or vertexData.size()/2 to get number of vertices
 }
+
+//Converts world coordinates to grid coordinates
+std::pair<int, int> worldToTileCoordinates(float worldX, float worldY, float tilesize) {
+    return std::make_pair((int)(worldX / tilesize), (int)(-worldY / tilesize));
+}
+
+bool inBoundsTilemap(size_t n1, size_t n2, std::vector<std::vector<int>>& vec) {
+    return n1 < vec.size() && n2 < vec[n1].size();
+}

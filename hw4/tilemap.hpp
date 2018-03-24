@@ -9,6 +9,8 @@ class TileMap {
 public:
     TileMap(std::vector<std::vector<int>> data, unsigned int tID, float tsize, unsigned int countx, unsigned int county);
     void Draw(ShaderProgram *program);
+    float GetTileSize();
+    std::vector<std::vector<int>>& GetData();
 
 private:
     std::vector<std::vector<int>> levelData;
