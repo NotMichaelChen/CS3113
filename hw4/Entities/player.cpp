@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-PlayerEntity::PlayerEntity(SheetSprite& nsprite, const Uint8* k) : Entity(0, -2 + nsprite.getRealHeight()/2, 0, false, nsprite), keys(k) {
+PlayerEntity::PlayerEntity(SheetSprite& nsprite, const Uint8* k) : Entity(1, -2 + nsprite.getRealHeight()/2, 0, false, nsprite), keys(k) {
     velcap[0] = 25;
     velcap[1] = 25;
     friction[0] = 4;

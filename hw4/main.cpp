@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
         {122,-1,-1,122},
         {4,4,4,4}
     };
-    TileMap level(levelData, leveltextureID, 0.5, 24, 16);
+    TileMap level(levelData, leveltextureID, 0.6, 24, 16);
 
     //Create sprites
     SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 1, 512, 512);
@@ -88,6 +88,10 @@ int main(int argc, char *argv[])
 
             accumulator -= FIXED_TIMESTEP;
         }
+
+        viewMatrix.Translate(-player.position[0], -player.position[1], 0);
+        program.SetViewMatrix(viewMatrix);
+        viewMatrix.Identity();
 
         player.Draw(&program);
         level.Draw(&program);
