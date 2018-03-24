@@ -7,6 +7,7 @@
 #include "Matrix.h"
 
 #include "Entities/player.hpp"
+#include "Entities/star.hpp"
 #include "util.hpp"
 #include "tilemap.hpp"
 
@@ -44,17 +45,17 @@ int main(int argc, char *argv[])
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
 
-
     //Create textures from sprite sheets
     GLuint playertextureID = LoadTexture("./assets/p1_spritesheet.png", GL_NEAREST);
     GLuint leveltextureID = LoadTexture("./assets/dirt-tiles.png", GL_NEAREST);
+    GLuint startextureID = LoadTexture("./assets/star.png", GL_NEAREST);
 
     //Create tilemap
     std::vector<std::vector<int>> levelData =
     {
         { 99, 99, 99, 99, 99, 99, 99, 99, 99, 99},
         {123, -1, -1, -1, -1, -1, -1, -1, -1,123},
-        {123, -1, -1, -1, -1, -1,217,217, -1,123},
+        {123, -1, -1, -1, -1, -1, -1, -1, -1,123},
         {123, -1, -1, -1, -1, -1, -1, -1, -1,123},
         {123, -1, -1, -1, -1, 96, 97, 98, -1,123},
         {123, -1, -1, 96, 97, 97, 97, 98, -1,123},
@@ -65,9 +66,11 @@ int main(int argc, char *argv[])
 
     //Create sprites
     SheetSprite playersprite(playertextureID, 67, 196, 66, 92, 0.75, 512, 512);
+    SheetSprite starsprite(startextureID, 0, 0, 70, 70, 1, 70, 70);
 
     //Create entities
     PlayerEntity player(playersprite, keys);
+    StarEntity star(starsprite, 2.5, -0.2);
 
     SDL_Event event;
     float lastFrameTicks = 0;
