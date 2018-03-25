@@ -7,9 +7,10 @@ StarEntity::StarEntity(SheetSprite& nsprite, int x, int y) : Entity(x, y, 0, fal
     velcap[0] = 25;
     velcap[1] = 25;
     acceleration[1] = -10;
+    show = true;
 }
 
-void StarEntity::CheckCollision(TileMap& tilemap) {
+void StarEntity::CheckTileCollision(TileMap& tilemap) {
     float tilesize = tilemap.GetTileSize();
 
     //Get grid coordinates for the player's top, left, right, and bottom

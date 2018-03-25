@@ -94,10 +94,16 @@ int main(int argc, char *argv[])
         //UPDATE
         while(accumulator >= FIXED_TIMESTEP) {
             player.Update(FIXED_TIMESTEP);
-            player.CheckCollision(level);
+            player.CheckTileCollision(level);
 
-            star.Update(FIXED_TIMESTEP);
-            star.CheckCollision(level);
+            if(star.show) {
+                star.Update(FIXED_TIMESTEP);
+                star.CheckTileCollision(level);
+            }
+
+            if(player.CheckDynamicCollision(star)) {
+                star.show = false;
+            }
 
             accumulator -= FIXED_TIMESTEP;
         }
@@ -106,8 +112,9 @@ int main(int argc, char *argv[])
         program.SetViewMatrix(viewMatrix);
         viewMatrix.Identity();
 
+        if(star.show)
+            star.Draw(&program);
         player.Draw(&program);
-        star.Draw(&program);
         level.Draw(&program);
 
         SDL_GL_SwapWindow(displayWindow);

@@ -29,7 +29,24 @@ void PlayerEntity::Update(float elapsed) {
     Entity::Update(elapsed);
 }
 
-void PlayerEntity::CheckCollision(TileMap& tilemap) {
+bool PlayerEntity::CheckDynamicCollision(Entity& ent) {
+    //~ is R1’s bottom higher than R2’s top?
+    //~ is R1’s top lower than R2’s bottom?
+    //~ is R1’s left larger than R2’s right?
+    //~ is R1’s right smaller than R2’s left
+    //~ If ANY of the above are true, then the two
+    //~ rectangles are NOT intersecting!
+    if(position[1] - size[1]/2 > ent.position[1] + ent.size[1]/2 ||
+        position[1] + size[1]/2 < ent.position[1] - ent.size[1]/2 ||
+        position[0] - size[0]/2 > ent.position[0] + ent.size[0]/2 ||
+        position[0] + size[0]/2 < ent.position[0] - ent.size[0]/2)
+    {
+        return false;
+    }
+    else return true;
+}
+
+void PlayerEntity::CheckTileCollision(TileMap& tilemap) {
     float tilesize = tilemap.GetTileSize();
 
     //Get grid coordinates for the player's top, left, right, and bottom

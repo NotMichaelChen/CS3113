@@ -7,8 +7,9 @@
 class StarEntity : public Entity {
 public:
     StarEntity(SheetSprite& nsprite, int x, int y);
-    void CheckCollision(TileMap& tilemap);
-private:
+    void CheckTileCollision(TileMap& tilemap);
+
+    bool show;
 };
 
 #endif
