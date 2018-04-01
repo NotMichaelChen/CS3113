@@ -8,6 +8,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include "shape.hpp"
+
 SDL_Window* displayWindow;
 
 int main(int argc, char *argv[])
@@ -38,6 +40,8 @@ int main(int argc, char *argv[])
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
 
+    Shape square(0, 0, 3.1415926/4, 0.3, 4);
+
     SDL_Event event;
     bool done = false;
     while (!done) {
@@ -47,8 +51,10 @@ int main(int argc, char *argv[])
             }
         }
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        square.Draw(program);
+
         SDL_GL_SwapWindow(displayWindow);
+        glClear(GL_COLOR_BUFFER_BIT);
     }
 
     SDL_Quit();
