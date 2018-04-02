@@ -56,7 +56,6 @@ std::vector<std::pair<float, float>> Shape::ComputeVerticesWorldSpace() {
     return finalvertices;
 }
 
-//TODO: remove penetration from args
 void Shape::Collision(Shape& other) {
     std::pair<float, float> penetration;
 
@@ -71,10 +70,16 @@ void Shape::Collision(Shape& other) {
         velocity_x = newvel.first;
         velocity_y = newvel.second;
 
+        x += penetration.first * 0.5;
+        y += penetration.second * 0.5;
+
         std::pair<float, float> othervel = reflect(other.velocity_x, other.velocity_y, penetration.first, penetration.second);
 
         other.velocity_x = othervel.first;
         other.velocity_y = othervel.second;
+
+        other.x -= penetration.first * 0.5;
+        other.y -= penetration.second * 0.5;
     }
 }
 
