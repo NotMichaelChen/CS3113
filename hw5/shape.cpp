@@ -7,6 +7,8 @@
 
 double pi = 3.1415926535897;
 
+//TODO: Comment
+
 //https://math.stackexchange.com/a/13263
 std::pair<float, float> reflect(float x, float y, float rx, float ry) {
     //Normalize penetration
@@ -54,19 +56,20 @@ std::vector<std::pair<float, float>> Shape::ComputeVerticesWorldSpace() {
     return finalvertices;
 }
 
+//TODO: remove penetration from args
 bool Shape::Collision(Shape& other, std::pair<float, float>& penetration) {
-    auto s1points = ComputeVerticesWorldSpace();
-    auto s2points = other.ComputeVerticesWorldSpace();
+    std::vector<std::pair<float, float>> s1points = ComputeVerticesWorldSpace();
+    std::vector<std::pair<float, float>> s2points = other.ComputeVerticesWorldSpace();
 
     bool collided = CheckSATCollision(s1points, s2points, penetration);
 
     if(collided) {
-        auto newvel = reflect(velocity_x, velocity_y, penetration.first, penetration.second);
+        std::pair<float, float> newvel = reflect(velocity_x, velocity_y, penetration.first, penetration.second);
 
         velocity_x = newvel.first;
         velocity_y = newvel.second;
 
-        auto othervel = reflect(other.velocity_x, other.velocity_y, penetration.first, penetration.second);
+        std::pair<float, float> othervel = reflect(other.velocity_x, other.velocity_y, penetration.first, penetration.second);
 
         other.velocity_x = othervel.first;
         other.velocity_y = othervel.second;
@@ -78,6 +81,52 @@ bool Shape::Collision(Shape& other, std::pair<float, float>& penetration) {
 void Shape::Update() {
     x += velocity_x;
     y += velocity_y;
+
+    //Check collisions
+    std::vector<std::pair<float, float>> worldverts = ComputeVerticesWorldSpace();
+    
+    std::vector<std::pair<float, float>> rightwallverts = {{3.55, 2}, {3.55, -2}};
+    std::vector<std::pair<float, float>> leftwallverts = {{-3.55, 2}, {-3.55, -2}};
+    std::vector<std::pair<float, float>> topwallverts = {{-3.55, 2}, {3.55, 2}};
+    std::vector<std::pair<float, float>> bottomwallverts = {{-3.55, -2}, {3.55, -2}};
+
+    std::pair<float, float> penetration;
+    if(CheckSATCollision(worldverts, rightwallverts, penetration)) {
+        std::pair<float, float> newvel = reflect(velocity_x, velocity_y, -1, 0);
+
+        velocity_x = newvel.first;
+        velocity_y = newvel.second;
+
+        x += penetration.first;
+        y += penetration.second;
+    }
+    else if(CheckSATCollision(worldverts, leftwallverts, penetration)) {
+        std::pair<float, float> newvel = reflect(velocity_x, velocity_y, 1, 0);
+
+        velocity_x = newvel.first;
+        velocity_y = newvel.second;
+
+        x += penetration.first;
+        y += penetration.second;
+    }
+    else if(CheckSATCollision(worldverts, topwallverts, penetration)) {
+        std::pair<float, float> newvel = reflect(velocity_x, velocity_y, 0, -1);
+
+        velocity_x = newvel.first;
+        velocity_y = newvel.second;
+
+        x += penetration.first;
+        y += penetration.second;
+    }
+    else if(CheckSATCollision(worldverts, bottomwallverts, penetration)) {
+        std::pair<float, float> newvel = reflect(velocity_x, velocity_y, 0, 1);
+
+        velocity_x = newvel.first;
+        velocity_y = newvel.second;
+
+        x += penetration.first;
+        y += penetration.second;
+    }
 }
 
 void Shape::Draw(ShaderProgram& program) {
