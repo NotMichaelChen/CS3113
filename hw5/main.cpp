@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     program.SetViewMatrix(viewMatrix);
 
     Shape square(0, 0, 3.1415926/4, 0.3, 4);
+    Shape hexagon(0.5, 0.6, 4.013492, 0.5, 6);
 
     SDL_Event event;
     bool done = false;
@@ -51,7 +52,11 @@ int main(int argc, char *argv[])
             }
         }
 
+        std::pair<float, float> penetration;
+        bool result = square.Collision(hexagon, penetration);
+
         square.Draw(program);
+        hexagon.Draw(program);
 
         SDL_GL_SwapWindow(displayWindow);
         glClear(GL_COLOR_BUFFER_BIT);

@@ -1,8 +1,9 @@
 #include "shape.hpp"
 
 #include <vector>
-#include <iostream>
 #include <cmath>
+
+#include "SatCollision.h"
 
 double pi = 3.1415926535897;
 
@@ -22,15 +23,33 @@ std::vector<float> Shape::ComputeVertices() {
     return shape_vertices;
 }
 
+std::vector<std::pair<float, float>> Shape::ComputeVerticesWorldSpace() {
+    std::vector<std::pair<float, float>> finalvertices;
+    std::vector<float> objectvertices = ComputeVertices();
+
+    for(size_t i = 0; i < objectvertices.size(); i += 2) {
+        finalvertices.push_back(std::make_pair(
+            (objectvertices[i] * std::cos(rotation) + objectvertices[i+1] * -std::sin(rotation)) + x,
+            (objectvertices[i] * std::sin(rotation) + objectvertices[i+1] * std::cos(rotation)) + y
+        ));
+    }
+
+    return finalvertices;
+}
+
+bool Shape::Collision(Shape& other, std::pair<float, float>& penetration) {
+    auto s1points = ComputeVerticesWorldSpace();
+    auto s2points = other.ComputeVerticesWorldSpace();
+
+    bool collided = CheckSATCollision(s1points, s2points, penetration);
+    return collided;
+}
+
 void Shape::Draw(ShaderProgram& program) {
     std::vector<float> draw_vertices;
 
     std::vector<float> shape_vertices = ComputeVertices();
     for(size_t i = 0; i < shape_vertices.size(); i += 2) {
-        draw_vertices.push_back(shape_vertices[i]);
-        draw_vertices.push_back(shape_vertices[i+1]);
-        draw_vertices.push_back(0);
-        draw_vertices.push_back(0);
         if(i+2 >= shape_vertices.size()) {
             draw_vertices.push_back(shape_vertices[0]);
             draw_vertices.push_back(shape_vertices[1]);
@@ -39,10 +58,12 @@ void Shape::Draw(ShaderProgram& program) {
             draw_vertices.push_back(shape_vertices[i+2]);
             draw_vertices.push_back(shape_vertices[i+3]);
         }
+        draw_vertices.push_back(0);
+        draw_vertices.push_back(0);
+        draw_vertices.push_back(shape_vertices[i]);
+        draw_vertices.push_back(shape_vertices[i+1]);
     }
     
-    //float vertices[] = {-width/2, -height/2, width/2, -height/2, width/2, height/2, -width/2, -height/2, width/2, height/2,-width/2, height/2};
-
     Matrix modelMatrix;
     modelMatrix.Translate(x, y, 0);
     modelMatrix.Rotate(rotation);

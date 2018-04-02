@@ -10,6 +10,8 @@ public:
     Shape(float nx, float ny, float nr, float nradius, int verts);
     void Draw(ShaderProgram& program);
     std::vector<float> ComputeVertices();
+    std::vector<std::pair<float, float>> ComputeVerticesWorldSpace();
+    bool Collision(Shape& other, std::pair<float, float>& penetration);
 
     float x;
     float y;
