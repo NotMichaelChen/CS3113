@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
 
-    Shape triangle(1.45, 1.4, 2.4594, 0.5, 3, 0.05, -0.03);
+    Shape triangle(1.45, 1.4, -2.4594, 0.5, 3, 0.05, -0.03);
     Shape square(-2.4, 0.7, 1.234, 0.3, 4, 0.04, -0.02);
     Shape hexagon(1.4, -0.4, 4.013492, 0.5, 6, -0.01, 0.05);
 
