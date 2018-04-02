@@ -57,10 +57,9 @@ int main(int argc, char *argv[])
         square.Update();
         hexagon.Update();
 
-        std::pair<float, float> penetration;
-        square.Collision(hexagon, penetration);
-        square.Collision(triangle, penetration);
-        hexagon.Collision(triangle, penetration);
+        square.Collision(hexagon);
+        square.Collision(triangle);
+        hexagon.Collision(triangle);
 
         triangle.Draw(program);
         square.Draw(program);
