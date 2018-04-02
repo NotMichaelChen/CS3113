@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
 
-    Shape square(0, 0, 3.1415926/4, 0.3, 4);
-    Shape hexagon(0.5, 0.6, 4.013492, 0.5, 6);
+    Shape square(-2, 0, 3.1415926/4, 0.3, 4, 0.01, -0);
+    Shape hexagon(2, 0, 4.013492, 0.5, 6, -0.01, 0);
 
     SDL_Event event;
     bool done = false;
@@ -51,6 +51,9 @@ int main(int argc, char *argv[])
                 done = true;
             }
         }
+
+        square.Update();
+        hexagon.Update();
 
         std::pair<float, float> penetration;
         bool result = square.Collision(hexagon, penetration);

@@ -7,10 +7,27 @@
 
 double pi = 3.1415926535897;
 
-Shape::Shape(float nx, float ny, float nr, float nradius, int verts) : x(nx), y(ny), rotation(nr), radius(nradius), vertices(verts) {
-    velocity_x = 0;
-    velocity_y = 0;
+//https://math.stackexchange.com/a/13263
+std::pair<float, float> reflect(float x, float y, float rx, float ry) {
+    //Normalize penetration
+    float r_mag = std::sqrt(rx*rx + ry*ry);
+    float r_norm_x = rx / r_mag;
+    float r_norm_y = ry / r_mag;
+
+    //Multiply by 2(d . n)
+    float multiplier = 2 * (x*r_norm_x + y*r_norm_y);
+    float x2 = r_norm_x * multiplier;
+    float y2 = r_norm_y * multiplier;
+
+    //Subtract vectors
+    float resultx = x - x2;
+    float resulty = y - y2;
+
+    return std::make_pair(resultx, resulty);
 }
+
+Shape::Shape(float nx, float ny, float nr, float nradius, int verts, float vx, float vy) : 
+    x(nx), y(ny), rotation(nr), radius(nradius), vertices(verts), velocity_x(vx), velocity_y(vy) {}
 
 std::vector<float> Shape::ComputeVertices() {
     std::vector<float> shape_vertices;
@@ -42,7 +59,25 @@ bool Shape::Collision(Shape& other, std::pair<float, float>& penetration) {
     auto s2points = other.ComputeVerticesWorldSpace();
 
     bool collided = CheckSATCollision(s1points, s2points, penetration);
+
+    if(collided) {
+        auto newvel = reflect(velocity_x, velocity_y, penetration.first, penetration.second);
+
+        velocity_x = newvel.first;
+        velocity_y = newvel.second;
+
+        auto othervel = reflect(other.velocity_x, other.velocity_y, penetration.first, penetration.second);
+
+        other.velocity_x = othervel.first;
+        other.velocity_y = othervel.second;
+    }
+
     return collided;
+}
+
+void Shape::Update() {
+    x += velocity_x;
+    y += velocity_y;
 }
 
 void Shape::Draw(ShaderProgram& program) {
