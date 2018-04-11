@@ -3,6 +3,8 @@
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 
+#include "states/menustate.hpp"
+
 SDL_Window* displayWindow;
 
 int main(int argc, char *argv[])
@@ -15,14 +17,32 @@ int main(int argc, char *argv[])
 
     glViewport(0, 0, 1024, 768);
 
-    SDL_Event event;
+    //Enable blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    //Load shader program
+    ShaderProgram program;
+    program.Load("vertex_textured.glsl", "fragment_textured.glsl");
+    glUseProgram(program.programID);
+
+    //Declare matrices
+    Matrix projectionMatrix;
+    Matrix viewMatrix;
+
+    //Set matrices
+    projectionMatrix.SetOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
+    program.SetProjectionMatrix(projectionMatrix);
+    program.SetViewMatrix(viewMatrix);
+
+    MenuState menu(&program);
     bool done = false;
     while (!done) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
-                done = true;
-            }
-        }
+        
+        if(!menu.processEvents())
+            done = true;
+
+        menu.render();
 
         SDL_GL_SwapWindow(displayWindow);
         glClear(GL_COLOR_BUFFER_BIT);
