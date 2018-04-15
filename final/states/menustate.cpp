@@ -2,8 +2,8 @@
 
 #include "util.hpp"
 
-MenuState::MenuState(ShaderProgram* prg) {
-    text_textureID = LoadTexture("./assets/font1.png", GL_LINEAR);
+MenuState::MenuState(ShaderProgram* prg) : current_state(0) {
+    text_textureID = LoadTexture("./assets/font2.png", GL_LINEAR);
     program = prg;
 }
 
@@ -20,6 +20,14 @@ int MenuState::processEvents() {
             if(event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
                 return 1;
             }
+            else if(event.key.keysym.scancode == SDL_SCANCODE_UP) {
+                current_state--;
+                clamp(current_state, 0, MenuOptions_Entries-1);
+            }
+            else if(event.key.keysym.scancode == SDL_SCANCODE_DOWN) {
+                current_state++;
+                clamp(current_state, 0, MenuOptions_Entries-1);
+            }
         }
     }
     return 1;
@@ -30,8 +38,19 @@ void MenuState::update() {
 }
 
 void MenuState::render() {
-    DrawText(program, text_textureID, "SPACE INVADERS", 0.3, -0.1, -1.25, 1);
-    program->SetAlphaMask(0.5);
-    DrawText(program, text_textureID, "press enter to play", 0.2, -0.1, -0.9, 0);
+    //Draw title
+    DrawText(program, text_textureID, "BULLET HELL DEMO", 0.3, -0.1, -1.5, 1.8);
+
+    float textsize = 0.3;
+    float textwidth = -0.125;
+
+    if(current_state != MenuOptions::start)
+        program->SetAlphaMask(0.5);
+    DrawText(program, text_textureID, "Start", textsize, textwidth, -3, 0);
+    program->SetAlphaMask(1);
+
+    if(current_state != MenuOptions::quit)
+        program->SetAlphaMask(0.5);
+    DrawText(program, text_textureID, "Quit", textsize, textwidth, -3, -0.3);
     program->SetAlphaMask(1);
 }

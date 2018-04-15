@@ -13,10 +13,17 @@ public:
     MenuState(ShaderProgram* prg);
 
     int processEvents();
-    void update();
     void render();
     
 private:
+    const int MenuOptions_Entries = 2;
+    enum MenuOptions {
+        start,
+        quit
+    };
+
+    int current_state;
+
     GLuint text_textureID;
     ShaderProgram* program;
 };

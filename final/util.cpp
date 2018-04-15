@@ -68,3 +68,7 @@ void DrawText(ShaderProgram *program, int fontTexture, std::string text, float s
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
+
+void clamp(int& test, int lo, int hi) {
+    test = test < lo ? lo : test > hi ? hi : test;
+}
