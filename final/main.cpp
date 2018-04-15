@@ -3,6 +3,7 @@
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 
+#include "global.hpp"
 #include "states/menustate.hpp"
 
 SDL_Window* displayWindow;
@@ -38,8 +39,10 @@ int main(int argc, char *argv[])
     MenuState menu(&program);
     bool done = false;
     while (!done) {
+
+        Global::ProgramStates next_state = menu.processEvents();
         
-        if(!menu.processEvents())
+        if(next_state == Global::ProgramStates::Quit)
             done = true;
 
         menu.render();

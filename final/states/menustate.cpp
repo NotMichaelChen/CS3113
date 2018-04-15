@@ -7,18 +7,18 @@ MenuState::MenuState(ShaderProgram* prg) : current_state(0) {
     program = prg;
 }
 
-int MenuState::processEvents() {
+Global::ProgramStates MenuState::processEvents() {
     SDL_Event event;
 
     while (SDL_PollEvent(&event))
     {
         if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE)
         {
-            return 0;
+            return Global::ProgramStates::Quit;
         }
         else if(event.type == SDL_KEYDOWN) {
             if(event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
-                return 1;
+                return optionAction();
             }
             else if(event.key.keysym.scancode == SDL_SCANCODE_UP) {
                 current_state--;
@@ -30,11 +30,7 @@ int MenuState::processEvents() {
             }
         }
     }
-    return 1;
-}
-
-void MenuState::update() {
-
+    return Global::ProgramStates::Menu;
 }
 
 void MenuState::render() {
@@ -53,4 +49,18 @@ void MenuState::render() {
         program->SetAlphaMask(0.5);
     DrawText(program, text_textureID, "Quit", textsize, textwidth, -3, -0.3);
     program->SetAlphaMask(1);
+}
+
+Global::ProgramStates MenuState::optionAction() {
+    switch(current_state) {
+
+    case MenuOptions::start:
+        return Global::ProgramStates::Menu;
+
+    case MenuOptions::quit:
+        return Global::ProgramStates::Quit;
+    //Quit if menu state is invalid
+    default:
+        return Global::ProgramStates::Quit;
+    }
 }
