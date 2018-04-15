@@ -1,0 +1,25 @@
+==================================================================
+			ZUN-san style mimic'd shot sheet for ph3
+			(as also used in Touhou HouEnbu)
+			
+			v1.00
+==================================================================
+
+Use this shotsheet as you please. 
+I don't mind if you make rip out few bullets, make changes or adaption of your own shotsheet.
+
+--Helepolis
+
+---------------------------------
+Notes regarding the shotsheet:
+
+- It doesn't contain all bullets as you noticed. Because it was originally used for my own game.
+- I removed the DJ LP bullets, because they are theme-based and won't fit for general use. 
+- I might add more ZUN style bullets in future, like Koishi hearts and such or the newer types.
+
+
+
+
+
+
+
