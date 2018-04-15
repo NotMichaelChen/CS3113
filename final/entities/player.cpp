@@ -2,7 +2,11 @@
 
 #include "util.hpp"
 
-PlayerEntity::PlayerEntity(SheetSprite& nsprite, const Uint8* k) : Entity(1, -0.5, 0, nsprite), keys(k) {}
+PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k) : 
+    Entity(1, -0.5, 0, nsprite),
+    keys(k),
+    hit_dot(dotsprite)
+{}
 
 void PlayerEntity::Update(float elapsed) {
     float applied_speed = keys[SDL_SCANCODE_LSHIFT] ? slow_speed : fast_speed;
@@ -29,7 +33,6 @@ void PlayerEntity::Update(float elapsed) {
     Entity::Update(elapsed);
 
     //Wall detection
-
     float halfwidth = size[0]/2;
     float halfheight = size[1]/2;
     
@@ -42,5 +45,9 @@ void PlayerEntity::Update(float elapsed) {
         position[1] = -2 + halfheight;
     else if(position[1] > 0.25 - halfheight)
         position[1] = 0.25 - halfheight;
+}
 
+void PlayerEntity::Draw(ShaderProgram* program) {
+    Entity::Draw(program);
+    hit_dot.Draw(program, position[0], position[1], rotation);
 }

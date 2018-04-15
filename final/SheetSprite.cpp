@@ -12,6 +12,10 @@ SheetSprite::SheetSprite(unsigned int textureID, float x, float y, float spritew
     height = spriteheight / sheetheight;
 }
 
+unsigned int SheetSprite::getTextureID() {
+    return textureID;
+}
+
 float SheetSprite::getRealWidth() {
     float aspect = width / height;
     return size * aspect;

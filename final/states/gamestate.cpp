@@ -6,10 +6,12 @@
 GameState::GameState(ShaderProgram* prg) : program(prg) {
     keys = SDL_GetKeyboardState(NULL);
 
+    bullet_spritesheet = LoadTexture("./assets/bullets.png", GL_NEAREST);
+    SheetSprite player_hitdot(bullet_spritesheet, 16, 49, 16, 16, 0.1, 1024, 1024);
     ship_spritesheet = LoadTexture("./assets/sheet.png", GL_NEAREST);
     //playerShip3_blue.png
     SheetSprite playersprite(ship_spritesheet, 325, 739, 98, 75, 0.3, 1024, 1024);
-    player = std::make_shared<PlayerEntity>(playersprite, keys);
+    player = std::make_shared<PlayerEntity>(playersprite, player_hitdot, keys);
 }
 
 Global::ProgramStates GameState::processEvents() {

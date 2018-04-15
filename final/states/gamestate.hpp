@@ -23,6 +23,7 @@ private:
     ShaderProgram* program;
     const Uint8* keys;
 
+    GLuint bullet_spritesheet;
     GLuint ship_spritesheet;
 
     //Making player a smart pointer allows me to defer construction until the constructor body. This lets me load the sprite
