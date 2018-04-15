@@ -1,10 +1,6 @@
 #include "entity.hpp"
 
-float lerp(float v0, float v1, float t) {
-    return (1.0-t)*v0 + t*v1;
-}
-
-Entity::Entity(float nx, float ny, float nr, bool isstat, SheetSprite& nsprite) : rotation(nr), isStatic(isstat), sprite(nsprite) {
+Entity::Entity(float nx, float ny, float nr, SheetSprite& nsprite) : rotation(nr), sprite(nsprite) {
     position[0] = nx;
     position[1] = ny;
 
