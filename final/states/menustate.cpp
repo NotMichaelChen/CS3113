@@ -55,7 +55,7 @@ Global::ProgramStates MenuState::optionAction() {
     switch(current_state) {
 
     case MenuOptions::start:
-        return Global::ProgramStates::Menu;
+        return Global::ProgramStates::Game;
 
     case MenuOptions::quit:
         return Global::ProgramStates::Quit;

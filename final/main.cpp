@@ -5,6 +5,7 @@
 
 #include "global.hpp"
 #include "states/menustate.hpp"
+#include "states/gamestate.hpp"
 
 SDL_Window* displayWindow;
 
@@ -36,16 +37,53 @@ int main(int argc, char *argv[])
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
 
+    //Create state objects
     MenuState menu(&program);
-    bool done = false;
-    while (!done) {
+    GameState game(&program);
 
-        Global::ProgramStates next_state = menu.processEvents();
+    //Main game loop
+    Global::ProgramStates state = Global::ProgramStates::Menu;
+    bool done = false;
+    float last_frame_ticks = 0;
+    float accumulator = 0;
+    while (!done) {
+        //Process Events
+        //assign state after updating
+        Global::ProgramStates next_state;
+        if(state == Global::ProgramStates::Menu)
+            next_state = menu.processEvents();
+        else if(state == Global::ProgramStates::Game)
+            next_state = game.processEvents();
         
+        //Compute Timesteps
+        float ticks = (float)SDL_GetTicks()/1000.0f;
+        accumulator += ticks - last_frame_ticks;
+        last_frame_ticks = ticks;
+
+        if(accumulator < Global::FIXED_TIMESTEP) {
+            state = next_state;
+            continue;
+        }
+        
+        //Update
+        while(accumulator >= Global::FIXED_TIMESTEP) {
+
+            if(state == Global::ProgramStates::Game)
+                game.update(Global::FIXED_TIMESTEP);
+
+            accumulator -= Global::FIXED_TIMESTEP;
+        }
+        
+        //Render
+        if(state == Global::ProgramStates::Menu)
+            menu.render();
+        else if(state == Global::ProgramStates::Game)
+            game.render();
+
+        //Check if done, update state
         if(next_state == Global::ProgramStates::Quit)
             done = true;
-
-        menu.render();
+        state = next_state;
 
         SDL_GL_SwapWindow(displayWindow);
         glClear(GL_COLOR_BUFFER_BIT);
