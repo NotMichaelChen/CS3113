@@ -13,6 +13,8 @@ public:
     virtual void Update(float elapsed);
 
 private:
+    const float fast_speed = 2.5;
+    const float slow_speed = 0.7;
     const Uint8* keys;
 };
 
