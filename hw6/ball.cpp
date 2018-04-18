@@ -29,15 +29,14 @@ bool Ball::Step(float amount) {
     y += amount*velocity_y;
     x += amount*velocity_x;
 
-    if(y > 1.85 || y < -1.85) {
+    if(y > 2 - height/2 || y < -2 + height/2) {
         velocity_y = -velocity_y;
         //Reset y to correct boundary depending on if y is positive or negative
-        y = y > 0 ? 1.85 : -1.85;
+        y = y > 0 ? 2 - height/2 : -2 + height/2;
         Mix_PlayChannel(-1, wall_hit, 0);
     }
 
-    //lol so bad
-    if(x > 3.7 || x < -3.7) {
+    if(x > 3.55 - width/2 || x < -3.55 + width/2) {
         Mix_PlayChannel(-1, finish, 0);
         Mix_HaltMusic();
         valid = false;
