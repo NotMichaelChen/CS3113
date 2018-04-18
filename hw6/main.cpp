@@ -7,6 +7,7 @@
 #include "ball.hpp"
 
 #include "ShaderProgram.h"
+#include <SDL_mixer.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -22,6 +23,9 @@ int main(int argc, char *argv[])
     glewInit();
 
     glViewport(0, 0, 1280, 720);
+
+    //Initialize SDL_Mixer
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
 
     //Initialize keystate array
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
@@ -76,8 +80,12 @@ int main(int argc, char *argv[])
             leftpaddle.Move(-elapsed);
         
         bool success = ball.Step(elapsed);
-        if(!success)
+        if(!success) {
             glClearColor(1, 0, 0, 1);
+            //Move ball out of frame
+            ball.x = 100000;
+            ball.y = 0;
+        }
         ball.CheckPaddle(leftpaddle);
         ball.CheckPaddle(rightpaddle);
 
