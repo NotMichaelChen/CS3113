@@ -12,6 +12,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+const float FIXED_TIMESTEP = 0.0166666;
+
 SDL_Window *displayWindow;
 
 int main(int argc, char *argv[])
@@ -53,15 +55,12 @@ int main(int argc, char *argv[])
     Paddle rightpaddle(false);
     Ball ball;
 
-    float lastFrameTicks = 0.0f;
     SDL_Event event;
+    float lastFrameTicks = 0;
     bool done = false;
+    float accumulator = 0;
     while (!done)
     {
-        float ticks = (float)SDL_GetTicks()/1000.0f;
-        float elapsed = ticks - lastFrameTicks;
-        lastFrameTicks = ticks;
-
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE)
@@ -70,24 +69,35 @@ int main(int argc, char *argv[])
             }
         }
 
-        if(keys[SDL_SCANCODE_UP])
-            rightpaddle.Move(elapsed);
-        if(keys[SDL_SCANCODE_DOWN])
-            rightpaddle.Move(-elapsed);
-        if(keys[SDL_SCANCODE_W])
-            leftpaddle.Move(elapsed);
-        if(keys[SDL_SCANCODE_S])
-            leftpaddle.Move(-elapsed);
-        
-        bool success = ball.Step(elapsed);
-        if(!success) {
-            glClearColor(1, 0, 0, 1);
-            //Move ball out of frame
-            ball.x = 100000;
-            ball.y = 0;
+        float ticks = (float)SDL_GetTicks()/1000.0f;
+        accumulator += ticks - lastFrameTicks;
+        lastFrameTicks = ticks;
+
+        if(accumulator < FIXED_TIMESTEP)
+            continue;
+
+        while(accumulator >= FIXED_TIMESTEP) {
+            if(keys[SDL_SCANCODE_UP])
+                rightpaddle.Move(FIXED_TIMESTEP);
+            if(keys[SDL_SCANCODE_DOWN])
+                rightpaddle.Move(-FIXED_TIMESTEP);
+            if(keys[SDL_SCANCODE_W])
+                leftpaddle.Move(FIXED_TIMESTEP);
+            if(keys[SDL_SCANCODE_S])
+                leftpaddle.Move(-FIXED_TIMESTEP);
+            
+            bool success = ball.Step(FIXED_TIMESTEP);
+            if(!success) {
+                glClearColor(1, 0, 0, 1);
+                //Move ball out of frame
+                ball.x = 100000;
+                ball.y = 0;
+            }
+            ball.CheckPaddle(leftpaddle);
+            ball.CheckPaddle(rightpaddle);
+
+            accumulator -= FIXED_TIMESTEP;
         }
-        ball.CheckPaddle(leftpaddle);
-        ball.CheckPaddle(rightpaddle);
 
         glClear(GL_COLOR_BUFFER_BIT);
 
