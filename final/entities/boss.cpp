@@ -1,6 +1,6 @@
 #include "boss.hpp"
 
-#include "patterns/pattern_inventory.hpp"
+#include "phases/phase_inventory.hpp"
 
 BossEntity::BossEntity(SheetSprite& nsprite) : Entity(0, 1, 0, nsprite) {
 }
