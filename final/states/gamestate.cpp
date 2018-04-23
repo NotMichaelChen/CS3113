@@ -12,6 +12,10 @@ GameState::GameState(ShaderProgram* prg) : program(prg) {
     //playerShip3_blue.png
     SheetSprite playersprite(ship_spritesheet, 325, 739, 98, 75, 0.3, 1024, 1024);
     player = std::make_unique<PlayerEntity>(playersprite, player_hitdot, keys);
+
+    //enemyBlack1.png
+    SheetSprite bosssprite(ship_spritesheet, 423, 728, 93, 84, 0.5, 1024, 1024);
+    boss = std::make_unique<BossEntity>(bosssprite);
 }
 
 Global::ProgramStates GameState::processEvents() {
@@ -34,8 +38,10 @@ Global::ProgramStates GameState::processEvents() {
 
 void GameState::update(float elapsed) {
     player->Update(elapsed);
+    boss->Update(elapsed);
 }
 
 void GameState::render() {
     player->Draw(program);
+    boss->Draw(program);
 }

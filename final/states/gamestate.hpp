@@ -11,6 +11,7 @@
 #include "global.hpp"
 #include "ShaderProgram.h"
 #include "entities/player.hpp"
+#include "entities/boss.hpp"
 
 class GameState {
 public:
@@ -29,6 +30,7 @@ private:
     //Making player a smart pointer allows me to defer construction until the constructor body. This lets me load the sprite
     //before constructing the player
     std::unique_ptr<PlayerEntity> player;
+    std::unique_ptr<BossEntity> boss;
 };
 
 #endif
