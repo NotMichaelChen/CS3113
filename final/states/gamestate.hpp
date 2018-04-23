@@ -28,7 +28,7 @@ private:
 
     //Making player a smart pointer allows me to defer construction until the constructor body. This lets me load the sprite
     //before constructing the player
-    std::shared_ptr<PlayerEntity> player;
+    std::unique_ptr<PlayerEntity> player;
 };
 
 #endif

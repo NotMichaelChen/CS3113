@@ -49,5 +49,6 @@ void PlayerEntity::Update(float elapsed) {
 
 void PlayerEntity::Draw(ShaderProgram* program) {
     Entity::Draw(program);
-    hit_dot.Draw(program, position[0], position[1], rotation);
+    if(keys[SDL_SCANCODE_LSHIFT])
+        hit_dot.Draw(program, position[0], position[1], rotation);
 }

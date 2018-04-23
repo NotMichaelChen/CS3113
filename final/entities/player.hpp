@@ -10,8 +10,8 @@
 class PlayerEntity : public Entity {
 public:
     PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k);
-    virtual void Update(float elapsed);
-    virtual void Draw(ShaderProgram* program);
+    void Update(float elapsed);
+    void Draw(ShaderProgram* program);
 
 private:
     const float fast_speed = 2.5;
