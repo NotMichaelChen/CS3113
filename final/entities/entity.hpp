@@ -14,6 +14,7 @@ public:
     float position[2];
     float size[2];
     float velocity[2];
+    float acceleration[2];
 
     float rotation;
 private:

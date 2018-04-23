@@ -9,9 +9,15 @@ Entity::Entity(float nx, float ny, float nr, SheetSprite& nsprite) : rotation(nr
 
     velocity[0] = 0;
     velocity[1] = 0;
+
+    acceleration[0] = 0;
+    acceleration[1] = 0;
 }
 
 void Entity::Update(float elapsed) {
+    velocity[0] += acceleration[0];
+    velocity[1] += acceleration[1];
+
     position[0] += velocity[0] * elapsed;
     position[1] += velocity[1] * elapsed;
 }

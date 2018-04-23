@@ -1,6 +1,7 @@
 #include "util.hpp"
 
 #include <vector>
+#include <cmath>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -71,4 +72,8 @@ void DrawText(ShaderProgram *program, int fontTexture, std::string text, float s
 
 void clamp(int& test, int lo, int hi) {
     test = test < lo ? lo : test > hi ? hi : test;
+}
+
+float dist(float a[2], float b[2]) {
+    return sqrt(pow(b[0] - a[0], 2) + pow(b[1] - a[1], 2));
 }
