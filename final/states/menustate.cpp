@@ -42,12 +42,12 @@ void MenuState::render() {
 
     if(current_state != MenuOptions::start)
         program->SetAlphaMask(0.5);
-    DrawText(program, text_textureID, "Start", textsize, textwidth, -3, 0);
+    DrawText(program, text_textureID, "Start", textsize, textwidth, -2.5, 0);
     program->SetAlphaMask(1);
 
     if(current_state != MenuOptions::quit)
         program->SetAlphaMask(0.5);
-    DrawText(program, text_textureID, "Quit", textsize, textwidth, -3, -0.3);
+    DrawText(program, text_textureID, "Quit", textsize, textwidth, -2.5, -0.3);
     program->SetAlphaMask(1);
 }
 

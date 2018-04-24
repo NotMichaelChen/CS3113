@@ -1,5 +1,6 @@
 #include "player.hpp"
 
+#include "global.hpp"
 #include "util.hpp"
 
 PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k) : 
@@ -36,13 +37,13 @@ void PlayerEntity::Update(float elapsed) {
     float halfwidth = size[0]/2;
     float halfheight = size[1]/2;
     
-    if(position[0] < -3.55 + halfwidth)
-        position[0] = -3.55 + halfwidth;
-    else if(position[0] > 3.55 - halfwidth)
-        position[0] = 3.55 - halfwidth;
+    if(position[0] < -Global::ORTHO_X + halfwidth)
+        position[0] = -Global::ORTHO_X + halfwidth;
+    else if(position[0] > Global::ORTHO_X - halfwidth)
+        position[0] = Global::ORTHO_X - halfwidth;
 
-    if(position[1] < -2 + halfheight)
-        position[1] = -2 + halfheight;
+    if(position[1] < -Global::ORTHO_Y + halfheight)
+        position[1] = -Global::ORTHO_Y + halfheight;
     else if(position[1] > 0.25 - halfheight)
         position[1] = 0.25 - halfheight;
 }

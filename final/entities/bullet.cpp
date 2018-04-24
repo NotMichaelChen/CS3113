@@ -1,5 +1,6 @@
 #include "bullet.hpp"
 
+#include "global.hpp"
 #include "util.hpp"
 
 Bullet::Bullet(SheetSprite& nsprite, float x, float y, float velx, float vely, float accx, float accy, float rot) : 
@@ -17,14 +18,14 @@ bool Bullet::shouldDelete(PlayerEntity& player) {
     float halfwidth = size[0]/2;
     float halfheight = size[1]/2;
     
-    if(position[0] < -3.55 + halfwidth)
+    if(position[0] < -Global::ORTHO_X + halfwidth)
         return true;
-    else if(position[0] > 3.55 - halfwidth)
+    else if(position[0] > Global::ORTHO_X - halfwidth)
         return true;
 
-    if(position[1] < -2 + halfheight)
+    if(position[1] < -Global::ORTHO_Y + halfheight)
         return true;
-    else if(position[1] > 2 - halfheight)
+    else if(position[1] > Global::ORTHO_Y - halfheight)
         return true;
     
     //Assume size.x is the radius of the circle

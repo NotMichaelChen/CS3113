@@ -10,6 +10,8 @@ namespace Global
 {
 
 const float FIXED_TIMESTEP = 0.0166666;
+const float ORTHO_X = 3.0;
+const float ORTHO_Y = 2.25;
 
 enum ProgramStates {
     Menu,
