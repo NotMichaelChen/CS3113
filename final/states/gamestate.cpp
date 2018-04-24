@@ -38,8 +38,20 @@ Global::ProgramStates GameState::processEvents() {
 void GameState::update(float elapsed) {
     player->Update(elapsed);
     boss->Update(elapsed);
-    for(size_t i = 0; i < bullets.size(); i++) {
+
+    for(size_t i = 0; i < bullets.size(); ) {
         bullets[i].Update(elapsed);
+        bool delete_bullet = bullets[i].shouldDelete(*player);
+        if(delete_bullet) {
+            //Swap index with back
+            std::swap(bullets[i], bullets.back());
+            //pop back
+            bullets.pop_back();
+            //Don't increment since there is a new element in the current index
+        }
+        else {
+            i++;
+        }
     }
 }
 
