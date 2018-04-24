@@ -12,6 +12,7 @@ public:
     PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k);
     void Update(float elapsed);
     void Draw(ShaderProgram* program);
+    float getRadius();
 
 private:
     const float fast_speed = 2.5;

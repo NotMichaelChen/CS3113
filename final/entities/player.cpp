@@ -53,3 +53,7 @@ void PlayerEntity::Draw(ShaderProgram* program) {
     if(keys[SDL_SCANCODE_LSHIFT])
         hit_dot.Draw(program, position[0], position[1], rotation);
 }
+
+float PlayerEntity::getRadius() {
+    return hit_dot.getRealWidth();
+}

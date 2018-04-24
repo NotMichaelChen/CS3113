@@ -30,7 +30,7 @@ bool Bullet::shouldDelete(PlayerEntity& player) {
     
     //Assume size.x is the radius of the circle
     //TODO: Player size is too big
-    if(dist(position, player.position) <= size[0] + player.size[0])
+    if(dist(position, player.position) <= size[0]/2 + player.getRadius()/2)
         return true;
     
     return false;
