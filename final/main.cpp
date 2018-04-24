@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
     SDL_GL_MakeCurrent(displayWindow, context);
     glewInit();
 
+    Global::init();
+
     glViewport(0, 0, 1024, 768);
 
     //Enable blending

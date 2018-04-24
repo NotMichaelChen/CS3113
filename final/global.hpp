@@ -1,6 +1,11 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
+#include <GL/glew.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
+
 namespace Global
 {
 
@@ -12,6 +17,11 @@ enum ProgramStates {
     Score,
     Quit
 };
+
+extern GLuint bullet_spritesheet;
+extern GLuint ship_spritesheet;
+
+void init();
 
 }
 

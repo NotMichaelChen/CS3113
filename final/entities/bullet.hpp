@@ -7,7 +7,7 @@
 
 class Bullet : public Entity {
 public:
-    Bullet(SheetSprite& nsprite);
+    Bullet(SheetSprite& nsprite, float x, float y, float velx, float vely, float accx, float accy, float rot);
     bool shouldDelete(PlayerEntity& player);
 };
 

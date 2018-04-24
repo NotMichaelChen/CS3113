@@ -2,7 +2,14 @@
 
 #include "util.hpp"
 
-Bullet::Bullet(SheetSprite& nsprite) : Entity(0, 0, 0, nsprite) {
+Bullet::Bullet(SheetSprite& nsprite, float x, float y, float velx, float vely, float accx, float accy, float rot) : 
+    Entity(x, y, rot, nsprite)
+{
+    velocity[0] = velx;
+    velocity[1] = vely;
+
+    acceleration[0] = accx;
+    acceleration[1] = accy;
 }
 
 bool Bullet::shouldDelete(PlayerEntity& player) {

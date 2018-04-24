@@ -7,6 +7,7 @@
 #include <SDL_image.h>
 
 #include <memory>
+#include <vector>
 
 #include "global.hpp"
 #include "ShaderProgram.h"
@@ -24,13 +25,11 @@ private:
     ShaderProgram* program;
     const Uint8* keys;
 
-    GLuint bullet_spritesheet;
-    GLuint ship_spritesheet;
-
     //Making player a smart pointer allows me to defer construction until the constructor body. This lets me load the sprite
     //before constructing the player
     std::unique_ptr<PlayerEntity> player;
     std::unique_ptr<BossEntity> boss;
+    std::vector<Bullet> bullets;
 };
 
 #endif
