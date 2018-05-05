@@ -1,27 +1,20 @@
 #include "entity.hpp"
 
-Entity::Entity(float nx, float ny, float nr, SheetSprite& nsprite) : rotation(nr), sprite(nsprite) {
-    position[0] = nx;
-    position[1] = ny;
-
-    size[0] = sprite.getRealWidth();
-    size[1] = sprite.getRealHeight();
-
-    velocity[0] = 0;
-    velocity[1] = 0;
-
-    acceleration[0] = 0;
-    acceleration[1] = 0;
+Entity::Entity(float nx, float ny, float nr, SheetSprite& nsprite) :
+    rotation(nr),
+    sprite(nsprite),
+    position(nx, ny)
+{
+    size.x = sprite.getRealWidth();
+    size.y = sprite.getRealHeight();
 }
 
 void Entity::Update(float elapsed) {
-    velocity[0] += acceleration[0];
-    velocity[1] += acceleration[1];
+    velocity += acceleration;
 
-    position[0] += velocity[0] * elapsed;
-    position[1] += velocity[1] * elapsed;
+    position += velocity * elapsed;
 }
 
 void Entity::Draw(ShaderProgram* program) {
-    sprite.Draw(program, position[0], position[1], rotation);
+    sprite.Draw(program, position, rotation);
 }

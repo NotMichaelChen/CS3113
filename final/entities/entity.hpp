@@ -3,6 +3,7 @@
 
 #include "ShaderProgram.h"
 #include "SheetSprite.hpp"
+#include "vec.hpp"
 
 class Entity {
 public:
@@ -11,10 +12,10 @@ public:
     void Update(float elapsed);
     void Draw(ShaderProgram* program);
 
-    float position[2];
-    float size[2];
-    float velocity[2];
-    float acceleration[2];
+    Vec position;
+    Vec size;
+    Vec velocity;
+    Vec acceleration;
 
     float rotation;
 private:

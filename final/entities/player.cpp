@@ -13,45 +13,45 @@ void PlayerEntity::Update(float elapsed) {
     float applied_speed = keys[SDL_SCANCODE_LSHIFT] ? slow_speed : fast_speed;
 
     if(keys[SDL_SCANCODE_LEFT]) {
-        velocity[0] = -applied_speed;
+        velocity.x = -applied_speed;
     }
     else if(keys[SDL_SCANCODE_RIGHT]) {
-        velocity[0] = applied_speed;
+        velocity.x = applied_speed;
     }
     else {
-        velocity[0] = 0;
+        velocity.x = 0;
     }
     if(keys[SDL_SCANCODE_UP]) {
-        velocity[1] = applied_speed;
+        velocity.y = applied_speed;
     }
     else if(keys[SDL_SCANCODE_DOWN]) {
-        velocity[1] = -applied_speed;
+        velocity.y = -applied_speed;
     }
     else {
-        velocity[1] = 0;
+        velocity.y = 0;
     }
 
     Entity::Update(elapsed);
 
     //Wall detection
-    float halfwidth = size[0]/2;
-    float halfheight = size[1]/2;
+    float halfwidth = size.x/2;
+    float halfheight = size.y/2;
     
-    if(position[0] < -Global::ORTHO_X + halfwidth)
-        position[0] = -Global::ORTHO_X + halfwidth;
-    else if(position[0] > Global::ORTHO_X - halfwidth)
-        position[0] = Global::ORTHO_X - halfwidth;
+    if(position.x < -Global::ORTHO_X + halfwidth)
+        position.x = -Global::ORTHO_X + halfwidth;
+    else if(position.x > Global::ORTHO_X - halfwidth)
+        position.x = Global::ORTHO_X - halfwidth;
 
-    if(position[1] < -Global::ORTHO_Y + halfheight)
-        position[1] = -Global::ORTHO_Y + halfheight;
-    else if(position[1] > 0.25 - halfheight)
-        position[1] = 0.25 - halfheight;
+    if(position.y < -Global::ORTHO_Y + halfheight)
+        position.y = -Global::ORTHO_Y + halfheight;
+    else if(position.y > 0.25 - halfheight)
+        position.y = 0.25 - halfheight;
 }
 
 void PlayerEntity::Draw(ShaderProgram* program) {
     Entity::Draw(program);
     if(keys[SDL_SCANCODE_LSHIFT])
-        hit_dot.Draw(program, position[0], position[1], rotation);
+        hit_dot.Draw(program, position, rotation);
 }
 
 float PlayerEntity::getRadius() {

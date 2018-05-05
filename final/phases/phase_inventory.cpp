@@ -21,11 +21,11 @@ void beginnerBoss(BossEntity* boss, float elapsed) {
         boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
 
         //Figure out where to go next
-        std::copy(boss->position, boss->position+2, data->origin);
-        if(data->origin[0] > 0)
-            data->destination[0] = -1.5;
+        data->origin = boss->position;
+        if(data->origin.x > 0)
+            data->destination.x = -1.5;
         else
-            data->destination[0] = 1.5;
+            data->destination.x = 1.5;
 
         //Begin moving
         data->is_moving = true;
@@ -34,7 +34,7 @@ void beginnerBoss(BossEntity* boss, float elapsed) {
     if(data->is_moving) {
         //Compute movement
         float adjustedtime = (data->ticks-60)/60.0;
-        easeInOut(boss->position, data->origin, data->destination, adjustedtime);
+        boss->position = easeInOut(data->origin, data->destination, adjustedtime);
 
         if(data->ticks == 120) {
             data->is_moving = false;

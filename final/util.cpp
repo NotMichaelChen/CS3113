@@ -74,6 +74,6 @@ void clamp(int& test, int lo, int hi) {
     test = test < lo ? lo : test > hi ? hi : test;
 }
 
-float dist(float a[2], float b[2]) {
-    return sqrt(pow(b[0] - a[0], 2) + pow(b[1] - a[1], 2));
+float dist(Vec a, Vec b) {
+    return sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
 }

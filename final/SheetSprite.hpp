@@ -2,6 +2,7 @@
 #define SHEETSPRITE_H
 
 #include "ShaderProgram.h"
+#include "vec.hpp"
 
 class SheetSprite {
 public:
@@ -12,7 +13,7 @@ public:
     float getRealWidth();
     float getRealHeight();
 
-    void Draw(ShaderProgram *program, float x, float y, float rot);
+    void Draw(ShaderProgram *program, Vec& position, float rot);
 
     unsigned int textureID;
     float u;

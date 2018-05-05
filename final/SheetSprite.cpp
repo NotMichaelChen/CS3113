@@ -25,7 +25,7 @@ float SheetSprite::getRealHeight() {
     return size;
 }
 
-void SheetSprite::Draw(ShaderProgram *program, float x, float y, float rot) {
+void SheetSprite::Draw(ShaderProgram *program, Vec& position, float rot) {
     GLfloat texCoords[] = {
         u, v+height,
         u+width, v,
@@ -48,7 +48,7 @@ void SheetSprite::Draw(ShaderProgram *program, float x, float y, float rot) {
     glBindTexture(GL_TEXTURE_2D, textureID);
 
     Matrix modelMatrix;
-    modelMatrix.Translate(x, y, 0);
+    modelMatrix.Translate(position.x, position.y, 0);
     modelMatrix.Rotate(rot);
     program->SetModelMatrix(modelMatrix);
 

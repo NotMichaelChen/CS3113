@@ -1,10 +1,12 @@
 #ifndef PHASE_DATA_HPP
 #define PHASE_DATA_HPP
 
+#include "vec.hpp"
+
 struct PhaseData {
     //Used during movement to store where the boss began moving from
-    float origin[2];
-    float destination[2];
+    Vec origin;
+    Vec destination;
     bool is_moving;
     int ticks;
 };
