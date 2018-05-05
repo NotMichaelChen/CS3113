@@ -19,3 +19,20 @@ std::vector<Bullet> generateCircle(SheetSprite& bsprite, Vec origin, float speed
 
     return bullets;
 }
+
+//Speed refers to vertical speed
+std::vector<Bullet> generateLineSpread(SheetSprite& bsprite, Vec origin, Vec maxvel, int count) {
+
+    std::vector<Bullet> bullets;
+
+    for(int i = 0; i < count; i++) {
+        float vely = maxvel.y;
+        float velx = -maxvel.x + ((float)i / count)*2*(maxvel.x);
+        Vec vel(velx, vely);
+        Vec acc;
+        
+        bullets.emplace_back(bsprite, origin, vel, acc, 0);
+    }
+
+    return bullets;
+}
