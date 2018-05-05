@@ -1,9 +1,9 @@
 #include "entity.hpp"
 
 Entity::Entity(float nx, float ny, float nr, SheetSprite& nsprite) :
+    position(nx, ny),
     rotation(nr),
-    sprite(nsprite),
-    position(nx, ny)
+    sprite(nsprite)
 {
     size.x = sprite.getRealWidth();
     size.y = sprite.getRealHeight();
