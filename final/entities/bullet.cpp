@@ -16,14 +16,14 @@ bool Bullet::shouldDelete(PlayerEntity& player) {
     float halfwidth = size.x/2;
     float halfheight = size.y/2;
     
-    if(position.x < -Global::ORTHO_X + halfwidth)
+    if(position.x < -Global::ORTHO_X - halfwidth)
         return true;
-    else if(position.x > Global::ORTHO_X - halfwidth)
+    else if(position.x > Global::ORTHO_X + halfwidth)
         return true;
 
-    if(position.y < -Global::ORTHO_Y + halfheight)
+    if(position.y < -Global::ORTHO_Y - halfheight)
         return true;
-    else if(position.y > Global::ORTHO_Y - halfheight)
+    else if(position.y > Global::ORTHO_Y + halfheight)
         return true;
     
     //Assume size.x is the radius of the circle
