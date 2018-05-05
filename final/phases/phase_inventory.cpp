@@ -11,10 +11,13 @@
 #include "movement/lerpfuncs.hpp"
 
 void beginnerBoss(BossEntity* boss, float elapsed) {
+    const int BEGINMOVE = 30;
+    const float MOVELEN = 70.0;
+
     //for convenience
     PhaseData* data = &(boss->data);
 
-    if(data->ticks == 60) {
+    if(data->ticks == BEGINMOVE) {
         //Generate a ring before moving
         SheetSprite bulletsprite(Global::bullet_spritesheet, 16, 49, 16, 16, 0.1, 1024, 1024);
         std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25);
@@ -33,10 +36,10 @@ void beginnerBoss(BossEntity* boss, float elapsed) {
 
     if(data->is_moving) {
         //Compute movement
-        float adjustedtime = (data->ticks-60)/60.0;
+        float adjustedtime = (data->ticks - BEGINMOVE)/(MOVELEN);
         boss->position = easeInOut(data->origin, data->destination, adjustedtime);
 
-        if(data->ticks == 120) {
+        if(data->ticks == (MOVELEN+BEGINMOVE)) {
             data->is_moving = false;
             data->ticks = 0;
         }
