@@ -23,9 +23,9 @@ void beginnerBoss(BossEntity* boss, float elapsed) {
         //Figure out where to go next
         data->origin = boss->position;
         if(data->origin.x > 0)
-            data->destination.x = -1.5;
+            data->destination.Set(-1.5, 1);
         else
-            data->destination.x = 1.5;
+            data->destination.Set(1.5, 1);
 
         //Begin moving
         data->is_moving = true;

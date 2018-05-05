@@ -9,6 +9,11 @@ Vec::Vec(float a, float b) {
     y = b;
 }
 
+void Vec::Set(float a, float b) {
+    x = a;
+    y = b;
+}
+
 Vec Vec::operator+(const Vec& arg) {
     return Vec(
         x + arg.x,
@@ -41,6 +46,8 @@ Vec Vec::operator+=(const Vec& arg) {
     *this = *this + arg;
     return *this;
 }
+
+// Global operator overloading
 
 Vec operator+(const Vec& lhs, const float rhs) {
     return Vec(

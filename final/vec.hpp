@@ -6,6 +6,9 @@ struct Vec {
     Vec();
     Vec(float a, float b);
 
+    //Methods
+    void Set(float a, float b);
+
     //Operator overloads
     Vec operator+(const Vec& arg);
     Vec operator-(const Vec& arg);
