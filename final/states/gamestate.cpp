@@ -4,7 +4,7 @@
 #include "util.hpp"
 #include "SheetSprite.hpp"
 
-GameState::GameState(ShaderProgram* prg) : program(prg), is_paused(false) {
+GameState::GameState(ShaderProgram* prg) : program(prg), is_paused(false), background_scroll(0) {
     keys = SDL_GetKeyboardState(NULL);
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
