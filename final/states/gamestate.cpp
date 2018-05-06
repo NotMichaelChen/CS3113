@@ -27,6 +27,10 @@ GameState::GameState(ShaderProgram* prg) : program(prg), ticks(0), is_paused(fal
     background_program.SetProjectionMatrix(projectionMatrix);
     background_program.SetViewMatrix(blankMatrix);
     background_program.SetModelMatrix(blankMatrix);
+    background_program.SetAlphaMask(0.5);
+
+    //SetAlphaMask ends up using the program, so re-set it
+    glUseProgram(program->programID);
 }
 
 int GameState::getTicks() {
