@@ -56,7 +56,7 @@ Global::ProgramStates GameState::processEvents() {
                         is_paused = false;
                     else {
                         reset();
-                        return Global::ProgramStates::Menu;
+                        return Global::ProgramStates::Score;
                     }
                 }
             }

@@ -6,6 +6,7 @@
 #include "global.hpp"
 #include "states/menustate.hpp"
 #include "states/gamestate.hpp"
+#include "states/scorestate.hpp"
 
 SDL_Window* displayWindow;
 
@@ -42,6 +43,7 @@ int main(int argc, char *argv[])
     //Create state objects
     MenuState menu(&program);
     GameState game(&program);
+    ScoreState score(&program);
 
     //Main game loop
     Global::ProgramStates state = Global::ProgramStates::Menu;
@@ -56,6 +58,8 @@ int main(int argc, char *argv[])
             next_state = menu.processEvents();
         else if(state == Global::ProgramStates::Game)
             next_state = game.processEvents();
+        else if(state == Global::ProgramStates::Score)
+            next_state = score.processEvents();
         
         //Compute Timesteps
         float ticks = (float)SDL_GetTicks()/1000.0f;
@@ -81,6 +85,8 @@ int main(int argc, char *argv[])
             menu.render();
         else if(state == Global::ProgramStates::Game)
             game.render();
+        else if(state == Global::ProgramStates::Score)
+            score.render();
 
         //Check if done, update state
         if(next_state == Global::ProgramStates::Quit)
