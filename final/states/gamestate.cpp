@@ -79,8 +79,20 @@ void GameState::update(float elapsed) {
 
     for(size_t i = 0; i < bullets.size(); ) {
         bullets[i].Update(elapsed);
-        bool delete_bullet = bullets[i].shouldDelete(*player);
-        if(delete_bullet) {
+
+        int collision_status = bullets[i].checkCollision(*player);
+
+        //Collision with player
+        if(collision_status == 2 && !player->isInvinc()) {
+            //Reset player position
+            player->position.x = 1;
+            player->position.y = -0.5;
+
+            player->setInvinc();
+        }
+        
+        //Always delete bullet if it collided with something
+        if(collision_status) {
             //Swap index with back
             std::swap(bullets[i], bullets.back());
             //pop back
@@ -99,7 +111,12 @@ void GameState::update(float elapsed) {
 void GameState::render() {
     renderBackground();
 
+    if(player->isInvinc())
+        program->SetAlphaMask(0.5);
+
     player->Draw(program);
+    program->SetAlphaMask(1);
+
     boss->Draw(program);
     for(size_t i = 0; i < bullets.size(); i++) {
         bullets[i].Draw(program);

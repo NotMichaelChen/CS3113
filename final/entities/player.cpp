@@ -7,6 +7,7 @@ PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Ui
     Entity(1, -0.5, 0, nsprite),
     keys(k),
     updatecounter(0),
+    invinc_counter(0),
     hit_dot(dotsprite)
 {}
 
@@ -60,6 +61,8 @@ void PlayerEntity::Update(float elapsed) {
     }
 
     updatecounter++;
+    if(invinc_counter > 0)
+        invinc_counter--;
 }
 
 void PlayerEntity::Draw(ShaderProgram* program) {
@@ -71,4 +74,12 @@ void PlayerEntity::Draw(ShaderProgram* program) {
 
 float PlayerEntity::getRadius() {
     return hit_dot.getRealWidth();
+}
+
+void PlayerEntity::setInvinc() {
+    invinc_counter = 120;
+}
+
+bool PlayerEntity::isInvinc() {
+    return invinc_counter > 0;
 }

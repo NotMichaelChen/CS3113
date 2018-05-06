@@ -8,7 +8,8 @@
 class Bullet : public Entity {
 public:
     Bullet(SheetSprite& nsprite, Vec pos, Vec vel, Vec acc, float rot);
-    bool shouldDelete(PlayerEntity& player);
+    //0 = none, 1 = wall, 2 = player
+    int checkCollision(PlayerEntity& player);
 };
 
 #endif
