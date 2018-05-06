@@ -14,6 +14,8 @@ public:
     BossEntity(SheetSprite& nsprite, std::vector<Bullet>* b);
     void Update(float elapsed);
 
+    void reset();
+
     std::vector<Bullet>* bullets;
     PhaseData data;
 };

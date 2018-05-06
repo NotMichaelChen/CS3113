@@ -21,11 +21,12 @@ public:
     void update(float elapsed);
     void render();
 
+    void reset();
+
 private:
 
     void renderBackground();
     
-
     ShaderProgram* program;
     ShaderProgram background_program;
     const Uint8* keys;

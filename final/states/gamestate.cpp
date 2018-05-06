@@ -39,6 +39,7 @@ Global::ProgramStates GameState::processEvents() {
         }
         else if(event.type == SDL_KEYDOWN) {
             if(event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+                reset();
                 return Global::ProgramStates::Menu;
             }
         }
@@ -74,6 +75,13 @@ void GameState::render() {
     for(size_t i = 0; i < bullets.size(); i++) {
         bullets[i].Draw(program);
     }
+}
+
+void GameState::reset() {
+    player->position.x = 1;
+    player->position.y = -0.5;
+    boss->reset();
+    bullets.clear();
 }
 
 void GameState::renderBackground() {
