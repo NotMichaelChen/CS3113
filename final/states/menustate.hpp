@@ -17,6 +17,8 @@ public:
     void render();
     
 private:
+
+    void renderBackground();
     //Returns which state to go to based on the menu option selected
     Global::ProgramStates optionAction();
 
@@ -29,6 +31,8 @@ private:
     int current_state;
 
     GLuint text_textureID;
+    GLuint background;
+
     ShaderProgram* program;
 };
 

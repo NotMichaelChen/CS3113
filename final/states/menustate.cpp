@@ -4,6 +4,7 @@
 
 MenuState::MenuState(ShaderProgram* prg) : current_state(0) {
     text_textureID = LoadTexture("./assets/font2.png", GL_LINEAR);
+    background = LoadTexture("./assets/title.jpg", GL_LINEAR);
     program = prg;
 }
 
@@ -34,6 +35,8 @@ Global::ProgramStates MenuState::processEvents() {
 }
 
 void MenuState::render() {
+    renderBackground();
+
     //Draw title
     DrawText(program, text_textureID, "BULLET HELL DEMO", 0.3, -0.1, -1.5, 1.8);
 
@@ -48,6 +51,30 @@ void MenuState::render() {
     if(current_state != MenuOptions::quit)
         program->SetAlphaMask(0.5);
     DrawText(program, text_textureID, "Quit", textsize, textwidth, -2.5, -0.3);
+    program->SetAlphaMask(1);
+}
+
+void MenuState::renderBackground() {
+    program->SetAlphaMask(0.5);
+
+    GLfloat texCoords[] = {0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0};
+
+    float vertices[] = {-3, -2.25, 3, -2.25, 3, 2.25, -3, -2.25, 3, 2.25, -3, 2.25};
+
+    glBindTexture(GL_TEXTURE_2D, background);
+
+    Matrix blankMatrix;
+    program->SetModelMatrix(blankMatrix);
+
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+    glEnableVertexAttribArray(program->positionAttribute);
+
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+    glEnableVertexAttribArray(program->texCoordAttribute);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
+
     program->SetAlphaMask(1);
 }
 
