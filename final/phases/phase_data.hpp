@@ -13,6 +13,7 @@ struct PhaseData {
     int ticks;
 
     int phaseticks;
+    int phasenum;
 };
 
 #endif
