@@ -9,7 +9,8 @@ GameState::GameState(ShaderProgram* prg) : program(prg), ticks(0), is_paused(fal
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
     //playerShip3_blue.png
-    SheetSprite playersprite(Global::ship_spritesheet, 325, 739, 98, 75, 0.3, 1024, 1024);
+    // SheetSprite playersprite(Global::ship_spritesheet, 325, 739, 98, 75, 0.3, 1024, 1024);
+    SheetSprite playersprite(Global::reimu_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
     player = std::make_unique<PlayerEntity>(playersprite, player_hitdot, keys);
 
     //enemyBlack1.png

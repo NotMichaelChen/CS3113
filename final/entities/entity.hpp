@@ -18,7 +18,6 @@ public:
     Vec acceleration;
 
     float rotation;
-private:
     SheetSprite sprite;
 };
 

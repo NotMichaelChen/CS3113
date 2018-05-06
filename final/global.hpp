@@ -13,7 +13,7 @@ const float FIXED_TIMESTEP = 0.0166666;
 const float ORTHO_X = 3.0;
 const float ORTHO_Y = 2.25;
 //In ticks (1/60 of a second)
-const int PHASE_LENGTH = 1800;
+const int PHASE_LENGTH = 1200;
 // const int PHASE_LENGTH = 600;
 
 enum ProgramStates {
@@ -26,6 +26,7 @@ enum ProgramStates {
 extern GLuint bullet_spritesheet;
 extern GLuint ship_spritesheet;
 extern GLuint text_spritesheet;
+extern GLuint reimu_spritesheet;
 
 void init();
 

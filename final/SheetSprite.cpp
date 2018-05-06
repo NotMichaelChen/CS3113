@@ -2,9 +2,11 @@
 
 #include "Matrix.h"
 
-SheetSprite::SheetSprite(unsigned int textureID, float x, float y, float spritewidth, float spriteheight, float size, float sheetwidth, float sheetheight) :
+SheetSprite::SheetSprite(unsigned int textureID, float x, float y, float spritewidth, float spriteheight, float size, float shwidth, float shheight) :
     textureID(textureID),
-    size(size)
+    size(size),
+    sheetwidth(shwidth),
+    sheetheight(shheight)
 {
     u = x / sheetwidth;
     v = y / sheetheight;
@@ -23,6 +25,11 @@ float SheetSprite::getRealWidth() {
 
 float SheetSprite::getRealHeight() {
     return size;
+}
+
+void SheetSprite::setTexCoords(float x, float y) {
+    u = x / sheetwidth;
+    v = y / sheetheight;
 }
 
 void SheetSprite::Draw(ShaderProgram *program, Vec& position, float rot) {

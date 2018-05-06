@@ -3,7 +3,7 @@
 #include "global.hpp"
 #include "util.hpp"
 
-PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k) : 
+PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k) :
     Entity(1, -0.5, 0, nsprite),
     keys(k),
     hit_dot(dotsprite)
