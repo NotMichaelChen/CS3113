@@ -35,6 +35,11 @@ int GameState::getTicks() {
 }
 
 Global::ProgramStates GameState::processEvents() {
+    //If we reach zero lives, exit to score state
+    //Checked here since this is the method that returns where to go next
+    if(player->getLives() <= 0)
+        return Global::ProgramStates::Score;
+
     SDL_Event event;
 
     while (SDL_PollEvent(&event))
@@ -84,6 +89,7 @@ void GameState::update(float elapsed) {
 
         //Collision with player
         if(collision_status == 2 && !player->isInvinc()) {
+            player->decLife();
             //Reset player position
             player->position.x = 1;
             player->position.y = -0.5;

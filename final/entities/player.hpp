@@ -14,17 +14,20 @@ public:
     void Draw(ShaderProgram* program);
 
     float getRadius();
+    
     void setInvinc();
     bool isInvinc();
+    int getLives();
+    void decLife();
 
 private:
     const float fast_speed = 2.2;
     const float slow_speed = 0.7;
     const Uint8* keys;
     unsigned int updatecounter;
-
     //Used to track grace period after death
     int invinc_counter;
+    int lives;
 
     SheetSprite hit_dot;
 };

@@ -4,11 +4,7 @@
 #include "util.hpp"
 
 PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k) :
-    Entity(1, -0.5, 0, nsprite),
-    keys(k),
-    updatecounter(0),
-    invinc_counter(0),
-    hit_dot(dotsprite)
+    Entity(1, -0.5, 0, nsprite), keys(k), updatecounter(0), invinc_counter(0), lives(3), hit_dot(dotsprite)
 {}
 
 void PlayerEntity::Update(float elapsed) {
@@ -82,4 +78,12 @@ void PlayerEntity::setInvinc() {
 
 bool PlayerEntity::isInvinc() {
     return invinc_counter > 0;
+}
+
+int PlayerEntity::getLives() {
+    return lives;
+}
+
+void PlayerEntity::decLife() {
+    lives--;
 }
