@@ -23,6 +23,8 @@ public:
 
     void reset();
 
+    int getTicks();
+
 private:
 
     void renderBackground();
@@ -30,6 +32,8 @@ private:
     ShaderProgram* program;
     ShaderProgram background_program;
     const Uint8* keys;
+
+    int ticks;
 
     bool is_paused;
     //0=no, 1=yes

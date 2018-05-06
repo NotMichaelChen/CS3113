@@ -10,6 +10,16 @@
 
 SDL_Window* displayWindow;
 
+//Handle state transitions
+void handleStateTransitions(Global::ProgramStates& state, Global::ProgramStates& next_state, MenuState& menu, GameState& game,
+    ScoreState& score)
+{
+    if(state == Global::ProgramStates::Game && next_state == Global::ProgramStates::Score) {
+        score.setTicks(game.getTicks());
+    }
+    state = next_state;
+}
+
 int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
@@ -67,7 +77,8 @@ int main(int argc, char *argv[])
         last_frame_ticks = ticks;
 
         if(accumulator < Global::FIXED_TIMESTEP) {
-            state = next_state;
+            //Handle state transitions
+            handleStateTransitions(state, next_state, menu, game, score);
             continue;
         }
         
@@ -88,10 +99,12 @@ int main(int argc, char *argv[])
         else if(state == Global::ProgramStates::Score)
             score.render();
 
-        //Check if done, update state
+        //Handle state transitions
+        handleStateTransitions(state, next_state, menu, game, score);
+
+        //Check if done
         if(next_state == Global::ProgramStates::Quit)
             done = true;
-        state = next_state;
 
         SDL_GL_SwapWindow(displayWindow);
         glClear(GL_COLOR_BUFFER_BIT);

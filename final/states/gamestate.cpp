@@ -4,7 +4,7 @@
 #include "util.hpp"
 #include "SheetSprite.hpp"
 
-GameState::GameState(ShaderProgram* prg) : program(prg), is_paused(false), background_scroll(0) {
+GameState::GameState(ShaderProgram* prg) : program(prg), ticks(0), is_paused(false), background_scroll(0) {
     keys = SDL_GetKeyboardState(NULL);
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
@@ -27,6 +27,10 @@ GameState::GameState(ShaderProgram* prg) : program(prg), is_paused(false), backg
     background_program.SetProjectionMatrix(projectionMatrix);
     background_program.SetViewMatrix(blankMatrix);
     background_program.SetModelMatrix(blankMatrix);
+}
+
+int GameState::getTicks() {
+    return ticks;
 }
 
 Global::ProgramStates GameState::processEvents() {
@@ -88,6 +92,7 @@ void GameState::update(float elapsed) {
     }
 
     background_scroll += elapsed/5;
+    ticks++;
 }
 
 void GameState::render() {
