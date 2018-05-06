@@ -2,16 +2,15 @@
 
 #include "Matrix.h"
 
-SheetSprite::SheetSprite(unsigned int textureID, float x, float y, float spritewidth, float spriteheight, float size, float shwidth, float shheight) :
+SheetSprite::SheetSprite(unsigned int textureID, float x, float y, float spwidth, float spheight, float size, float shwidth, float shheight) :
     textureID(textureID),
-    size(size),
-    sheetwidth(shwidth),
-    sheetheight(shheight)
+    scaling(size),
+    spritecoord(x,y),
+    spritesize(spwidth, spheight),
+    sheetsize(shwidth, shheight)
 {
-    u = x / sheetwidth;
-    v = y / sheetheight;
-    width = spritewidth / sheetwidth;
-    height = spriteheight / sheetheight;
+    texcoord = Vec(x / sheetsize.x, y / sheetsize.y);
+    texsize = Vec(spritesize.x / sheetsize.x, spritesize.y / sheetsize.y);
 }
 
 unsigned int SheetSprite::getTextureID() {
@@ -19,37 +18,36 @@ unsigned int SheetSprite::getTextureID() {
 }
 
 float SheetSprite::getRealWidth() {
-    float aspect = width / height;
-    return size * aspect;
+    float aspect = texsize.x / texsize.y;
+    return scaling * aspect;
 }
 
 float SheetSprite::getRealHeight() {
-    return size;
+    return scaling;
 }
 
 void SheetSprite::setTexCoords(float x, float y) {
-    u = x / sheetwidth;
-    v = y / sheetheight;
+    texcoord = Vec(x / sheetsize.x, y / sheetsize.y);
 }
 
 void SheetSprite::Draw(ShaderProgram *program, Vec& position, float rot) {
     GLfloat texCoords[] = {
-        u, v+height,
-        u+width, v,
-        u, v,
-        u+width, v,
-        u, v+height,
-        u+width, v+height
+        texcoord.x, texcoord.y+texsize.y,
+        texcoord.x+texsize.x, texcoord.y,
+        texcoord.x, texcoord.y,
+        texcoord.x+texsize.x, texcoord.y,
+        texcoord.x, texcoord.y+texsize.y,
+        texcoord.x+texsize.x, texcoord.y+texsize.y
     };
 
-    float aspect = width / height;
+    float aspect = texsize.x / texsize.y;
     float vertices[] = {
-        -0.5f * size * aspect, -0.5f * size,
-        0.5f * size * aspect, 0.5f * size,
-        -0.5f * size * aspect, 0.5f * size,
-        0.5f * size * aspect, 0.5f * size,
-        -0.5f * size * aspect, -0.5f * size ,
-        0.5f * size * aspect, -0.5f * size};
+        -0.5f * scaling * aspect, -0.5f * scaling,
+        0.5f * scaling * aspect, 0.5f * scaling,
+        -0.5f * scaling * aspect, 0.5f * scaling,
+        0.5f * scaling * aspect, 0.5f * scaling,
+        -0.5f * scaling * aspect, -0.5f * scaling ,
+        0.5f * scaling * aspect, -0.5f * scaling};
 
 
     glBindTexture(GL_TEXTURE_2D, textureID);
