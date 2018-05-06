@@ -3,6 +3,6 @@
 
 #include "entities/boss.hpp"
 
-void beginnerBoss(BossEntity* boss, float elapsed);
+bool beginnerBoss(BossEntity* boss, float elapsed);
 
 #endif

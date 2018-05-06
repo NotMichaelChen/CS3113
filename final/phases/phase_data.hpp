@@ -4,7 +4,7 @@
 #include "vec.hpp"
 
 struct PhaseData {
-    PhaseData() : is_moving(false), ticks(0), phaseticks(0), phasenum(0) {}
+    PhaseData() : is_moving(false), ticks(0), statenum(0), phaseticks(0), phasenum(0) {}
 
     //Used during movement to store where the boss began moving from
     Vec origin;
@@ -12,7 +12,12 @@ struct PhaseData {
     bool is_moving;
     int ticks;
 
+    //Used if keeping track of state is required inside of a boss's phase
+    int statenum;
+
+    //"Global" ticks used to track phase changes
     int phaseticks;
+    //Indicates which phase the boss is on
     int phasenum;
 };
 

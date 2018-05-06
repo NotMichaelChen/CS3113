@@ -3,7 +3,7 @@
 #include "global.hpp"
 #include "phase_beginner.hpp"
 
-void beginnerBoss(BossEntity* boss, float elapsed) {
+bool beginnerBoss(BossEntity* boss, float elapsed) {
     PhaseData* data = &(boss->data);
 
     if((data->phaseticks > Global::PHASE_LENGTH && data->phasenum == 0) ||
@@ -21,5 +21,13 @@ void beginnerBoss(BossEntity* boss, float elapsed) {
         case 1:
             beginnerPhaseTwo(boss, elapsed);
             break;
+        case 2:
+            beginnerPhaseThree(boss, elapsed);
+            break;
+        //Time to switch bosses
+        default:
+            return true;
     }
+
+    return false;
 }

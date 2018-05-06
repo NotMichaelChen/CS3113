@@ -19,7 +19,7 @@ void beginnerPhaseOne(BossEntity* boss, float elapsed) {
     if(data->ticks == BEGINMOVE) {
         //Generate a ring before moving
         SheetSprite bulletsprite(Global::bullet_spritesheet, 16, 49, 16, 16, 0.1, 1024, 1024);
-        std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25);
+        std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25, 0);
         boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
 
         //Figure out where to go next
@@ -83,6 +83,52 @@ void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
         }
     }
     
+    data->ticks++;
+    data->phaseticks++;
+}
+
+void beginnerPhaseThree(BossEntity* boss, float elapsed) {
+    //States: 0=firing, 1=waiting, 2=moving
+    const int FIRETICKS = 100;
+    const int WAITTICKS = 60;
+    const int MOVETICKS = 60;
+    const int FIREDELAY = 20;
+
+    std::random_device rd;
+    std::mt19937 engine(rd());
+    std::uniform_real_distribution<> distribution(-2.5, 2.5);
+
+    //for convenience
+    PhaseData* data = &(boss->data);
+
+    //Update state
+    if((data->statenum == 0 && data->ticks >= FIRETICKS) ||
+        (data->statenum == 1 && data->ticks >= WAITTICKS) ||
+        (data->statenum == 2 && data->ticks >= MOVETICKS))
+    {
+        data->ticks = 0;
+        data->is_moving = false;
+        data->statenum = (data->statenum+1) % 3;
+    }
+
+    if(data->statenum == 0 && data->ticks % FIREDELAY == 0) {
+        SheetSprite bulletsprite(Global::bullet_spritesheet, 16, 49, 16, 16, 0.1, 1024, 1024);
+        std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25, data->ticks/33.0);
+        boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
+    }
+    //Use is_moving to indicate if we've computed the next location yet
+    else if(data->statenum == 1 && !data->is_moving) {
+        data->destination = data->origin = boss->position;
+        data->destination.x = distribution(engine);
+
+        data->is_moving = true;
+    }
+    else if(data->statenum == 2) {
+        //Compute movement
+        float adjustedtime = (data->ticks)/(float)(MOVETICKS);
+        boss->position = easeInOut(data->origin, data->destination, adjustedtime);
+    }
+
     data->ticks++;
     data->phaseticks++;
 }
