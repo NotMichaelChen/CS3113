@@ -48,6 +48,7 @@ private:
     std::vector<Bullet> bullets;
 
     GLuint background;
+    std::unique_ptr<SheetSprite> lifesprite;
 };
 
 #endif

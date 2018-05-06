@@ -8,9 +8,8 @@ GameState::GameState(ShaderProgram* prg) : program(prg), ticks(0), is_paused(fal
     keys = SDL_GetKeyboardState(NULL);
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
-    //playerShip3_blue.png
-    // SheetSprite playersprite(Global::ship_spritesheet, 325, 739, 98, 75, 0.3, 1024, 1024);
     SheetSprite playersprite(Global::reimu_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
+    lifesprite = std::make_unique<SheetSprite>(Global::reimu_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
     player = std::make_unique<PlayerEntity>(playersprite, player_hitdot, keys);
 
     //enemyBlack1.png
@@ -116,6 +115,12 @@ void GameState::update(float elapsed) {
 
 void GameState::render() {
     renderBackground();
+
+    //Draw lives
+    for(int i = 0; i < player->getLives(); i++) {
+        Vec lifeposition(-2.8 + i*0.3, 2);
+        lifesprite->Draw(program, lifeposition, 0);
+    }
 
     if(player->isInvinc())
         program->SetAlphaMask(0.5);
