@@ -30,7 +30,6 @@ private:
 
     int current_state;
 
-    GLuint text_textureID;
     GLuint background;
 
     ShaderProgram* program;

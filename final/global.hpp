@@ -25,6 +25,7 @@ enum ProgramStates {
 
 extern GLuint bullet_spritesheet;
 extern GLuint ship_spritesheet;
+extern GLuint text_spritesheet;
 
 void init();
 

@@ -4,7 +4,7 @@
 #include "util.hpp"
 #include "SheetSprite.hpp"
 
-GameState::GameState(ShaderProgram* prg) : program(prg) {
+GameState::GameState(ShaderProgram* prg) : program(prg), is_paused(false) {
     keys = SDL_GetKeyboardState(NULL);
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
@@ -16,13 +16,14 @@ GameState::GameState(ShaderProgram* prg) : program(prg) {
     SheetSprite bosssprite(Global::ship_spritesheet, 423, 728, 93, 84, 0.5, 1024, 1024);
     boss = std::make_unique<BossEntity>(bosssprite, &bullets);
 
+    //Load background texture
     background = LoadTexture("./assets/background1.png", GL_NEAREST);
-    background_program.Load("vertex_textured.glsl", "fragment_background.glsl");
 
-    Matrix projectionMatrix;
     Matrix blankMatrix;
-
+    Matrix projectionMatrix;
     projectionMatrix.SetOrthoProjection(-Global::ORTHO_X, Global::ORTHO_X, -Global::ORTHO_Y, Global::ORTHO_Y, -1.0f, 1.0f);
+    //Load background program
+    background_program.Load("vertex_textured.glsl", "fragment_background.glsl");
     background_program.SetProjectionMatrix(projectionMatrix);
     background_program.SetViewMatrix(blankMatrix);
     background_program.SetModelMatrix(blankMatrix);
@@ -39,8 +40,25 @@ Global::ProgramStates GameState::processEvents() {
         }
         else if(event.type == SDL_KEYDOWN) {
             if(event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
-                reset();
-                return Global::ProgramStates::Menu;
+                //Allow escape to exit the pause menu
+                is_paused = !is_paused;
+                menu_state = 0;
+            }
+            else if(is_paused) {
+                if(event.key.keysym.scancode == SDL_SCANCODE_UP) {
+                    menu_state = 0;
+                }
+                else if(event.key.keysym.scancode == SDL_SCANCODE_DOWN) {
+                    menu_state = 1;
+                }
+                else if(event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
+                    if(menu_state == 0)
+                        is_paused = false;
+                    else {
+                        reset();
+                        return Global::ProgramStates::Menu;
+                    }
+                }
             }
         }
     }
@@ -48,6 +66,9 @@ Global::ProgramStates GameState::processEvents() {
 }
 
 void GameState::update(float elapsed) {
+    if(is_paused)
+        return;
+
     player->Update(elapsed);
     boss->Update(elapsed);
 
@@ -65,6 +86,8 @@ void GameState::update(float elapsed) {
             i++;
         }
     }
+
+    background_scroll += elapsed/5;
 }
 
 void GameState::render() {
@@ -75,6 +98,26 @@ void GameState::render() {
     for(size_t i = 0; i < bullets.size(); i++) {
         bullets[i].Draw(program);
     }
+
+    //Render background before rendering pause menu
+    if(is_paused) {
+        //Draw the menu options
+        program->SetAlphaMask(1);
+        DrawText(program, Global::text_spritesheet, "Give Up?", 0.3, -0.1, -0.5, 1);
+
+        float textsize = 0.3;
+        float textwidth = -0.125;
+
+        if(menu_state != 0)
+            program->SetAlphaMask(0.5);
+        DrawText(program, Global::text_spritesheet, "No", textsize, textwidth, -0.5, 0);
+        program->SetAlphaMask(1);
+
+        if(menu_state != 1)
+            program->SetAlphaMask(0.5);
+        DrawText(program, Global::text_spritesheet, "Yes", textsize, textwidth, -0.5, -0.3);
+        program->SetAlphaMask(1);
+    }
 }
 
 void GameState::reset() {
@@ -82,6 +125,9 @@ void GameState::reset() {
     player->position.y = -0.5;
     boss->reset();
     bullets.clear();
+
+    is_paused = false;
+    menu_state = 0;
 }
 
 void GameState::renderBackground() {
@@ -93,8 +139,7 @@ void GameState::renderBackground() {
     glBindTexture(GL_TEXTURE_2D, background);
 
     GLint scrollUniform = glGetUniformLocation(background_program.programID, "scroll");
-    float ticks = (float)SDL_GetTicks()/5000.0f;
-    glUniform2f(scrollUniform, 0.0f, -ticks);
+    glUniform2f(scrollUniform, 0.0f, -background_scroll);
 
     glVertexAttribPointer(background_program.positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(background_program.positionAttribute);

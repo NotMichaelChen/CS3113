@@ -3,7 +3,6 @@
 #include "util.hpp"
 
 MenuState::MenuState(ShaderProgram* prg) : current_state(0) {
-    text_textureID = LoadTexture("./assets/font2.png", GL_LINEAR);
     background = LoadTexture("./assets/title.jpg", GL_LINEAR);
     program = prg;
 }
@@ -38,19 +37,19 @@ void MenuState::render() {
     renderBackground();
 
     //Draw title
-    DrawText(program, text_textureID, "BULLET HELL DEMO", 0.3, -0.1, -1.5, 1.8);
+    DrawText(program, Global::text_spritesheet, "BULLET HELL DEMO", 0.3, -0.1, -1.5, 1.8);
 
     float textsize = 0.3;
     float textwidth = -0.125;
 
     if(current_state != MenuOptions::start)
         program->SetAlphaMask(0.5);
-    DrawText(program, text_textureID, "Start", textsize, textwidth, -2.5, 0);
+    DrawText(program, Global::text_spritesheet, "Start", textsize, textwidth, -2.5, 0);
     program->SetAlphaMask(1);
 
     if(current_state != MenuOptions::quit)
         program->SetAlphaMask(0.5);
-    DrawText(program, text_textureID, "Quit", textsize, textwidth, -2.5, -0.3);
+    DrawText(program, Global::text_spritesheet, "Quit", textsize, textwidth, -2.5, -0.3);
     program->SetAlphaMask(1);
 }
 
