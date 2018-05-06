@@ -27,6 +27,7 @@ float SheetSprite::getRealHeight() {
 }
 
 void SheetSprite::setTexCoords(float x, float y) {
+    spritecoord = Vec(x, y);
     texcoord = Vec(x / sheetsize.x, y / sheetsize.y);
 }
 

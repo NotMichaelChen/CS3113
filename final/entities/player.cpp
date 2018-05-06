@@ -6,6 +6,7 @@
 PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k) :
     Entity(1, -0.5, 0, nsprite),
     keys(k),
+    callcounter(0),
     hit_dot(dotsprite)
 {}
 
@@ -49,9 +50,21 @@ void PlayerEntity::Update(float elapsed) {
 }
 
 void PlayerEntity::Draw(ShaderProgram* program) {
+    const int FRAMEDELAY = 10;
+
+    if(callcounter % FRAMEDELAY == 0) {
+        float spritex = sprite.spritecoord.x + sprite.spritesize.x;
+        if(spritex >= sprite.sheetsize.x)
+            spritex = 0;
+        float spritey = sprite.spritecoord.y;
+        sprite.setTexCoords(spritex, spritey);
+    }
+
     Entity::Draw(program);
     if(keys[SDL_SCANCODE_LSHIFT])
         hit_dot.Draw(program, position, rotation);
+    
+    callcounter++;
 }
 
 float PlayerEntity::getRadius() {

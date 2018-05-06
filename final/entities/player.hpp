@@ -15,9 +15,10 @@ public:
     float getRadius();
 
 private:
-    const float fast_speed = 2.5;
+    const float fast_speed = 2.4;
     const float slow_speed = 0.7;
     const Uint8* keys;
+    int callcounter;
 
     SheetSprite hit_dot;
 };
