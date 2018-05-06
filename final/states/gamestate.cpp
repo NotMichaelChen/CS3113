@@ -15,6 +15,17 @@ GameState::GameState(ShaderProgram* prg) : program(prg) {
     //enemyBlack1.png
     SheetSprite bosssprite(Global::ship_spritesheet, 423, 728, 93, 84, 0.5, 1024, 1024);
     boss = std::make_unique<BossEntity>(bosssprite, &bullets);
+
+    background = LoadTexture("./assets/background1.png", GL_NEAREST);
+    background_program.Load("vertex_textured.glsl", "fragment_background.glsl");
+
+    Matrix projectionMatrix;
+    Matrix blankMatrix;
+
+    projectionMatrix.SetOrthoProjection(-Global::ORTHO_X, Global::ORTHO_X, -Global::ORTHO_Y, Global::ORTHO_Y, -1.0f, 1.0f);
+    background_program.SetProjectionMatrix(projectionMatrix);
+    background_program.SetViewMatrix(blankMatrix);
+    background_program.SetModelMatrix(blankMatrix);
 }
 
 Global::ProgramStates GameState::processEvents() {
@@ -56,9 +67,35 @@ void GameState::update(float elapsed) {
 }
 
 void GameState::render() {
+    renderBackground();
+
     player->Draw(program);
     boss->Draw(program);
     for(size_t i = 0; i < bullets.size(); i++) {
         bullets[i].Draw(program);
     }
+}
+
+void GameState::renderBackground() {
+    GLfloat texCoords[] = {0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0};
+
+    float vertices[] = {-3, -2.25, 3, -2.25, 3, 2.25, -3, -2.25, 3, 2.25, -3, 2.25};
+
+    glUseProgram(background_program.programID);
+    glBindTexture(GL_TEXTURE_2D, background);
+
+    GLint scrollUniform = glGetUniformLocation(background_program.programID, "scroll");
+    float ticks = (float)SDL_GetTicks()/5000.0f;
+    glUniform2f(scrollUniform, 0.0f, -ticks);
+
+    glVertexAttribPointer(background_program.positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+    glEnableVertexAttribArray(background_program.positionAttribute);
+
+    glVertexAttribPointer(background_program.texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
+    glEnableVertexAttribArray(background_program.texCoordAttribute);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDisableVertexAttribArray(background_program.positionAttribute);
+    glDisableVertexAttribArray(background_program.texCoordAttribute);
+
+    glUseProgram(program->programID);
 }

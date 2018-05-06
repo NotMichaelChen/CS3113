@@ -22,7 +22,12 @@ public:
     void render();
 
 private:
+
+    void renderBackground();
+    
+
     ShaderProgram* program;
+    ShaderProgram background_program;
     const Uint8* keys;
 
     //Making player a smart pointer allows me to defer construction until the constructor body. This lets me load the sprite
@@ -30,6 +35,8 @@ private:
     std::unique_ptr<PlayerEntity> player;
     std::unique_ptr<BossEntity> boss;
     std::vector<Bullet> bullets;
+
+    GLuint background;
 };
 
 #endif
