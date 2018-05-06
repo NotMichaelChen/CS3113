@@ -18,7 +18,8 @@ const int PHASE_LENGTH = 1200;
 
 enum ProgramStates {
     Menu,
-    Game,
+    GameOne,
+    GameTwo,
     Score,
     Quit
 };
@@ -29,6 +30,7 @@ extern GLuint text_spritesheet;
 extern GLuint reimu_spritesheet;
 
 void init();
+bool isGameState(ProgramStates& state);
 
 }
 

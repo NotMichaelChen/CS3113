@@ -24,6 +24,7 @@ public:
     void reset();
 
     int getTicks();
+    void setMode(bool single);
 
 private:
 
@@ -32,14 +33,12 @@ private:
     ShaderProgram* program;
     ShaderProgram background_program;
     const Uint8* keys;
-
     int ticks;
-
     bool is_paused;
     //0=no, 1=yes
     int menu_state;
-
     float background_scroll;
+    bool is_singleplayer;
 
     //Making player a smart pointer allows me to defer construction until the constructor body. This lets me load the sprite
     //before constructing the player

@@ -14,7 +14,11 @@ SDL_Window* displayWindow;
 void handleStateTransitions(Global::ProgramStates& state, Global::ProgramStates& next_state, MenuState& menu, GameState& game,
     ScoreState& score)
 {
-    if(state == Global::ProgramStates::Game && next_state == Global::ProgramStates::Score) {
+    if(state == Global::ProgramStates::Menu && Global::isGameState(next_state)) {
+        game.setMode(next_state == Global::ProgramStates::GameOne);
+    }
+
+    if(Global::isGameState(state) && next_state == Global::ProgramStates::Score) {
         score.setTicks(game.getTicks());
     }
     state = next_state;
@@ -66,7 +70,7 @@ int main(int argc, char *argv[])
         Global::ProgramStates next_state;
         if(state == Global::ProgramStates::Menu)
             next_state = menu.processEvents();
-        else if(state == Global::ProgramStates::Game)
+        else if(Global::isGameState(state))
             next_state = game.processEvents();
         else if(state == Global::ProgramStates::Score)
             next_state = score.processEvents();
@@ -85,7 +89,7 @@ int main(int argc, char *argv[])
         //Update
         while(accumulator >= Global::FIXED_TIMESTEP) {
 
-            if(state == Global::ProgramStates::Game)
+            if(Global::isGameState(state))
                 game.update(Global::FIXED_TIMESTEP);
 
             accumulator -= Global::FIXED_TIMESTEP;
@@ -94,7 +98,7 @@ int main(int argc, char *argv[])
         //Render
         if(state == Global::ProgramStates::Menu)
             menu.render();
-        else if(state == Global::ProgramStates::Game)
+        else if(Global::isGameState(state))
             game.render();
         else if(state == Global::ProgramStates::Score)
             score.render();

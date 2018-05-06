@@ -17,4 +17,8 @@ void init() {
     reimu_spritesheet = LoadTexture("./assets/reimu.png", GL_NEAREST);
 }
 
+bool isGameState(ProgramStates& state) {
+    return state == ProgramStates::GameOne || state == ProgramStates::GameTwo;
+}
+
 }

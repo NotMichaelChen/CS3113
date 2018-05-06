@@ -75,7 +75,7 @@ Global::ProgramStates GameState::processEvents() {
             }
         }
     }
-    return Global::ProgramStates::Game;
+    return is_singleplayer ? Global::ProgramStates::GameOne : Global::ProgramStates::GameTwo;
 }
 
 void GameState::update(float elapsed) {
@@ -166,6 +166,10 @@ void GameState::reset() {
 
     is_paused = false;
     menu_state = 0;
+}
+
+void GameState::setMode(bool single) {
+    is_singleplayer = single;
 }
 
 void GameState::renderBackground() {

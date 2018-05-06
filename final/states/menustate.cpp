@@ -42,14 +42,19 @@ void MenuState::render() {
     float textsize = 0.3;
     float textwidth = -0.125;
 
-    if(current_state != MenuOptions::start)
+    if(current_state != MenuOptions::oneplayer)
         program->SetAlphaMask(0.5);
-    DrawText(program, Global::text_spritesheet, "Start", textsize, textwidth, -2.5, 0);
+    DrawText(program, Global::text_spritesheet, "Single Player", textsize, textwidth, -2.5, 0);
+    program->SetAlphaMask(1);
+
+    if(current_state != MenuOptions::twoplayer)
+        program->SetAlphaMask(0.5);
+    DrawText(program, Global::text_spritesheet, "Two Player", textsize, textwidth, -2.5, -0.3);
     program->SetAlphaMask(1);
 
     if(current_state != MenuOptions::quit)
         program->SetAlphaMask(0.5);
-    DrawText(program, Global::text_spritesheet, "Quit", textsize, textwidth, -2.5, -0.3);
+    DrawText(program, Global::text_spritesheet, "Quit", textsize, textwidth, -2.5, -0.6);
     program->SetAlphaMask(1);
 }
 
@@ -80,8 +85,11 @@ void MenuState::renderBackground() {
 Global::ProgramStates MenuState::optionAction() {
     switch(current_state) {
 
-    case MenuOptions::start:
-        return Global::ProgramStates::Game;
+    case MenuOptions::oneplayer:
+        return Global::ProgramStates::GameOne;
+
+    case MenuOptions::twoplayer:
+        return Global::ProgramStates::GameTwo;
 
     case MenuOptions::quit:
         return Global::ProgramStates::Quit;

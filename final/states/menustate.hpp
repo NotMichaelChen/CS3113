@@ -22,9 +22,10 @@ private:
     //Returns which state to go to based on the menu option selected
     Global::ProgramStates optionAction();
 
-    const int MenuOptions_Entries = 2;
+    const int MenuOptions_Entries = 3;
     enum MenuOptions {
-        start,
+        oneplayer,
+        twoplayer,
         quit
     };
 
