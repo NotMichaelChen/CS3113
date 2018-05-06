@@ -7,7 +7,7 @@
 GameState::GameState(ShaderProgram* prg) : program(prg) {
     keys = SDL_GetKeyboardState(NULL);
 
-    SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.1, 1024, 1024);
+    SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
     //playerShip3_blue.png
     SheetSprite playersprite(Global::ship_spritesheet, 325, 739, 98, 75, 0.3, 1024, 1024);
     player = std::make_unique<PlayerEntity>(playersprite, player_hitdot, keys);

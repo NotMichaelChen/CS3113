@@ -18,7 +18,7 @@ void beginnerPhaseOne(BossEntity* boss, float elapsed) {
 
     if(data->ticks == BEGINMOVE) {
         //Generate a ring before moving
-        SheetSprite bulletsprite(Global::bullet_spritesheet, 16, 49, 16, 16, 0.1, 1024, 1024);
+        SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
         std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25, 0);
         boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
 
@@ -60,7 +60,7 @@ void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
 
     if(data->ticks == BEGINMOVE) {
         //Generate a line spread before moving
-        SheetSprite bulletsprite(Global::bullet_spritesheet, 16, 49, 16, 16, 0.1, 1024, 1024);
+        SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
         std::vector<Bullet> newbullets = generateLineSpread(bulletsprite, boss->position, {1.5, -0.8}, 15);
         boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
 
@@ -112,7 +112,7 @@ void beginnerPhaseThree(BossEntity* boss, float elapsed) {
     }
 
     if(data->statenum == 0 && data->ticks % FIREDELAY == 0) {
-        SheetSprite bulletsprite(Global::bullet_spritesheet, 16, 49, 16, 16, 0.1, 1024, 1024);
+        SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
         std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25, data->ticks/33.0);
         boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
     }
