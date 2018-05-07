@@ -15,7 +15,6 @@ GameState::GameState(ShaderProgram* prg) : program(prg), msbegin(SDL_GetTicks())
     lifetwosprite = std::make_unique<SheetSprite>(Global::byakuren_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
     SheetSprite playertwosprite(Global::byakuren_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
     playertwo = std::make_unique<PlayerEntity>(playertwosprite, player_hitdot, keys, Global::PLAYER_TWO_CONTROLS);
-    playertwo->position.x = -0.5;
 
     //enemyBlack1.png
     SheetSprite bosssprite(Global::ship_spritesheet, 423, 728, 93, 84, 0.5, 1024, 1024);
@@ -118,7 +117,7 @@ void GameState::update(float elapsed) {
             if(collision_status_one && !playerone->isInvinc()) {
                 playerone->lives--;
                 //Reset playerone position
-                playerone->position.x = 1;
+                playerone->position.x = -1;
                 playerone->position.y = -0.5;
 
                 playerone->setInvinc();
@@ -132,7 +131,7 @@ void GameState::update(float elapsed) {
             if(collision_status_two && !playertwo->isInvinc()) {
                 playertwo->lives--;
                 //Reset playertwo position
-                playertwo->position.x = -1;
+                playertwo->position.x = 1;
                 playertwo->position.y = -0.5;
 
                 playertwo->setInvinc();
@@ -211,10 +210,10 @@ void GameState::render() {
 }
 
 void GameState::reset() {
-    playerone->position.x = 1;
+    playerone->position.x = -1;
     playerone->position.y = -0.5;
     playerone->reset();
-    playertwo->position.x = -1;
+    playertwo->position.x = 1;
     playertwo->position.y = -0.5;
     playertwo->reset();
 

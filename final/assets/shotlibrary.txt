@@ -1,5 +1,0 @@
-local
-{
-	let shotdata = "script/thdcs/system/supershot.txt";
-	LoadEnemyShotData(shotdata);
-}

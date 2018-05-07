@@ -4,7 +4,7 @@
 #include "util.hpp"
 
 PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k, std::vector<unsigned int> c) :
-    Entity(1, -0.5, 0, nsprite), keys(k), controls(c), updatecounter(0), invinc_counter(0), lives(3), hit_dot(dotsprite)
+    Entity(1, -0.5, 0, nsprite), lives(3), keys(k), controls(c), updatecounter(0), invinc_counter(0), hit_dot(dotsprite)
 {
     if(controls.size() != 5) {
         throw std::runtime_error("Error: control vector passed does not have 5 keys");
