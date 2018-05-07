@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cmath>
+#include <random>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -30,7 +31,7 @@ void DrawText(ShaderProgram *program, int fontTexture, std::string text, float s
     std::vector<float> vertexData;
     std::vector<float> texCoordData;
 
-    for(int i=0; i < text.size(); i++) {
+    for(size_t i=0; i < text.size(); i++) {
 
         int spriteIndex = (int)text[i];
 
@@ -76,4 +77,12 @@ void clamp(int& test, int lo, int hi) {
 
 float dist(Vec a, Vec b) {
     return sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
+}
+
+float randFloat(float lo, float hi) {
+    std::random_device rd;
+    std::mt19937 engine(rd());
+    std::uniform_real_distribution<> distr(lo, hi);
+
+    return distr(engine);
 }

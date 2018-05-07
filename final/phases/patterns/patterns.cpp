@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "random"
+#include "util.hpp"
 
 double pi = 3.1415926535897;
 
@@ -26,11 +26,7 @@ std::vector<Bullet> generateFountain(SheetSprite& bsprite, Vec origin, float spe
     std::vector<Bullet> bullets;
 
     for(int i = 0; i < count; i++) {
-        std::random_device rd;
-        std::mt19937 engine(rd());
-        std::uniform_real_distribution<> angle_distr(0, 2*pi);
-
-        float angle = angle_distr(engine);
+        float angle = randFloat(0, 2*pi);
 
         float velx = speed * std::cos(angle);
         float vely = speed * std::sin(angle);

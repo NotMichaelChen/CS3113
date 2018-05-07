@@ -1,13 +1,13 @@
 #include "phase_beginner.hpp"
 
 #include <vector>
-#include <random>
 
 #include "global.hpp"
 #include "patterns/patterns.hpp"
 #include "entities/bullet.hpp"
 #include "SheetSprite.hpp"
 #include "movement/lerpfuncs.hpp"
+#include "util.hpp"
 
 void beginnerPhaseOne(BossEntity* boss, float elapsed) {
     const int BEGINMOVE = 30;
@@ -52,10 +52,6 @@ void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
     const int BEGINMOVE = 20;
     const float MOVELEN = 50.0;
 
-    std::random_device rd;
-    std::mt19937 engine(rd());
-    std::uniform_real_distribution<> distribution(-2.5, 2.5);
-
     PhaseData* data = &(boss->data);
 
     if(data->localticks == BEGINMOVE) {
@@ -66,7 +62,7 @@ void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
 
         //Figure out where to go next
         data->destination = data->origin = boss->position;
-        data->destination.x = distribution(engine);
+        data->destination.x = randFloat(-2.5, 2.5);
 
         //Begin moving
         data->is_moving = true;
@@ -94,10 +90,6 @@ void beginnerPhaseThree(BossEntity* boss, float elapsed) {
     const int MOVETICKS = 60;
     const int FIREDELAY = 20;
 
-    std::random_device rd;
-    std::mt19937 engine(rd());
-    std::uniform_real_distribution<> distribution(-2.5, 2.5);
-
     //for convenience
     PhaseData* data = &(boss->data);
 
@@ -119,7 +111,7 @@ void beginnerPhaseThree(BossEntity* boss, float elapsed) {
     //Use is_moving to indicate if we've computed the next location yet
     else if(data->statenum == 1 && !data->is_moving) {
         data->destination = data->origin = boss->position;
-        data->destination.x = distribution(engine);
+        data->destination.x = randFloat(-2.5, 2.5);
 
         data->is_moving = true;
     }

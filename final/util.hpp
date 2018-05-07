@@ -13,12 +13,11 @@
 
 //Utility functions that can be useful anywhere
 
-//TODO: Add random float function
-
 GLuint LoadTexture(const char *filepath, GLint filtering);
 void DrawText(ShaderProgram *program, int fontTexture, std::string text, float size, float spacing, float x, float y);
 //Inclusive Clamping (test may be lo or hi)
 void clamp(int& test, int lo, int hi);
 float dist(Vec a, Vec b);
+float randFloat(float lo, float hi);
 
 #endif

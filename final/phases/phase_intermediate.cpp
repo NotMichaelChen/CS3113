@@ -1,22 +1,16 @@
 #include "phase_intermediate.hpp"
 
-#include <random>
-
 #include "global.hpp"
 #include "patterns/patterns.hpp"
 #include "movement/lerpfuncs.hpp"
 #include "vec.hpp"
+#include "util.hpp"
 
 void intermediatePhaseOne(BossEntity* boss, float elapsed) {
     //States: 0=waiting, 1=moving
     const int WAITTICKS = 40;
     const int MOVETICKS = 90;
     const int FIREDELAY = 15;
-
-    std::random_device rd;
-    std::mt19937 engine(rd());
-    std::uniform_real_distribution<> x_distribution(0.5, 2);
-    std::uniform_real_distribution<> y_distribution(0.5, 2);
 
     //for convenience
     PhaseData* data = &(boss->data);
@@ -33,8 +27,8 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
     //Use is_moving to indicate if we've computed the next location yet
     if(data->statenum == 0 && !data->is_moving) {
         data->origin = boss->position;
-        data->destination.x = x_distribution(engine);
-        data->destination.y = y_distribution(engine);
+        data->destination.x = randFloat(0.5, 2);
+        data->destination.y = randFloat(0.5, 2);
 
         if(data->origin.x > 0)
             data->destination.x = -data->destination.x;
@@ -61,11 +55,6 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
 void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
     const int MOVETICKS = 60;
 
-    std::random_device rd;
-    std::mt19937 engine(rd());
-    std::uniform_real_distribution<> x_distribution(-2, 2);
-    std::uniform_real_distribution<> y_distribution(-0.5, 1.5);
-
     //for convenience
     PhaseData* data = &(boss->data);
 
@@ -86,8 +75,8 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
     else {
         if(data->localticks % 80 == 0) {
             Vec genpos;
-            genpos.x = x_distribution(engine);
-            genpos.y = y_distribution(engine);
+            genpos.x = randFloat(-2, 2);
+            genpos.y = randFloat(-0.5, 1.5);
 
             SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.1, 1024, 1024);
             SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
