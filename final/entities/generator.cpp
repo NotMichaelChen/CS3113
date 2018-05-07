@@ -12,7 +12,7 @@ GeneratorEntity::GeneratorEntity(SheetSprite& nsprite, SheetSprite bsprite, Vec 
 void GeneratorEntity::Update(float elapsed) {
     if(updateticks > fadein_ticks) {
         if(updateticks % firerate == 0) {
-            std::vector<Bullet> generated = generateFountain(bulletsprite, position, 0.5, 20);
+            std::vector<Bullet> generated = generateFountain(bulletsprite, position, 0.5, 4);
             bullets->insert(bullets->end(), generated.begin(), generated.end());
         }
     }
