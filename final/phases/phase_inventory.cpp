@@ -42,6 +42,7 @@ bool intermediateBoss(BossEntity* boss, float elapsed) {
     {
         data->phasenum++;
         data->localticks = 0;
+        data->is_moving = false;
     }
 
     switch(data->phasenum) {
@@ -49,6 +50,7 @@ bool intermediateBoss(BossEntity* boss, float elapsed) {
             intermediatePhaseOne(boss, elapsed);
             break;
         case 1:
+            intermediatePhaseTwo(boss, elapsed);
             break;
         case 2:
             break;

@@ -53,3 +53,36 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
     data->localticks++;
     data->phaseticks++;
 }
+
+void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
+    const int MOVETICKS = 60;
+
+    std::random_device rd;
+    std::mt19937 engine(rd());
+    std::uniform_real_distribution<> x_distribution(-2.5, 2.5);
+    std::uniform_real_distribution<> y_distribution(0.5, 2);
+
+    //for convenience
+    PhaseData* data = &(boss->data);
+
+    //Part one: move into position
+    if(data->localticks < MOVETICKS) {
+        if(!data->is_moving) {
+            data->origin = boss->position;
+            data->destination = Vec(0,1.5);
+            data->is_moving = true;
+        }
+        else {
+            //Compute movement
+            float adjustedtime = (data->localticks)/(float)(MOVETICKS);
+            boss->position = easeInOut(data->origin, data->destination, adjustedtime);
+        }
+    }
+    //Part two: spawn random bullet fountains
+    else {
+
+    }
+
+    data->localticks++;
+    data->phaseticks++;
+}

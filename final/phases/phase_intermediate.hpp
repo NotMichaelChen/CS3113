@@ -4,5 +4,6 @@
 #include "entities/boss.hpp"
 
 void intermediatePhaseOne(BossEntity* boss, float elapsed);
+void intermediatePhaseTwo(BossEntity* boss, float elapsed);
 
 #endif
