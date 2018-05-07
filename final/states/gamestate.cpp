@@ -37,6 +37,10 @@ float GameState::getSeconds() {
     return (SDL_GetTicks()-msbegin) / 1000;
 }
 
+void GameState::setBeginTime() {
+    msbegin = SDL_GetTicks();
+}
+
 Global::ProgramStates GameState::processEvents() {
     //If we reach zero lives, exit to score state
     //Checked here since this is the method that returns where to go next

@@ -24,6 +24,7 @@ public:
     void reset();
 
     float getSeconds();
+    void setBeginTime();
     void setMode(bool single);
 
 private:

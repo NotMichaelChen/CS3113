@@ -15,6 +15,7 @@ void handleStateTransitions(Global::ProgramStates& state, Global::ProgramStates&
     ScoreState& score)
 {
     if(state == Global::ProgramStates::Menu && Global::isGameState(next_state)) {
+        game.setBeginTime();
         game.setMode(next_state == Global::ProgramStates::GameOne);
     }
 
