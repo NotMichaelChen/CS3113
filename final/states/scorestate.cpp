@@ -6,12 +6,12 @@ ScoreState::ScoreState(ShaderProgram* prg) : seconds(0), is_win(false), program(
     background = LoadTexture("./assets/gameover.jpg", GL_LINEAR);
 }
 
-void ScoreState::setTicks(int t) {
+void ScoreState::setSeconds(float t) {
     if(t < 0) {
         is_win = true;
     }
     else {
-        seconds = t / 60;
+        seconds = (int)t;
     }
 }
 

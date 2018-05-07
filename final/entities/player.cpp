@@ -87,3 +87,9 @@ int PlayerEntity::getLives() {
 void PlayerEntity::decLife() {
     lives--;
 }
+
+void PlayerEntity::reset() {
+    updatecounter = 0;
+    invinc_counter = 0;
+    lives = 3;
+}

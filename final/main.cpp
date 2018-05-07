@@ -19,7 +19,7 @@ void handleStateTransitions(Global::ProgramStates& state, Global::ProgramStates&
     }
 
     if(Global::isGameState(state) && next_state == Global::ProgramStates::Score) {
-        score.setTicks(game.getTicks());
+        score.setSeconds(game.getSeconds());
     }
     state = next_state;
 }

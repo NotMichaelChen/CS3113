@@ -4,7 +4,7 @@
 #include "util.hpp"
 #include "SheetSprite.hpp"
 
-GameState::GameState(ShaderProgram* prg) : program(prg), ticks(0), is_paused(false), background_scroll(0) {
+GameState::GameState(ShaderProgram* prg) : program(prg), msbegin(SDL_GetTicks()), is_paused(false), background_scroll(0) {
     keys = SDL_GetKeyboardState(NULL);
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
@@ -33,15 +33,17 @@ GameState::GameState(ShaderProgram* prg) : program(prg), ticks(0), is_paused(fal
     glUseProgram(program->programID);
 }
 
-int GameState::getTicks() {
-    return ticks;
+float GameState::getSeconds() {
+    return (SDL_GetTicks()-msbegin) / 1000;
 }
 
 Global::ProgramStates GameState::processEvents() {
     //If we reach zero lives, exit to score state
     //Checked here since this is the method that returns where to go next
-    if(player->getLives() <= 0)
+    if(player->getLives() <= 0) {
+        reset();
         return Global::ProgramStates::Score;
+    }
 
     SDL_Event event;
 
@@ -114,7 +116,6 @@ void GameState::update(float elapsed) {
     }
 
     background_scroll += elapsed/5;
-    ticks++;
 }
 
 void GameState::render() {
@@ -161,11 +162,13 @@ void GameState::render() {
 void GameState::reset() {
     player->position.x = 1;
     player->position.y = -0.5;
+    player->reset();
     boss->reset();
     bullets.clear();
 
     is_paused = false;
     menu_state = 0;
+    background_scroll = 0;
 }
 
 void GameState::setMode(bool single) {

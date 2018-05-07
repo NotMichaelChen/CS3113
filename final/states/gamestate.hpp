@@ -23,7 +23,7 @@ public:
 
     void reset();
 
-    int getTicks();
+    float getSeconds();
     void setMode(bool single);
 
 private:
@@ -33,7 +33,7 @@ private:
     ShaderProgram* program;
     ShaderProgram background_program;
     const Uint8* keys;
-    int ticks;
+    int msbegin;
     bool is_paused;
     //0=no, 1=yes
     int menu_state;

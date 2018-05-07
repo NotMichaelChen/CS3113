@@ -20,6 +20,8 @@ public:
     int getLives();
     void decLife();
 
+    void reset();
+
 private:
     const float fast_speed = 2.2;
     const float slow_speed = 0.7;

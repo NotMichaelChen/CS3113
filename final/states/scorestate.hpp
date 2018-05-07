@@ -13,7 +13,7 @@ class ScoreState {
 public:
     ScoreState(ShaderProgram* prg);
 
-    void setTicks(int t);
+    void setSeconds(float t);
 
     Global::ProgramStates processEvents();
     void render();
