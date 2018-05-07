@@ -19,6 +19,7 @@ void BossEntity::Update(float elapsed) {
             done = intermediateBoss(this, elapsed);
             break;
         case 2:
+            done = advancedBoss(this, elapsed);
             break;
         default:
             throw std::runtime_error("Error: invalid bosstype");

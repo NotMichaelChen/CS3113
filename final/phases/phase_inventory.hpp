@@ -5,5 +5,6 @@
 
 bool beginnerBoss(BossEntity* boss, float elapsed);
 bool intermediateBoss(BossEntity* boss, float elapsed);
+bool advancedBoss(BossEntity* boss, float elapsed);
 
 #endif
