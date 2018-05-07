@@ -19,5 +19,6 @@ void DrawText(ShaderProgram *program, int fontTexture, std::string text, float s
 void clamp(int& test, int lo, int hi);
 float dist(Vec a, Vec b);
 float randFloat(float lo, float hi);
+int randInt(int lo, int hi);
 
 #endif

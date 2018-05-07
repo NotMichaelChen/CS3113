@@ -86,3 +86,11 @@ float randFloat(float lo, float hi) {
 
     return distr(engine);
 }
+
+int randInt(int lo, int hi) {
+    std::random_device rd;
+    std::mt19937 engine(rd());
+    std::uniform_int_distribution<> distr(lo, hi);
+
+    return distr(engine);
+}
