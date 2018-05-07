@@ -5,7 +5,7 @@ CC=g++
 CFLAGS+=-I/usr/include/SDL2 -Wall -I. -std=c++14
 LIBS = -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lGL -lGLU -lGLEW
 VPATH = %.cpp %.o
-DEPS = $(call rwildcard,, *.h)
+DEPS = $(call rwildcard,, *.hpp)
 SRC = $(call rwildcard,, *.cpp)
 OBJ = $(SRC:.cpp=.o)
 DEBUG = -g -O0

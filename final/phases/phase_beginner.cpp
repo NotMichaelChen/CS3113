@@ -16,7 +16,7 @@ void beginnerPhaseOne(BossEntity* boss, float elapsed) {
     //for convenience
     PhaseData* data = &(boss->data);
 
-    if(data->ticks == BEGINMOVE) {
+    if(data->localticks == BEGINMOVE) {
         //Generate a ring before moving
         SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
         std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25, 0);
@@ -35,16 +35,16 @@ void beginnerPhaseOne(BossEntity* boss, float elapsed) {
 
     if(data->is_moving) {
         //Compute movement
-        float adjustedtime = (data->ticks - BEGINMOVE)/(MOVELEN);
+        float adjustedtime = (data->localticks - BEGINMOVE)/(MOVELEN);
         boss->position = easeInOut(data->origin, data->destination, adjustedtime);
 
-        if(data->ticks == (MOVELEN+BEGINMOVE)) {
+        if(data->localticks == (MOVELEN+BEGINMOVE)) {
             data->is_moving = false;
-            data->ticks = 0;
+            data->localticks = 0;
         }
     }
 
-    data->ticks++;
+    data->localticks++;
     data->phaseticks++;
 }
 
@@ -58,7 +58,7 @@ void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
 
     PhaseData* data = &(boss->data);
 
-    if(data->ticks == BEGINMOVE) {
+    if(data->localticks == BEGINMOVE) {
         //Generate a line spread before moving
         SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
         std::vector<Bullet> newbullets = generateLineSpread(bulletsprite, boss->position, {1.5, -0.8}, 15);
@@ -74,16 +74,16 @@ void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
 
     if(data->is_moving) {
         //Compute movement
-        float adjustedtime = (data->ticks - BEGINMOVE)/(MOVELEN);
+        float adjustedtime = (data->localticks - BEGINMOVE)/(MOVELEN);
         boss->position = easeInOut(data->origin, data->destination, adjustedtime);
 
-        if(data->ticks == (MOVELEN+BEGINMOVE)) {
+        if(data->localticks == (MOVELEN+BEGINMOVE)) {
             data->is_moving = false;
-            data->ticks = 0;
+            data->localticks = 0;
         }
     }
     
-    data->ticks++;
+    data->localticks++;
     data->phaseticks++;
 }
 
@@ -102,18 +102,18 @@ void beginnerPhaseThree(BossEntity* boss, float elapsed) {
     PhaseData* data = &(boss->data);
 
     //Update state
-    if((data->statenum == 0 && data->ticks >= FIRETICKS) ||
-        (data->statenum == 1 && data->ticks >= WAITTICKS) ||
-        (data->statenum == 2 && data->ticks >= MOVETICKS))
+    if((data->statenum == 0 && data->localticks >= FIRETICKS) ||
+        (data->statenum == 1 && data->localticks >= WAITTICKS) ||
+        (data->statenum == 2 && data->localticks >= MOVETICKS))
     {
-        data->ticks = 0;
+        data->localticks = 0;
         data->is_moving = false;
         data->statenum = (data->statenum+1) % 3;
     }
 
-    if(data->statenum == 0 && data->ticks % FIREDELAY == 0) {
+    if(data->statenum == 0 && data->localticks % FIREDELAY == 0) {
         SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
-        std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25, data->ticks/33.0);
+        std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25, data->localticks/33.0);
         boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
     }
     //Use is_moving to indicate if we've computed the next location yet
@@ -125,10 +125,10 @@ void beginnerPhaseThree(BossEntity* boss, float elapsed) {
     }
     else if(data->statenum == 2) {
         //Compute movement
-        float adjustedtime = (data->ticks)/(float)(MOVETICKS);
+        float adjustedtime = (data->localticks)/(float)(MOVETICKS);
         boss->position = easeInOut(data->origin, data->destination, adjustedtime);
     }
 
-    data->ticks++;
+    data->localticks++;
     data->phaseticks++;
 }
