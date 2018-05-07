@@ -47,7 +47,7 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
 
         //Compute movement
         float adjustedtime = (data->localticks)/(float)(MOVETICKS);
-        boss->position = linear(data->origin, data->destination, adjustedtime);
+        boss->position = linearInterpolation(data->origin, data->destination, adjustedtime);
     }
 
     data->localticks++;

@@ -3,7 +3,8 @@
 
 #include "vec.hpp"
 
+Vec easeIn(Vec from, Vec to, float time);
 Vec easeInOut(Vec from, Vec to, float time);
-Vec linear(Vec from, Vec to, float time);
+Vec linearInterpolation(Vec from, Vec to, float time);
 
 #endif
