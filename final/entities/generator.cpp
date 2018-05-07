@@ -10,9 +10,11 @@ GeneratorEntity::GeneratorEntity(SheetSprite& nsprite, SheetSprite bsprite, Vec 
 }
 
 void GeneratorEntity::Update(float elapsed) {
-    if(updateticks % firerate == 0) {
-        std::vector<Bullet> generated = generateFountain(bulletsprite, position, 0.5, 20);
-        bullets->insert(bullets->end(), generated.begin(), generated.end());
+    if(updateticks > fadein_ticks) {
+        if(updateticks % firerate == 0) {
+            std::vector<Bullet> generated = generateFountain(bulletsprite, position, 0.5, 20);
+            bullets->insert(bullets->end(), generated.begin(), generated.end());
+        }
     }
     
     updateticks++;
@@ -29,5 +31,5 @@ void GeneratorEntity::Draw(ShaderProgram* program) {
 }
 
 bool GeneratorEntity::isAlive() {
-    return updateticks < lifetime + fadein_ticks;
+    return updateticks <= lifetime + fadein_ticks;
 }
