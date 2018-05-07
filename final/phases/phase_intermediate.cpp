@@ -8,13 +8,13 @@
 
 void intermediatePhaseOne(BossEntity* boss, float elapsed) {
     //States: 0=waiting, 1=moving
-    const int WAITTICKS = 60;
+    const int WAITTICKS = 40;
     const int MOVETICKS = 90;
-    const int FIREDELAY = 20;
+    const int FIREDELAY = 15;
 
     std::random_device rd;
     std::mt19937 engine(rd());
-    std::uniform_real_distribution<> x_distribution(-2.5, 2.5);
+    std::uniform_real_distribution<> x_distribution(0.5, 2);
     std::uniform_real_distribution<> y_distribution(0.5, 2);
 
     //for convenience
@@ -35,13 +35,16 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
         data->destination.x = x_distribution(engine);
         data->destination.y = y_distribution(engine);
 
+        if(data->origin.x > 0)
+            data->destination.x = -data->destination.x;
+
         data->is_moving = true;
     }
     else if(data->statenum == 1) {
         //Compute firing
         if(data->localticks % FIREDELAY == 0) {
             SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
-            std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.5, 25, 0);
+            std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.8, 25, 0);
             boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
         }
 
