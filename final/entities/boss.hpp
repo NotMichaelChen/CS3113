@@ -18,6 +18,10 @@ public:
 
     std::vector<Bullet>* bullets;
     PhaseData data;
+
+private:
+    //0=beginner, 1=intermediate, 2=advanced
+    int bosstype;
 };
 
 #endif

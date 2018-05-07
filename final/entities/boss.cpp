@@ -4,16 +4,34 @@
 
 #include "phases/phase_inventory.hpp"
 
-BossEntity::BossEntity(SheetSprite& nsprite, std::vector<Bullet>* b) : Entity(1.5, 1, 0, nsprite), bullets(b) {
+BossEntity::BossEntity(SheetSprite& nsprite, std::vector<Bullet>* b) : Entity(1.5, 1, 0, nsprite), bullets(b), bosstype(0) {
 }
 
 void BossEntity::Update(float elapsed) {
-    beginnerBoss(this, elapsed);
+    bool done;
+    switch(bosstype) {
+        case 0:
+            done = beginnerBoss(this, elapsed);
+            break;
+        case 1:
+            done = intermediateBoss(this, elapsed);
+            break;
+        case 2:
+            break;
+        default:
+            throw std::runtime_error("Error: invalid bosstype");
+    }
+
+    if(done) {
+        bosstype++;
+        data = PhaseData();
+    }
 
     Entity::Update(elapsed);
 }
 
 void BossEntity::reset() {
+    bosstype = 0;
     data = PhaseData();
     position.x = 1.5;
     position.y = 1;
