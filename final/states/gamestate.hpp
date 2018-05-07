@@ -13,6 +13,7 @@
 #include "ShaderProgram.h"
 #include "entities/player.hpp"
 #include "entities/boss.hpp"
+#include "entities/generator.hpp"
 
 class GameState {
 public:
@@ -46,6 +47,7 @@ private:
     std::unique_ptr<PlayerEntity> playertwo;
     std::unique_ptr<BossEntity> boss;
     std::vector<Bullet> bullets;
+    std::vector<GeneratorEntity> generators;
 
     GLuint background;
     std::unique_ptr<SheetSprite> lifeonesprite;

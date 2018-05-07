@@ -8,15 +8,17 @@
 #include "entity.hpp"
 #include "bullet.hpp"
 #include "phases/phase_data.hpp"
+#include "generator.hpp"
 
 class BossEntity : public Entity {
 public:
-    BossEntity(SheetSprite& nsprite, std::vector<Bullet>* b);
+    BossEntity(SheetSprite& nsprite, std::vector<Bullet>* b, std::vector<GeneratorEntity>* g);
     void Update(float elapsed);
 
     void reset();
 
     std::vector<Bullet>* bullets;
+    std::vector<GeneratorEntity>* generators;
     PhaseData data;
 
 private:

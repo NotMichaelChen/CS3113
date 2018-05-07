@@ -4,6 +4,8 @@
 #include "util.hpp"
 #include "SheetSprite.hpp"
 
+//TODO: Make global timer somehow not tick during pauses
+
 GameState::GameState(ShaderProgram* prg) : program(prg), msbegin(SDL_GetTicks()), is_paused(false), background_scroll(0) {
     keys = SDL_GetKeyboardState(NULL);
 
@@ -18,7 +20,7 @@ GameState::GameState(ShaderProgram* prg) : program(prg), msbegin(SDL_GetTicks())
 
     //enemyBlack1.png
     SheetSprite bosssprite(Global::ship_spritesheet, 423, 728, 93, 84, 0.5, 1024, 1024);
-    boss = std::make_unique<BossEntity>(bosssprite, &bullets);
+    boss = std::make_unique<BossEntity>(bosssprite, &bullets, &generators);
 
     //Load background texture
     background = LoadTexture("./assets/background1.png", GL_NEAREST);
@@ -151,6 +153,19 @@ void GameState::update(float elapsed) {
         }
     }
 
+    for(size_t i = 0; i < generators.size(); ) {
+        generators[i].Update(elapsed);
+        if(!generators[i].isAlive()) {
+            //Swap index with back
+            std::swap(generators[i], generators.back());
+            //pop back
+            generators.pop_back();
+            //Don't increment since there is a new element in the current index
+        }
+        else
+            i++;
+    }
+
     background_scroll += elapsed/5;
 }
 
@@ -188,6 +203,10 @@ void GameState::render() {
         bullets[i].Draw(program);
     }
 
+    for(size_t i = 0; i < generators.size(); i++) {
+        generators[i].Draw(program);
+    }
+
     //Render background before rendering pause menu
     if(is_paused) {
         //Draw the menu options
@@ -219,6 +238,7 @@ void GameState::reset() {
 
     boss->reset();
     bullets.clear();
+    generators.clear();
 
     is_paused = false;
     menu_state = 0;

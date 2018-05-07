@@ -5,6 +5,7 @@
 #include "global.hpp"
 #include "patterns/patterns.hpp"
 #include "movement/lerpfuncs.hpp"
+#include "vec.hpp"
 
 void intermediatePhaseOne(BossEntity* boss, float elapsed) {
     //States: 0=waiting, 1=moving
@@ -62,8 +63,8 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
 
     std::random_device rd;
     std::mt19937 engine(rd());
-    std::uniform_real_distribution<> x_distribution(-2.5, 2.5);
-    std::uniform_real_distribution<> y_distribution(0.5, 2);
+    std::uniform_real_distribution<> x_distribution(-2, 2);
+    std::uniform_real_distribution<> y_distribution(-1.5, 0.5);
 
     //for convenience
     PhaseData* data = &(boss->data);
@@ -83,7 +84,16 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
     }
     //Part two: spawn random bullet fountains
     else {
+        if(data->localticks % 30 == 0) {
+            Vec genpos;
+            genpos.x = x_distribution(engine);
+            genpos.y = y_distribution(engine);
 
+            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.1, 1024, 1024);
+            GeneratorEntity genent(generatorsprite, genpos, 0, 30, 60);
+            
+            boss->generators->push_back(genent);
+        }
     }
 
     data->localticks++;
