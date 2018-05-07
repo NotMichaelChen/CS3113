@@ -4,6 +4,6 @@
 #include "vec.hpp"
 
 Vec easeInOut(Vec from, Vec to, float time);
-float easeInOut(float from, float to, float time);
+Vec linear(Vec from, Vec to, float time);
 
 #endif

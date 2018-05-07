@@ -14,7 +14,8 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
 
     std::random_device rd;
     std::mt19937 engine(rd());
-    std::uniform_real_distribution<> distribution(-2.5, 2.5);
+    std::uniform_real_distribution<> x_distribution(-2.5, 2.5);
+    std::uniform_real_distribution<> y_distribution(0.5, 2);
 
     //for convenience
     PhaseData* data = &(boss->data);
@@ -30,8 +31,9 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
 
     //Use is_moving to indicate if we've computed the next location yet
     if(data->statenum == 0 && !data->is_moving) {
-        data->destination = data->origin = boss->position;
-        data->destination.x = distribution(engine);
+        data->origin = boss->position;
+        data->destination.x = x_distribution(engine);
+        data->destination.y = y_distribution(engine);
 
         data->is_moving = true;
     }
@@ -45,7 +47,7 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
 
         //Compute movement
         float adjustedtime = (data->localticks)/(float)(MOVETICKS);
-        boss->position = easeInOut(data->origin, data->destination, adjustedtime);
+        boss->position = linear(data->origin, data->destination, adjustedtime);
     }
 
     data->localticks++;
