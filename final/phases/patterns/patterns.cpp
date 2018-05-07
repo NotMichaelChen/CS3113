@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "random"
+
 double pi = 3.1415926535897;
 
 std::vector<Bullet> generateCircle(SheetSprite& bsprite, Vec origin, float speed, int count, float rot) {
@@ -11,6 +13,27 @@ std::vector<Bullet> generateCircle(SheetSprite& bsprite, Vec origin, float speed
 
         float velx = speed * std::cos((pi/2) + (i+rot)*(2*pi/count));
         float vely = speed * std::sin((pi/2) + (i+rot)*(2*pi/count));
+        Vec vel(velx, vely);
+        Vec acc;
+
+        bullets.emplace_back(bsprite, origin, vel, acc, 0);
+    }
+
+    return bullets;
+}
+
+std::vector<Bullet> generateFountain(SheetSprite& bsprite, Vec origin, float speed, int count) {
+    std::vector<Bullet> bullets;
+
+    for(int i = 0; i < count; i++) {
+        std::random_device rd;
+        std::mt19937 engine(rd());
+        std::uniform_real_distribution<> angle_distr(0, 2*pi);
+
+        float angle = angle_distr(engine);
+
+        float velx = speed * std::cos(angle);
+        float vely = speed * std::sin(angle);
         Vec vel(velx, vely);
         Vec acc;
 

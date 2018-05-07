@@ -64,7 +64,7 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
     std::random_device rd;
     std::mt19937 engine(rd());
     std::uniform_real_distribution<> x_distribution(-2, 2);
-    std::uniform_real_distribution<> y_distribution(-1.5, 0.5);
+    std::uniform_real_distribution<> y_distribution(-0.5, 1.5);
 
     //for convenience
     PhaseData* data = &(boss->data);
@@ -84,13 +84,14 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
     }
     //Part two: spawn random bullet fountains
     else {
-        if(data->localticks % 30 == 0) {
+        if(data->localticks % 60 == 0) {
             Vec genpos;
             genpos.x = x_distribution(engine);
             genpos.y = y_distribution(engine);
 
             SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.1, 1024, 1024);
-            GeneratorEntity genent(generatorsprite, genpos, 0, 30, 60);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 15, 120, 20, boss->bullets);
             
             boss->generators->push_back(genent);
         }
