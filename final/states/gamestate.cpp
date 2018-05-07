@@ -107,13 +107,14 @@ void GameState::update(float elapsed) {
     for(size_t i = 0; i < bullets.size(); ) {
         bullets[i].Update(elapsed);
 
-        bool collision_status_one = bullets[i].checkWalls();
-        bool collision_status_two = bullets[i].checkWalls();
+        bool collision_status_one = false;
+        bool collision_status_two = false;
+        bool wall_collision = bullets[i].checkWalls();
 
+        //Collision check with playerone
         if(playerone->lives > 0) {
             collision_status_one = bullets[i].checkPlayer(*playerone);
 
-            //Collision with playerone
             if(collision_status_one && !playerone->isInvinc()) {
                 playerone->lives--;
                 //Reset playerone position
@@ -124,15 +125,14 @@ void GameState::update(float elapsed) {
             }
         }
 
-        //Collision with playertwo
+        //Collision check with playertwo
         if(playertwo->lives > 0) {
             collision_status_two = bullets[i].checkPlayer(*playertwo);
 
-            //Collision with playerone
             if(collision_status_two && !playertwo->isInvinc()) {
                 playertwo->lives--;
-                //Reset playerone position
-                playertwo->position.x = 1;
+                //Reset playertwo position
+                playertwo->position.x = -1;
                 playertwo->position.y = -0.5;
 
                 playertwo->setInvinc();
@@ -140,7 +140,7 @@ void GameState::update(float elapsed) {
         }
         
         //Always delete bullet if it collided with something
-        if(collision_status_one || collision_status_two) {
+        if(collision_status_one || collision_status_two || wall_collision) {
             //Swap index with back
             std::swap(bullets[i], bullets.back());
             //pop back
