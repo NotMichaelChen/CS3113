@@ -19,6 +19,7 @@ const float ORTHO_Y = 2.25;
 //In ticks (1/60 of a second)
 const int PHASE_LENGTH = 1200;
 // const int PHASE_LENGTH = 600;
+const double PI = 3.141592653589793;
 const std::vector<unsigned int> PLAYER_ONE_CONTROLS = {
     SDL_SCANCODE_A, SDL_SCANCODE_D, SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_LSHIFT
 };

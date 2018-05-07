@@ -53,6 +53,7 @@ bool intermediateBoss(BossEntity* boss, float elapsed) {
             intermediatePhaseTwo(boss, elapsed);
             break;
         case 2:
+            intermediatePhaseThree(boss, elapsed);
             break;
         //Time to switch bosses
         default:

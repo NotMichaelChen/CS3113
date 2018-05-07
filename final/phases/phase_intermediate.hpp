@@ -5,5 +5,6 @@
 
 void intermediatePhaseOne(BossEntity* boss, float elapsed);
 void intermediatePhaseTwo(BossEntity* boss, float elapsed);
+void intermediatePhaseThree(BossEntity* boss, float elapsed);
 
 #endif

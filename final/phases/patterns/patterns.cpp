@@ -3,16 +3,15 @@
 #include <cmath>
 
 #include "util.hpp"
-
-double pi = 3.1415926535897;
+#include "global.hpp"
 
 std::vector<Bullet> generateCircle(SheetSprite& bsprite, Vec origin, float speed, int count, float rot) {
     std::vector<Bullet> bullets;
     
     for(int i = 0; i < count; i++) {
 
-        float velx = speed * std::cos((pi/2) + (i+rot)*(2*pi/count));
-        float vely = speed * std::sin((pi/2) + (i+rot)*(2*pi/count));
+        float velx = speed * std::cos((Global::PI/2) + (i+rot)*(2*Global::PI/count));
+        float vely = speed * std::sin((Global::PI/2) + (i+rot)*(2*Global::PI/count));
         Vec vel(velx, vely);
         Vec acc;
 
@@ -26,7 +25,7 @@ std::vector<Bullet> generateFountain(SheetSprite& bsprite, Vec origin, float spe
     std::vector<Bullet> bullets;
 
     for(int i = 0; i < count; i++) {
-        float angle = randFloat(0, 2*pi);
+        float angle = randFloat(0, 2*Global::PI);
 
         float velx = speed * std::cos(angle);
         float vely = speed * std::sin(angle);
@@ -54,4 +53,15 @@ std::vector<Bullet> generateLineSpread(SheetSprite& bsprite, Vec origin, Vec max
     }
 
     return bullets;
+}
+
+//Angle is in radians
+Bullet generateSingle(SheetSprite& bsprite, Vec origin, float angle, float speed) {
+
+    Vec vel(speed * std::cos(angle), speed * std::sin(angle));
+    Vec acc;
+
+    Bullet b(bsprite, origin, vel, acc, 0);
+
+    return b;
 }
