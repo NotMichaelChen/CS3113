@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "phases/phase_inventory.hpp"
-#include "phases/phase_intermediate.hpp"
 
 BossEntity::BossEntity(SheetSprite& nsprite, std::vector<Bullet>* b, std::vector<GeneratorEntity>* g) :
     Entity(1.5, 1, 0, nsprite), bullets(b), generators(g), bosstype(0)

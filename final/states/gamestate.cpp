@@ -4,9 +4,7 @@
 #include "util.hpp"
 #include "SheetSprite.hpp"
 
-//TODO: Make global timer somehow not tick during pauses
-
-GameState::GameState(ShaderProgram* prg) : program(prg), msbegin(SDL_GetTicks()), is_paused(false), background_scroll(0) {
+GameState::GameState(ShaderProgram* prg) : program(prg), ticksactive(0), is_paused(false), background_scroll(0) {
     keys = SDL_GetKeyboardState(NULL);
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
@@ -42,7 +40,7 @@ GameState::GameState(ShaderProgram* prg) : program(prg), msbegin(SDL_GetTicks())
 void GameState::init(bool singleplayer) {
     reset();
     is_singleplayer = singleplayer;
-    msbegin = SDL_GetTicks();
+    ticksactive = 0;
     
     if(is_singleplayer) {
         playertwo->lives = 0;
@@ -50,7 +48,7 @@ void GameState::init(bool singleplayer) {
 }
 
 float GameState::getSeconds() {
-    return (SDL_GetTicks()-msbegin) / 1000;
+    return ticksactive / 60;
 }
 
 Global::ProgramStates GameState::processEvents() {
@@ -167,6 +165,7 @@ void GameState::update(float elapsed) {
     }
 
     background_scroll += elapsed/5;
+    ticksactive++;
 }
 
 void GameState::render() {
