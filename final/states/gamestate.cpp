@@ -164,6 +164,11 @@ void GameState::render() {
         lifeonesprite->Draw(program, lifeposition, 0);
     }
 
+    for(int i = 0; i < playertwo->lives; i++) {
+        Vec lifeposition(2.8 - i*0.3, 2);
+        lifetwosprite->Draw(program, lifeposition, 0);
+    }
+
     if(playerone->lives > 0) {
         if(playerone->isInvinc())
             program->SetAlphaMask(0.5);
