@@ -80,7 +80,7 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
 
             SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.1, 1024, 1024);
             SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
-            GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 30, boss->bullets);
+            GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 20, boss->bullets);
             
             boss->generators->push_back(genent);
         }
