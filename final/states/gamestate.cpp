@@ -8,9 +8,14 @@ GameState::GameState(ShaderProgram* prg) : program(prg), msbegin(SDL_GetTicks())
     keys = SDL_GetKeyboardState(NULL);
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
-    SheetSprite playersprite(Global::reimu_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
-    lifesprite = std::make_unique<SheetSprite>(Global::reimu_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
-    player = std::make_unique<PlayerEntity>(playersprite, player_hitdot, keys);
+    SheetSprite playeronesprite(Global::reimu_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
+    lifeonesprite = std::make_unique<SheetSprite>(Global::reimu_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
+    playerone = std::make_unique<PlayerEntity>(playeronesprite, player_hitdot, keys, Global::PLAYER_ONE_CONTROLS);
+
+    lifetwosprite = std::make_unique<SheetSprite>(Global::byakuren_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
+    SheetSprite playertwosprite(Global::byakuren_spritesheet, 0, 0, 32, 48, 0.3, 256, 256);
+    playertwo = std::make_unique<PlayerEntity>(playertwosprite, player_hitdot, keys, Global::PLAYER_TWO_CONTROLS);
+    playertwo->position.x = -0.5;
 
     //enemyBlack1.png
     SheetSprite bosssprite(Global::ship_spritesheet, 423, 728, 93, 84, 0.5, 1024, 1024);
@@ -33,19 +38,25 @@ GameState::GameState(ShaderProgram* prg) : program(prg), msbegin(SDL_GetTicks())
     glUseProgram(program->programID);
 }
 
-float GameState::getSeconds() {
-    return (SDL_GetTicks()-msbegin) / 1000;
+void GameState::init(bool singleplayer) {
+    reset();
+    is_singleplayer = singleplayer;
+    msbegin = SDL_GetTicks();
+    
+    if(is_singleplayer) {
+        playertwo->lives = 0;
+    }
 }
 
-void GameState::setBeginTime() {
-    msbegin = SDL_GetTicks();
+float GameState::getSeconds() {
+    return (SDL_GetTicks()-msbegin) / 1000;
 }
 
 Global::ProgramStates GameState::processEvents() {
     //If we reach zero lives, exit to score state
     //Checked here since this is the method that returns where to go next
-    if(player->getLives() <= 0) {
-        reset();
+    if(playerone->lives <= 0 && playertwo->lives <= 0) {
+        
         return Global::ProgramStates::Score;
     }
 
@@ -74,7 +85,6 @@ Global::ProgramStates GameState::processEvents() {
                     if(menu_state == 0)
                         is_paused = false;
                     else {
-                        reset();
                         return Global::ProgramStates::Score;
                     }
                 }
@@ -88,26 +98,49 @@ void GameState::update(float elapsed) {
     if(is_paused)
         return;
 
-    player->Update(elapsed);
+    if(playerone->lives > 0)
+        playerone->Update(elapsed);
+    if(playertwo->lives > 0)
+        playertwo->Update(elapsed);
     boss->Update(elapsed);
 
     for(size_t i = 0; i < bullets.size(); ) {
         bullets[i].Update(elapsed);
 
-        int collision_status = bullets[i].checkCollision(*player);
+        bool collision_status_one = bullets[i].checkWalls();
+        bool collision_status_two = bullets[i].checkWalls();
 
-        //Collision with player
-        if(collision_status == 2 && !player->isInvinc()) {
-            player->decLife();
-            //Reset player position
-            player->position.x = 1;
-            player->position.y = -0.5;
+        if(playerone->lives > 0) {
+            collision_status_one = bullets[i].checkPlayer(*playerone);
 
-            player->setInvinc();
+            //Collision with playerone
+            if(collision_status_one && !playerone->isInvinc()) {
+                playerone->lives--;
+                //Reset playerone position
+                playerone->position.x = 1;
+                playerone->position.y = -0.5;
+
+                playerone->setInvinc();
+            }
+        }
+
+        //Collision with playertwo
+        if(playertwo->lives > 0) {
+            collision_status_two = bullets[i].checkPlayer(*playertwo);
+
+            //Collision with playerone
+            if(collision_status_two && !playertwo->isInvinc()) {
+                playertwo->lives--;
+                //Reset playerone position
+                playertwo->position.x = 1;
+                playertwo->position.y = -0.5;
+
+                playertwo->setInvinc();
+            }
         }
         
         //Always delete bullet if it collided with something
-        if(collision_status) {
+        if(collision_status_one || collision_status_two) {
             //Swap index with back
             std::swap(bullets[i], bullets.back());
             //pop back
@@ -126,16 +159,25 @@ void GameState::render() {
     renderBackground();
 
     //Draw lives
-    for(int i = 0; i < player->getLives(); i++) {
+    for(int i = 0; i < playerone->lives; i++) {
         Vec lifeposition(-2.8 + i*0.3, 2);
-        lifesprite->Draw(program, lifeposition, 0);
+        lifeonesprite->Draw(program, lifeposition, 0);
     }
 
-    if(player->isInvinc())
-        program->SetAlphaMask(0.5);
+    if(playerone->lives > 0) {
+        if(playerone->isInvinc())
+            program->SetAlphaMask(0.5);
 
-    player->Draw(program);
-    program->SetAlphaMask(1);
+        playerone->Draw(program);
+        program->SetAlphaMask(1);
+    }
+    if(playertwo->lives > 0) {
+        if(playertwo->isInvinc())
+            program->SetAlphaMask(0.5);
+
+        playertwo->Draw(program);
+        program->SetAlphaMask(1);
+    }
 
     boss->Draw(program);
     for(size_t i = 0; i < bullets.size(); i++) {
@@ -164,19 +206,19 @@ void GameState::render() {
 }
 
 void GameState::reset() {
-    player->position.x = 1;
-    player->position.y = -0.5;
-    player->reset();
+    playerone->position.x = 1;
+    playerone->position.y = -0.5;
+    playerone->reset();
+    playertwo->position.x = -1;
+    playertwo->position.y = -0.5;
+    playertwo->reset();
+
     boss->reset();
     bullets.clear();
 
     is_paused = false;
     menu_state = 0;
     background_scroll = 0;
-}
-
-void GameState::setMode(bool single) {
-    is_singleplayer = single;
 }
 
 void GameState::renderBackground() {

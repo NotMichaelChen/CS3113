@@ -11,24 +11,25 @@ Bullet::Bullet(SheetSprite& nsprite, Vec pos, Vec vel, Vec acc, float rot) :
     acceleration = acc;
 }
 
-int Bullet::checkCollision(PlayerEntity& player) {
+bool Bullet::checkWalls() {
     //Wall detection
     float halfwidth = size.x/2;
     float halfheight = size.y/2;
     
     if(position.x < -Global::ORTHO_X - halfwidth)
-        return 1;
+        return true;
     else if(position.x > Global::ORTHO_X + halfwidth)
-        return 1;
+        return true;
 
     if(position.y < -Global::ORTHO_Y - halfheight)
-        return 1;
+        return true;
     else if(position.y > Global::ORTHO_Y + halfheight)
-        return 11;
-    
+        return true;
+
+    return false;
+}
+
+bool Bullet::checkPlayer(PlayerEntity& player) {
     //Assume size.x is the radius of the circle
-    if(dist(position, player.position) <= size.x/2 + player.getRadius()/2)
-        return 2;
-    
-    return 0;
+    return dist(position, player.position) <= size.x/2 + player.getRadius()/2;
 }

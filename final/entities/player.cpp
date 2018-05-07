@@ -3,26 +3,30 @@
 #include "global.hpp"
 #include "util.hpp"
 
-PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k) :
-    Entity(1, -0.5, 0, nsprite), keys(k), updatecounter(0), invinc_counter(0), lives(3), hit_dot(dotsprite)
-{}
+PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k, std::vector<unsigned int> c) :
+    Entity(1, -0.5, 0, nsprite), keys(k), controls(c), updatecounter(0), invinc_counter(0), lives(3), hit_dot(dotsprite)
+{
+    if(controls.size() != 5) {
+        throw std::runtime_error("Error: control vector passed does not have 5 keys");
+    }
+}
 
 void PlayerEntity::Update(float elapsed) {
-    float applied_speed = keys[SDL_SCANCODE_LSHIFT] ? slow_speed : fast_speed;
+    float applied_speed = keys[controls[4]] ? slow_speed : fast_speed;
 
-    if(keys[SDL_SCANCODE_LEFT]) {
+    if(keys[controls[0]]) {
         velocity.x = -applied_speed;
     }
-    else if(keys[SDL_SCANCODE_RIGHT]) {
+    else if(keys[controls[1]]) {
         velocity.x = applied_speed;
     }
     else {
         velocity.x = 0;
     }
-    if(keys[SDL_SCANCODE_UP]) {
+    if(keys[controls[2]]) {
         velocity.y = applied_speed;
     }
-    else if(keys[SDL_SCANCODE_DOWN]) {
+    else if(keys[controls[3]]) {
         velocity.y = -applied_speed;
     }
     else {
@@ -64,7 +68,7 @@ void PlayerEntity::Update(float elapsed) {
 void PlayerEntity::Draw(ShaderProgram* program) {
 
     Entity::Draw(program);
-    if(keys[SDL_SCANCODE_LSHIFT])
+    if(keys[controls[4]])
         hit_dot.Draw(program, position, rotation);
 }
 
@@ -78,14 +82,6 @@ void PlayerEntity::setInvinc() {
 
 bool PlayerEntity::isInvinc() {
     return invinc_counter > 0;
-}
-
-int PlayerEntity::getLives() {
-    return lives;
-}
-
-void PlayerEntity::decLife() {
-    lives--;
 }
 
 void PlayerEntity::reset() {

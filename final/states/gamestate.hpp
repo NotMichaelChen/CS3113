@@ -17,6 +17,7 @@
 class GameState {
 public:
     GameState(ShaderProgram* prg);
+    void init(bool singleplayer);
     Global::ProgramStates processEvents();
     void update(float elapsed);
     void render();
@@ -24,8 +25,6 @@ public:
     void reset();
 
     float getSeconds();
-    void setBeginTime();
-    void setMode(bool single);
 
 private:
 
@@ -43,12 +42,14 @@ private:
 
     //Making player a smart pointer allows me to defer construction until the constructor body. This lets me load the sprite
     //before constructing the player
-    std::unique_ptr<PlayerEntity> player;
+    std::unique_ptr<PlayerEntity> playerone;
+    std::unique_ptr<PlayerEntity> playertwo;
     std::unique_ptr<BossEntity> boss;
     std::vector<Bullet> bullets;
 
     GLuint background;
-    std::unique_ptr<SheetSprite> lifesprite;
+    std::unique_ptr<SheetSprite> lifeonesprite;
+    std::unique_ptr<SheetSprite> lifetwosprite;
 };
 
 #endif
