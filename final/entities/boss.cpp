@@ -10,23 +10,25 @@ BossEntity::BossEntity(SheetSprite& nsprite, std::vector<Bullet>* b, std::vector
 }
 
 void BossEntity::Update(float elapsed) {
-    switch(bosstype) {
-        case 0:
-            done = beginnerBoss(this, elapsed);
-            break;
-        case 1:
-            done = intermediateBoss(this, elapsed);
-            break;
-        case 2:
-            done = advancedBoss(this, elapsed);
-            break;
-        default:
-            throw std::runtime_error("Error: invalid bosstype");
-    }
+    if(bosstype == 0)
+        done = beginnerBoss(this, elapsed);
+    else if(bosstype == 1)
+        done = intermediateBoss(this, elapsed);
+    else if(bosstype == 2)
+        done = advancedBoss(this, elapsed);
+    else
+        throw std::runtime_error("Error: invalid bosstype");
 
     if(done) {
-        bosstype++;
-        data = PhaseData();
+        if(bosstype == 2) {
+            data.totalticks = -1;
+            done = false;
+        }
+        else {
+            bosstype++;
+            data = PhaseData();
+        }
+
     }
 
     Entity::Update(elapsed);

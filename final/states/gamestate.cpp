@@ -49,7 +49,9 @@ void GameState::init(bool singleplayer) {
 Global::ProgramStates GameState::processEvents() {
     //If we reach zero lives, exit to score state
     //Checked here since this is the method that returns where to go next
-    if(playerone->lives <= 0 && playertwo->lives <= 0) {
+    //If we have negative ticks, we win
+    if((playerone->lives <= 0 && playertwo->lives <= 0) ||
+        boss->data.totalticks < 0) {
         
         return Global::ProgramStates::Score;
     }
@@ -256,7 +258,7 @@ void GameState::toNextLevel() {
 }
 
 float GameState::getSeconds() {
-    return boss->data.totalticks / 60;
+    return boss->data.totalticks / 60.0;
 }
 
 bool GameState::changeLevel() {

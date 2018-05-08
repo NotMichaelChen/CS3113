@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
             isfading = false;
             //Set last_frame_ticks to pretend like no time has passed
             last_frame_ticks = (float)SDL_GetTicks()/1000.0f;
-            if(isGameState(fadingstate))
+            if(isGameState(fadingstate) && game.getSeconds() >= 0)
                 game.toNextLevel();
         }
 
