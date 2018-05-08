@@ -65,3 +65,24 @@ Bullet generateSingle(SheetSprite& bsprite, Vec origin, float angle, float speed
 
     return b;
 }
+
+std::vector<Bullet> generateStaticCircle(SheetSprite& bsprite, Vec origin, float radius, float angle, float speed, int count) {
+    std::vector<Bullet> bullets;
+    
+    for(int i = 0; i < count; i++) {
+
+        Vec pos = origin;
+        pos.x += radius * std::cos((Global::PI/2) + i*(2*Global::PI/count));
+        pos.y += radius * std::sin((Global::PI/2) + i*(2*Global::PI/count));
+
+        Vec vel;
+        vel.x = speed * std::cos(angle);
+        vel.y = speed * std::sin(angle);
+
+        Vec acc;
+
+        bullets.emplace_back(bsprite, pos, vel, acc, 0);
+    }
+
+    return bullets;
+}
