@@ -26,7 +26,9 @@ void BossEntity::Update(float elapsed) {
         }
         else {
             bosstype++;
+            int oldticks = data.totalticks;
             data = PhaseData();
+            data.totalticks = oldticks;
         }
 
     }
