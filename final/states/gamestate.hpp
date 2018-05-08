@@ -26,6 +26,7 @@ public:
     void reset();
     void toNextLevel();
     float getSeconds();
+    int getLevel();
     bool changeLevel();
 
 private:

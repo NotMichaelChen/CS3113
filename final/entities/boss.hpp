@@ -18,6 +18,7 @@ public:
     void reset();
     //Check every frame
     bool isDone();
+    int getBossType();
 
     std::vector<Bullet>* bullets;
     std::vector<GeneratorEntity>* generators;

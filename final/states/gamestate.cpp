@@ -261,6 +261,10 @@ float GameState::getSeconds() {
     return boss->data.totalticks / 60.0;
 }
 
+int GameState::getLevel() {
+    return boss->getBossType();
+}
+
 bool GameState::changeLevel() {
     return boss->isDone();
 }

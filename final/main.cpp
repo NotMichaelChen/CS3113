@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 
 #include "global.hpp"
 #include "states/menustate.hpp"
@@ -81,6 +82,19 @@ void fadeOut(ShaderProgram& program, float secs, MenuState& menu, GameState& gam
     }
 }
 
+void chooseMusic(Global::ProgramStates state, GameState& game) {
+    if(state == Global::ProgramStates::Menu)
+        Mix_PlayMusic(Global::title_music, -1);
+    else if(Global::isGameState(state)) {
+        if(game.getLevel() == 0)
+            Mix_PlayMusic(Global::beginner_music, -1);
+        else if(game.getLevel() == 1)
+            Mix_PlayMusic(Global::intermediate_music, -1);
+        else if(game.getLevel() == 2)
+            Mix_PlayMusic(Global::advanced_music, -1);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
@@ -88,6 +102,9 @@ int main(int argc, char *argv[])
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
     glewInit();
+
+    //Enable audio
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
 
     Global::init();
 
@@ -125,15 +142,20 @@ int main(int argc, char *argv[])
     //Main game loop
     bool isfading = false;
     Global::ProgramStates state = Global::ProgramStates::Menu;
+    Mix_PlayMusic(Global::title_music, -1);
     bool done = false;
     float last_frame_ticks = 0;
     float accumulator = 0;
     while (!done) {
         //Begin fadeOut if needed
         if(isfading) {
+            Mix_FadeOutMusic(fadeoutsecs * 1000);
             fadeOut(untextured_program, fadeoutsecs, menu, game, score);
             glUseProgram(program.programID);
             isfading = false;
+
+            chooseMusic(state, game);
+
             //Set last_frame_ticks to pretend like no time has passed
             last_frame_ticks = (float)SDL_GetTicks()/1000.0f;
             if(isGameState(fadingstate) && game.getSeconds() >= 0)

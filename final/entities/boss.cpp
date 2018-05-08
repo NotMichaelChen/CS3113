@@ -46,3 +46,7 @@ void BossEntity::reset() {
 bool BossEntity::isDone() {
     return done;
 }
+
+int BossEntity::getBossType() {
+    return bosstype;
+}

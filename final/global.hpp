@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 
 #include <vector>
 
@@ -44,6 +45,12 @@ extern GLuint ship_spritesheet;
 extern GLuint text_spritesheet;
 extern GLuint reimu_spritesheet;
 extern GLuint byakuren_spritesheet;
+
+//Music/sound
+extern Mix_Music *title_music;
+extern Mix_Music *beginner_music;
+extern Mix_Music *intermediate_music;
+extern Mix_Music *advanced_music;
 
 //Functions
 
