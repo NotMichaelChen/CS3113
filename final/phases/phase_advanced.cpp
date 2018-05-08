@@ -139,7 +139,7 @@ void advancedPhaseThree(BossEntity* boss, float elapsed) {
 
             int pattern = randInt(0, 1);
             if(pattern == 0 && data->localticks) {
-                newbullets = generateCircle(bulletsprite, boss->position, 0.5, randInt(20, 25), 0);
+                newbullets = generateCircle(bulletsprite, boss->position, 0.5, randInt(20, 25), randFloat(0, Global::PI));
             }
             else if(pattern == 1 && data->localticks) {
                 newbullets = generateLineSpread(bulletsprite, boss->position, {1.5, -0.5}, randInt(5, 15));
