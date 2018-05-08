@@ -83,6 +83,7 @@ void fadeOut(ShaderProgram& program, float secs, MenuState& menu, GameState& gam
 }
 
 void chooseMusic(Global::ProgramStates state, GameState& game) {
+    Mix_HaltMusic();
     if(state == Global::ProgramStates::Menu)
         Mix_PlayMusic(Global::title_music, -1);
     else if(Global::isGameState(state)) {
@@ -93,6 +94,7 @@ void chooseMusic(Global::ProgramStates state, GameState& game) {
         else if(game.getLevel() == 2)
             Mix_PlayMusic(Global::advanced_music, -1);
     }
+    Mix_ResumeMusic();
 }
 
 int main(int argc, char *argv[])

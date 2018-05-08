@@ -24,9 +24,9 @@ void init() {
     byakuren_spritesheet = LoadTexture("./assets/byakuren.png", GL_NEAREST);
 
     title_music = Mix_LoadMUS("./assets/title.ogg");
-    beginner_music = Mix_LoadMUS("./assets/stageone.mp3");
-    intermediate_music = Mix_LoadMUS("./assets/stagetwo.mp3");
-    advanced_music = Mix_LoadMUS("./assets/stagethree.mp3");
+    beginner_music = Mix_LoadMUS("./assets/stageone.ogg");
+    intermediate_music = Mix_LoadMUS("./assets/stagetwo.ogg");
+    advanced_music = Mix_LoadMUS("./assets/stagethree.ogg");
 }
 
 bool isGameState(ProgramStates& state) {
