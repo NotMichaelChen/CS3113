@@ -11,6 +11,7 @@ void ScoreState::setSeconds(float t) {
         is_win = true;
     }
     else {
+        is_win = false;
         seconds = (int)t;
     }
 }
