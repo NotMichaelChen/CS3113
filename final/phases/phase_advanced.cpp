@@ -28,9 +28,9 @@ void advancedPhaseOne(BossEntity* boss, float elapsed) {
     //Part two: Generate spiral & random bursts
     else {
         //Spiral
-        if(data->localticks % 15 == 0) {
+        if(data->localticks % 10 == 0) {
             SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
-            std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.7, 6, data->localticks/(20*Global::PI));
+            std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.8, 6, data->localticks/(20*Global::PI));
             boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
         }
         //Bursts
