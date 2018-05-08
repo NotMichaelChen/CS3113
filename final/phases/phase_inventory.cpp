@@ -5,6 +5,8 @@
 #include "phase_intermediate.hpp"
 #include "phase_advanced.hpp"
 
+const int WAITTIME = 300;
+
 bool beginnerBoss(BossEntity* boss, float elapsed) {
     PhaseData* data = &(boss->data);
 
@@ -14,6 +16,18 @@ bool beginnerBoss(BossEntity* boss, float elapsed) {
     {
         data->phasenum++;
         data->localticks = 0;
+        data->clearing = true;
+    }
+
+    if(data->clearing) {
+        if(data->localticks < WAITTIME) {
+            data->localticks++;
+            return false;
+        }
+        else {
+            data->localticks = 0;
+            data->clearing = false;
+        }
     }
 
     switch(data->phasenum) {
@@ -44,6 +58,18 @@ bool intermediateBoss(BossEntity* boss, float elapsed) {
         data->phasenum++;
         data->localticks = 0;
         data->is_moving = false;
+        data->clearing = true;
+    }
+
+    if(data->clearing) {
+        if(data->localticks < WAITTIME) {
+            data->localticks++;
+            return false;
+        }
+        else {
+            data->localticks = 0;
+            data->clearing = false;
+        }
     }
 
     switch(data->phasenum) {
@@ -74,6 +100,18 @@ bool advancedBoss(BossEntity* boss, float elapsed) {
         data->phasenum++;
         data->localticks = 0;
         data->is_moving = false;
+        data->clearing = true;
+    }
+
+    if(data->clearing) {
+        if(data->localticks < WAITTIME) {
+            data->localticks++;
+            return false;
+        }
+        else {
+            data->localticks = 0;
+            data->clearing = false;
+        }
     }
 
     switch(data->phasenum) {

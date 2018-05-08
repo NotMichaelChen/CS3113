@@ -50,6 +50,7 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
 
     data->localticks++;
     data->phaseticks++;
+    data->totalticks++;
 }
 
 void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
@@ -88,6 +89,7 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
 
     data->localticks++;
     data->phaseticks++;
+    data->totalticks++;
 }
 
 void intermediatePhaseThree(BossEntity* boss, float elapsed) {
@@ -149,4 +151,5 @@ void intermediatePhaseThree(BossEntity* boss, float elapsed) {
 
     data->localticks++;
     data->phaseticks++;
+    data->totalticks++;
 }

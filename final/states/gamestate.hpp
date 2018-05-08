@@ -35,7 +35,6 @@ private:
     ShaderProgram* program;
     ShaderProgram background_program;
     const Uint8* keys;
-    int ticksactive;
     bool is_paused;
     //0=no, 1=yes
     int menu_state;

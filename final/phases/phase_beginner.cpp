@@ -46,6 +46,7 @@ void beginnerPhaseOne(BossEntity* boss, float elapsed) {
 
     data->localticks++;
     data->phaseticks++;
+    data->totalticks++;
 }
 
 void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
@@ -81,6 +82,7 @@ void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
     
     data->localticks++;
     data->phaseticks++;
+    data->totalticks++;
 }
 
 void beginnerPhaseThree(BossEntity* boss, float elapsed) {
@@ -123,4 +125,5 @@ void beginnerPhaseThree(BossEntity* boss, float elapsed) {
 
     data->localticks++;
     data->phaseticks++;
+    data->totalticks++;
 }

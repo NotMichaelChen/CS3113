@@ -4,7 +4,7 @@
 #include "vec.hpp"
 
 struct PhaseData {
-    PhaseData() : is_moving(false), localticks(0), statenum(0), phaseticks(0), phasenum(0) {}
+    PhaseData() : is_moving(false), localticks(0), statenum(0), phaseticks(0), phasenum(0), totalticks(0), clearing(false) {}
 
     //Used during movement to store where the boss began moving from
     Vec origin;
@@ -20,6 +20,11 @@ struct PhaseData {
     int phaseticks;
     //Indicates which phase the boss is on
     int phasenum;
+
+    //ticks used to track how long the player has been fighting the boss
+    int totalticks;
+    //Indicates whether the boss is waiting for bullets to clear
+    bool clearing;
 };
 
 #endif

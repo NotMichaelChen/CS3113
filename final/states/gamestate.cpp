@@ -4,7 +4,7 @@
 #include "util.hpp"
 #include "SheetSprite.hpp"
 
-GameState::GameState(ShaderProgram* prg) : program(prg), ticksactive(0), is_paused(false), background_scroll(0) {
+GameState::GameState(ShaderProgram* prg) : program(prg), is_paused(false), background_scroll(0) {
     keys = SDL_GetKeyboardState(NULL);
 
     SheetSprite player_hitdot(Global::bullet_spritesheet, 16, 49, 16, 16, 0.07, 1024, 1024);
@@ -40,7 +40,6 @@ GameState::GameState(ShaderProgram* prg) : program(prg), ticksactive(0), is_paus
 void GameState::init(bool singleplayer) {
     reset();
     is_singleplayer = singleplayer;
-    ticksactive = 0;
     
     if(is_singleplayer) {
         playertwo->lives = 0;
@@ -161,7 +160,6 @@ void GameState::update(float elapsed) {
     }
 
     background_scroll += elapsed/5;
-    ticksactive++;
 }
 
 void GameState::render() {
@@ -258,7 +256,7 @@ void GameState::toNextLevel() {
 }
 
 float GameState::getSeconds() {
-    return ticksactive / 60;
+    return boss->data.totalticks / 60;
 }
 
 bool GameState::changeLevel() {
