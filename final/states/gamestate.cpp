@@ -240,6 +240,23 @@ void GameState::reset() {
     background_scroll = 0;
 }
 
+void GameState::toNextLevel() {
+    playerone->position.x = -1;
+    playerone->position.y = -0.5;
+    playertwo->position.x = 1;
+    playertwo->position.y = -0.5;
+
+    boss->position.x = 0;
+    boss->position.y = 1;
+
+    bullets.clear();
+    generators.clear();
+
+    is_paused = false;
+    menu_state = 0;
+    background_scroll = 0;
+}
+
 float GameState::getSeconds() {
     return ticksactive / 60;
 }

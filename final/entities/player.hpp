@@ -26,6 +26,7 @@ private:
     const float fast_speed = 2.2;
     const float slow_speed = 0.7;
     const Uint8* keys;
+    bool is_slow;
     //Left, Down, Up, Right, Slow
     std::vector<unsigned int> controls;
     unsigned int updatecounter;

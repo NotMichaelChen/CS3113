@@ -24,6 +24,7 @@ public:
     void render();
 
     void reset();
+    void toNextLevel();
     float getSeconds();
     bool changeLevel();
 

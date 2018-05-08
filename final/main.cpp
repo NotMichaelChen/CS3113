@@ -10,6 +10,7 @@
 
 SDL_Window* displayWindow;
 Global::ProgramStates fadingstate;
+float fadeoutsecs;
 
 //Handle state transitions
 //Returns if there was any transition
@@ -20,17 +21,20 @@ bool handleStateTransitions(Global::ProgramStates& state, Global::ProgramStates&
     if(state == Global::ProgramStates::Menu && Global::isGameState(next_state)) {
         game.init(next_state == Global::ProgramStates::GameOne);
         fadingstate = state;
+        fadeoutsecs = 1;
         did_transition = true;
     }
 
     if(Global::isGameState(state) && next_state == Global::ProgramStates::Score) {
         score.setSeconds(game.getSeconds());
         fadingstate = state;
+        fadeoutsecs = 1;
         did_transition = true;
     }
 
     if(state == Global::ProgramStates::Score && next_state == Global::ProgramStates::Menu) {
         fadingstate = state;
+        fadeoutsecs = 1;
         did_transition = true;
     }
     
@@ -127,11 +131,13 @@ int main(int argc, char *argv[])
     while (!done) {
         //Begin fadeOut if needed
         if(isfading) {
-            fadeOut(untextured_program, 1, menu, game, score);
+            fadeOut(untextured_program, fadeoutsecs, menu, game, score);
             glUseProgram(program.programID);
             isfading = false;
             //Set last_frame_ticks to pretend like no time has passed
             last_frame_ticks = (float)SDL_GetTicks()/1000.0f;
+            if(isGameState(fadingstate))
+                game.toNextLevel();
         }
 
         //Process Events
@@ -166,6 +172,7 @@ int main(int argc, char *argv[])
                 if(game.changeLevel()) {
                     isfading = true;
                     fadingstate = state;
+                    fadeoutsecs = 3;
                 }
             }
 

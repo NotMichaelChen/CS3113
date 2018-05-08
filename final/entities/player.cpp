@@ -4,7 +4,8 @@
 #include "util.hpp"
 
 PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Uint8* k, std::vector<unsigned int> c) :
-    Entity(1, -0.5, 0, nsprite), lives(3), keys(k), controls(c), updatecounter(0), invinc_counter(0), hit_dot(dotsprite)
+    Entity(1, -0.5, 0, nsprite), lives(3), keys(k), is_slow(false), controls(c), updatecounter(0), invinc_counter(0),
+    hit_dot(dotsprite)
 {
     if(controls.size() != 5) {
         throw std::runtime_error("Error: control vector passed does not have 5 keys");
@@ -12,7 +13,8 @@ PlayerEntity::PlayerEntity(SheetSprite& nsprite, SheetSprite dotsprite, const Ui
 }
 
 void PlayerEntity::Update(float elapsed) {
-    float applied_speed = keys[controls[4]] ? slow_speed : fast_speed;
+    is_slow = keys[controls[4]];
+    float applied_speed = is_slow ? slow_speed : fast_speed;
 
     if(keys[controls[0]]) {
         velocity.x = -applied_speed;
@@ -68,7 +70,7 @@ void PlayerEntity::Update(float elapsed) {
 void PlayerEntity::Draw(ShaderProgram* program) {
 
     Entity::Draw(program);
-    if(keys[controls[4]])
+    if(is_slow)
         hit_dot.Draw(program, position, rotation);
 }
 
