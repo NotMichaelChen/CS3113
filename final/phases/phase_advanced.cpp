@@ -32,7 +32,7 @@ void advancedPhaseOne(BossEntity* boss, float elapsed) {
         if(data->localticks % 25 == 0) {
             const int ARMS = 8;
 
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 144, 49, 16, 16, 0.1, 1024, 1024);
 
             for(int i = 1; i < ARMS; i++) {
                 boss->bullets->push_back(generateSingle(bulletsprite, boss->position, Global::PI + (Global::PI*i)/ARMS, 0.8));
@@ -45,7 +45,7 @@ void advancedPhaseOne(BossEntity* boss, float elapsed) {
             genpos.y = randFloat(-0.5, 1);
 
             SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.15, 1024, 1024);
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 224, 49, 16, 16, 0.1, 1024, 1024);
             GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 5, boss->bullets);
             
             boss->generators->push_back(genent);
@@ -81,7 +81,7 @@ void advancedPhaseTwo(BossEntity* boss, float elapsed) {
     else {
         //Spiral
         if(data->localticks % 10 == 0) {
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 144, 49, 16, 16, 0.1, 1024, 1024);
             std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.8, 6, data->localticks/(20*Global::PI));
             boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
         }
@@ -92,7 +92,7 @@ void advancedPhaseTwo(BossEntity* boss, float elapsed) {
             genpos.y = randFloat(-0.5, 1);
 
             SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.15, 1024, 1024);
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 224, 49, 16, 16, 0.1, 1024, 1024);
             GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 5, boss->bullets);
             
             boss->generators->push_back(genent);
@@ -133,13 +133,13 @@ void advancedPhaseThree(BossEntity* boss, float elapsed) {
             genpos.y = randFloat(-0.5, 1);
 
             SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.15, 1024, 1024);
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 224, 49, 16, 16, 0.1, 1024, 1024);
             GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 5, boss->bullets);
             
             boss->generators->push_back(genent);
         }
         if(data->localticks % FIREDELAY == 0) {
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 144, 49, 16, 16, 0.1, 1024, 1024);
             std::vector<Bullet> newbullets;
 
             int pattern = randInt(0, 1);

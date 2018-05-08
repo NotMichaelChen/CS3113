@@ -39,7 +39,7 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
     else if(data->statenum == 1) {
         //Compute firing
         if(data->localticks % FIREDELAY == 0) {
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 48, 49, 16, 16, 0.1, 1024, 1024);
             std::vector<Bullet> newbullets = generateCircle(bulletsprite, boss->position, 0.8, 25, 0);
             boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
         }
@@ -82,7 +82,7 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
             genpos.y = randFloat(-0.5, 1.5);
 
             SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.15, 1024, 1024);
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 48, 49, 16, 16, 0.1, 1024, 1024);
             GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 5, boss->bullets);
             
             boss->generators->push_back(genent);
@@ -137,7 +137,7 @@ void intermediatePhaseThree(BossEntity* boss, float elapsed) {
     }
     else if(data->statenum == 2) {
         if(data->localticks % FIREDELAY == 0) {
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 48, 49, 16, 16, 0.1, 1024, 1024);
             float angle = Global::PI + data->localticks/(10*Global::PI);
             std::vector<Bullet> newbullets = generateStaticCircle(bulletsprite, boss->position, 0.6, angle, 0.7, 15);
             boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
@@ -145,7 +145,7 @@ void intermediatePhaseThree(BossEntity* boss, float elapsed) {
     }
     else if(data->statenum == 4) {
         if(data->localticks % FIREDELAY == 0) {
-            SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
+            SheetSprite bulletsprite(Global::bullet_spritesheet, 48, 49, 16, 16, 0.1, 1024, 1024);
             float angle = -data->localticks/(10*Global::PI);
             std::vector<Bullet> newbullets = generateStaticCircle(bulletsprite, boss->position, 0.6, angle, 0.7, 15);
             boss->bullets->insert(boss->bullets->end(), newbullets.begin(), newbullets.end());
