@@ -6,6 +6,7 @@
 #include "vec.hpp"
 #include "util.hpp"
 
+//Fire static lines and random bursts
 void advancedPhaseOne(BossEntity* boss, float elapsed) {
     const int MOVETICKS = 60;
 
@@ -43,7 +44,7 @@ void advancedPhaseOne(BossEntity* boss, float elapsed) {
             genpos.x = randFloat(-2, 2);
             genpos.y = randFloat(-0.5, 1);
 
-            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.1, 1024, 1024);
+            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.15, 1024, 1024);
             SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
             GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 5, boss->bullets);
             
@@ -56,6 +57,7 @@ void advancedPhaseOne(BossEntity* boss, float elapsed) {
     data->totalticks++;
 }
 
+//Fire a continuous spiral and spawn bursts
 void advancedPhaseTwo(BossEntity* boss, float elapsed) {
     const int MOVETICKS = 60;
 
@@ -89,7 +91,7 @@ void advancedPhaseTwo(BossEntity* boss, float elapsed) {
             genpos.x = randFloat(-2, 2);
             genpos.y = randFloat(-0.5, 1);
 
-            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.1, 1024, 1024);
+            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.15, 1024, 1024);
             SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
             GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 5, boss->bullets);
             
@@ -102,6 +104,7 @@ void advancedPhaseTwo(BossEntity* boss, float elapsed) {
     data->totalticks++;
 }
 
+//Create random lines and circles while spawning bursts
 void advancedPhaseThree(BossEntity* boss, float elapsed) {
     //States: 0=waiting, 1=moving, 2=firing
     const int FIRETICKS = 100;
@@ -129,7 +132,7 @@ void advancedPhaseThree(BossEntity* boss, float elapsed) {
             genpos.x = randFloat(-2, 2);
             genpos.y = randFloat(-0.5, 1);
 
-            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.1, 1024, 1024);
+            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.15, 1024, 1024);
             SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
             GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 5, boss->bullets);
             

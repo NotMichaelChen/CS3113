@@ -9,6 +9,7 @@
 #include "movement/lerpfuncs.hpp"
 #include "util.hpp"
 
+//Move between two points and fire a circle before moving
 void beginnerPhaseOne(BossEntity* boss, float elapsed) {
     const int BEGINMOVE = 30;
     const float MOVELEN = 70.0;
@@ -49,6 +50,7 @@ void beginnerPhaseOne(BossEntity* boss, float elapsed) {
     data->totalticks++;
 }
 
+//Move to a random location and fire a horizontal line
 void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
     const int BEGINMOVE = 20;
     const float MOVELEN = 50.0;
@@ -85,6 +87,7 @@ void beginnerPhaseTwo(BossEntity* boss, float elapsed) {
     data->totalticks++;
 }
 
+//Move to a random location and fire a short spiral
 void beginnerPhaseThree(BossEntity* boss, float elapsed) {
     //States: 0=firing, 1=waiting, 2=moving
     const int FIRETICKS = 100;

@@ -6,6 +6,7 @@
 #include "vec.hpp"
 #include "util.hpp"
 
+//Move to a random location, firing circle on the way
 void intermediatePhaseOne(BossEntity* boss, float elapsed) {
     //States: 0=waiting, 1=moving
     const int WAITTICKS = 40;
@@ -53,6 +54,7 @@ void intermediatePhaseOne(BossEntity* boss, float elapsed) {
     data->totalticks++;
 }
 
+//Move to center and spawn fountains
 void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
     const int MOVETICKS = 60;
 
@@ -79,7 +81,7 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
             genpos.x = randFloat(-2, 2);
             genpos.y = randFloat(-0.5, 1.5);
 
-            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.1, 1024, 1024);
+            SheetSprite generatorsprite(Global::bullet_spritesheet, 288, 0, 32, 32, 0.15, 1024, 1024);
             SheetSprite bulletsprite(Global::bullet_spritesheet, 112, 49, 16, 16, 0.1, 1024, 1024);
             GeneratorEntity genent(generatorsprite, bulletsprite, genpos, 0, 30, 60, 5, boss->bullets);
             
@@ -92,6 +94,7 @@ void intermediatePhaseTwo(BossEntity* boss, float elapsed) {
     data->totalticks++;
 }
 
+//Spawn sweeping waves of static circles
 void intermediatePhaseThree(BossEntity* boss, float elapsed) {
     //States: 0=moveintoplace, 1=waiting, 2=sweepleft, 3=waiting, 4=sweepright,
     const int FIRETICKS = 100;
