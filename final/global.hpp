@@ -52,6 +52,11 @@ extern Mix_Music *beginner_music;
 extern Mix_Music *intermediate_music;
 extern Mix_Music *advanced_music;
 
+extern Mix_Chunk *dead;
+extern Mix_Chunk *attack1;
+extern Mix_Chunk *attack2;
+extern Mix_Chunk *attack3;
+
 //Functions
 
 void init();

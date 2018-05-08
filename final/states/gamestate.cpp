@@ -122,6 +122,7 @@ void GameState::update(float elapsed) {
             collision_status_one = bullets[i].checkPlayer(*playerone);
 
             if(collision_status_one && !playerone->isInvinc()) {
+                Mix_PlayChannel(-1, Global::dead, 0);
                 playerone->lives--;
                 //Reset playerone position
                 playerone->position.x = -1;
@@ -136,6 +137,7 @@ void GameState::update(float elapsed) {
             collision_status_two = bullets[i].checkPlayer(*playertwo);
 
             if(collision_status_two && !playertwo->isInvinc()) {
+                Mix_PlayChannel(-1, Global::dead, 0);
                 playertwo->lives--;
                 //Reset playertwo position
                 playertwo->position.x = 1;

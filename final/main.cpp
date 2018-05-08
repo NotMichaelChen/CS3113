@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
 
     //Enable audio
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+    Mix_Volume(-1, 48);
 
     Global::init();
 
