@@ -37,7 +37,7 @@ void ScoreState::render() {
     renderBackground();
 
     if(is_win) {
-        DrawText(program, Global::text_spritesheet, "YOU WIN", 0.3, -0.1, 0, 0);
+        DrawText(program, Global::text_spritesheet, "YOU WIN", 0.3, -0.1, -0.6, 1);
     }
     else {
         DrawText(program, Global::text_spritesheet, "GAME OVER", 0.3, -0.1, -0.8, 1);
