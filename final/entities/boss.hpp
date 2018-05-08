@@ -16,6 +16,8 @@ public:
     void Update(float elapsed);
 
     void reset();
+    //Check every frame
+    bool isDone();
 
     std::vector<Bullet>* bullets;
     std::vector<GeneratorEntity>* generators;
@@ -24,6 +26,7 @@ public:
 private:
     //0=beginner, 1=intermediate, 2=advanced
     int bosstype;
+    bool done;
 };
 
 #endif

@@ -47,10 +47,6 @@ void GameState::init(bool singleplayer) {
     }
 }
 
-float GameState::getSeconds() {
-    return ticksactive / 60;
-}
-
 Global::ProgramStates GameState::processEvents() {
     //If we reach zero lives, exit to score state
     //Checked here since this is the method that returns where to go next
@@ -242,6 +238,14 @@ void GameState::reset() {
     is_paused = false;
     menu_state = 0;
     background_scroll = 0;
+}
+
+float GameState::getSeconds() {
+    return ticksactive / 60;
+}
+
+bool GameState::changeLevel() {
+    return boss->isDone();
 }
 
 void GameState::renderBackground() {

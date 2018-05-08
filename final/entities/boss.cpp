@@ -10,7 +10,6 @@ BossEntity::BossEntity(SheetSprite& nsprite, std::vector<Bullet>* b, std::vector
 }
 
 void BossEntity::Update(float elapsed) {
-    bool done;
     switch(bosstype) {
         case 0:
             done = beginnerBoss(this, elapsed);
@@ -38,4 +37,8 @@ void BossEntity::reset() {
     data = PhaseData();
     position.x = 1.5;
     position.y = 1;
+}
+
+bool BossEntity::isDone() {
+    return done;
 }

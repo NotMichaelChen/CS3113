@@ -19,12 +19,19 @@ bool handleStateTransitions(Global::ProgramStates& state, Global::ProgramStates&
     bool did_transition = false;
     if(state == Global::ProgramStates::Menu && Global::isGameState(next_state)) {
         game.init(next_state == Global::ProgramStates::GameOne);
-        state = state;
+        fadingstate = state;
         did_transition = true;
     }
 
     if(Global::isGameState(state) && next_state == Global::ProgramStates::Score) {
         score.setSeconds(game.getSeconds());
+        fadingstate = state;
+        did_transition = true;
+    }
+
+    if(state == Global::ProgramStates::Score && next_state == Global::ProgramStates::Menu) {
+        fadingstate = state;
+        did_transition = true;
     }
     
     state = next_state;
@@ -118,7 +125,7 @@ int main(int argc, char *argv[])
     float last_frame_ticks = 0;
     float accumulator = 0;
     while (!done) {
-        //Begin fadeout if needed
+        //Begin fadeOut if needed
         if(isfading) {
             fadeOut(untextured_program, 1, menu, game, score);
             glUseProgram(program.programID);
@@ -154,8 +161,13 @@ int main(int argc, char *argv[])
         //Update
         while(accumulator >= Global::FIXED_TIMESTEP) {
 
-            if(Global::isGameState(state))
+            if(Global::isGameState(state)) {
                 game.update(Global::FIXED_TIMESTEP);
+                if(game.changeLevel()) {
+                    isfading = true;
+                    fadingstate = state;
+                }
+            }
 
             accumulator -= Global::FIXED_TIMESTEP;
         }
