@@ -34,9 +34,9 @@ void init() {
     advanced_music = Mix_LoadMUS("./assets/stagethree.ogg");
 
     dead = Mix_LoadWAV("./assets/DEAD.wav");
-    attack1 = Mix_LoadWAV("./assets/ATTACK3.wav");
-    attack2 = Mix_LoadWAV("./assets/ATTACK4.wav");
-    attack3 = Mix_LoadWAV("./assets/ATTACK5.wav");
+    attack1 = Mix_LoadWAV("./assets/ATTACK1.ogg");
+    attack2 = Mix_LoadWAV("./assets/ATTACK2.ogg");
+    attack3 = Mix_LoadWAV("./assets/ATTACK3.ogg");
 }
 
 bool isGameState(ProgramStates& state) {

@@ -17,3 +17,5 @@ Stage One Music: Touhou 6 - Embodiment of Scarlet Devil: Beloved Tomboyish Girl 
 Stage Two Music: Touhou 7 - Perfect Cherry Blossom: Diao ye zong (Withered Leaf) (Stage 2 Boss - Chen's Theme)
 
 Stage Three Music: Touhou 8 - Imperishable Night: Cinderella Cage ~ Kagome-Kagome (Stage 5 Theme)
+
+Other SFX: Touhou SFX (https://www.youtube.com/watch?v=1G7RFOuzTNI)

@@ -1,5 +1,7 @@
 #include "patterns.hpp"
 
+#include <SDL_mixer.h>
+
 #include <cmath>
 
 #include "util.hpp"
@@ -18,6 +20,8 @@ std::vector<Bullet> generateCircle(SheetSprite& bsprite, Vec origin, float speed
         bullets.emplace_back(bsprite, origin, vel, acc, 0);
     }
 
+    Mix_PlayChannel( -1, Global::attack1, 0);
+
     return bullets;
 }
 
@@ -35,6 +39,8 @@ std::vector<Bullet> generateFountain(SheetSprite& bsprite, Vec origin, float spe
         bullets.emplace_back(bsprite, origin, vel, acc, 0);
     }
 
+    Mix_PlayChannel( -1, Global::attack3, 0);
+
     return bullets;
 }
 
@@ -51,6 +57,8 @@ std::vector<Bullet> generateLineSpread(SheetSprite& bsprite, Vec origin, Vec max
         
         bullets.emplace_back(bsprite, origin, vel, acc, 0);
     }
+
+    Mix_PlayChannel( -1, Global::attack1, 0);
 
     return bullets;
 }
@@ -83,6 +91,8 @@ std::vector<Bullet> generateStaticCircle(SheetSprite& bsprite, Vec origin, float
 
         bullets.emplace_back(bsprite, pos, vel, acc, 0);
     }
+
+    Mix_PlayChannel( -1, Global::attack1, 0);
 
     return bullets;
 }

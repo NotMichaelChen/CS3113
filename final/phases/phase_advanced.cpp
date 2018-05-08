@@ -1,5 +1,7 @@
 #include "phase_advanced.hpp"
 
+#include <SDL_mixer.h>
+
 #include "global.hpp"
 #include "patterns/patterns.hpp"
 #include "movement/lerpfuncs.hpp"
@@ -37,6 +39,8 @@ void advancedPhaseOne(BossEntity* boss, float elapsed) {
             for(int i = 1; i < ARMS; i++) {
                 boss->bullets->push_back(generateSingle(bulletsprite, boss->position, Global::PI + (Global::PI*i)/ARMS, 0.8));
             }
+
+            Mix_PlayChannel( -1, Global::attack1, 0);
         }
         //Bursts
         if(data->localticks % 80 == 0) {
