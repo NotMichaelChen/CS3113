@@ -167,17 +167,6 @@ void GameState::update(float elapsed) {
 void GameState::render() {
     renderBackground();
 
-    //Draw lives
-    for(int i = 0; i < playerone->lives; i++) {
-        Vec lifeposition(-2.8 + i*0.3, 2);
-        lifeonesprite->Draw(program, lifeposition, 0);
-    }
-
-    for(int i = 0; i < playertwo->lives; i++) {
-        Vec lifeposition(2.8 - i*0.3, 2);
-        lifetwosprite->Draw(program, lifeposition, 0);
-    }
-
     if(playerone->lives > 0) {
         if(playerone->isInvinc())
             program->SetAlphaMask(0.5);
@@ -200,6 +189,17 @@ void GameState::render() {
 
     for(size_t i = 0; i < generators.size(); i++) {
         generators[i].Draw(program);
+    }
+
+    //Draw lives on top of bullets
+    for(int i = 0; i < playerone->lives; i++) {
+        Vec lifeposition(-2.8 + i*0.3, 2);
+        lifeonesprite->Draw(program, lifeposition, 0);
+    }
+
+    for(int i = 0; i < playertwo->lives; i++) {
+        Vec lifeposition(2.8 - i*0.3, 2);
+        lifetwosprite->Draw(program, lifeposition, 0);
     }
 
     //Render background before rendering pause menu
