@@ -9,19 +9,65 @@
 #include "states/scorestate.hpp"
 
 SDL_Window* displayWindow;
+Global::ProgramStates fadingstate;
 
 //Handle state transitions
-void handleStateTransitions(Global::ProgramStates& state, Global::ProgramStates& next_state, MenuState& menu, GameState& game,
+//Returns if there was any transition
+bool handleStateTransitions(Global::ProgramStates& state, Global::ProgramStates& next_state, MenuState& menu, GameState& game,
     ScoreState& score)
 {
+    bool did_transition = false;
     if(state == Global::ProgramStates::Menu && Global::isGameState(next_state)) {
         game.init(next_state == Global::ProgramStates::GameOne);
+        state = state;
+        did_transition = true;
     }
 
     if(Global::isGameState(state) && next_state == Global::ProgramStates::Score) {
         score.setSeconds(game.getSeconds());
     }
+    
     state = next_state;
+    return did_transition;
+}
+
+void fadeOut(ShaderProgram& program, float secs, MenuState& menu, GameState& game, ScoreState& score)
+{
+    float alpha = 0;
+    float begin = (float)SDL_GetTicks()/1000.0f;
+    SDL_Event event;
+    while(alpha <= 1) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
+                exit(0);
+            }
+        }
+
+        if(fadingstate == Global::ProgramStates::Menu)
+            menu.render();
+        else if(Global::isGameState(fadingstate))
+            game.render();
+        else if(fadingstate == Global::ProgramStates::Score)
+            score.render();
+        
+        float vertices[] = {-3, -2.25, 3, -2.25, 3, 2.25, -3, -2.25, 3, 2.25, -3, 2.25};
+        glUseProgram(program.programID);
+
+        float now = (float)SDL_GetTicks()/1000.0f;
+        alpha = (now - begin) / secs;
+        program.SetAlphaMask(alpha);
+
+        Matrix center;
+        program.SetModelMatrix(center);
+
+        glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, vertices);
+        glEnableVertexAttribArray(program.positionAttribute);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDisableVertexAttribArray(program.positionAttribute);
+
+        SDL_GL_SwapWindow(displayWindow);
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
 }
 
 int main(int argc, char *argv[])
@@ -40,10 +86,14 @@ int main(int argc, char *argv[])
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    //Load shader program
+    //Load shader programs
     ShaderProgram program;
     program.Load("vertex_textured.glsl", "fragment_textured.glsl");
     glUseProgram(program.programID);
+
+    ShaderProgram untextured_program;
+    untextured_program.Load("vertex.glsl", "fragment.glsl");
+    untextured_program.SetColor(0, 0, 0, 1);
 
     //Declare matrices
     Matrix projectionMatrix;
@@ -53,6 +103,8 @@ int main(int argc, char *argv[])
     projectionMatrix.SetOrthoProjection(-Global::ORTHO_X, Global::ORTHO_X, -Global::ORTHO_Y, Global::ORTHO_Y, -1.0f, 1.0f);
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
+    untextured_program.SetProjectionMatrix(projectionMatrix);
+    untextured_program.SetViewMatrix(viewMatrix);
 
     //Create state objects
     MenuState menu(&program);
@@ -60,11 +112,21 @@ int main(int argc, char *argv[])
     ScoreState score(&program);
 
     //Main game loop
+    bool isfading = false;
     Global::ProgramStates state = Global::ProgramStates::Menu;
     bool done = false;
     float last_frame_ticks = 0;
     float accumulator = 0;
     while (!done) {
+        //Begin fadeout if needed
+        if(isfading) {
+            fadeOut(untextured_program, 1, menu, game, score);
+            glUseProgram(program.programID);
+            isfading = false;
+            //Set last_frame_ticks to pretend like no time has passed
+            last_frame_ticks = (float)SDL_GetTicks()/1000.0f;
+        }
+
         //Process Events
         //assign state after updating
         Global::ProgramStates next_state;
@@ -82,7 +144,10 @@ int main(int argc, char *argv[])
 
         if(accumulator < Global::FIXED_TIMESTEP) {
             //Handle state transitions
-            handleStateTransitions(state, next_state, menu, game, score);
+            bool transition = handleStateTransitions(state, next_state, menu, game, score);
+            if(transition) {
+                isfading = true;
+            }
             continue;
         }
         
@@ -104,7 +169,10 @@ int main(int argc, char *argv[])
             score.render();
 
         //Handle state transitions
-        handleStateTransitions(state, next_state, menu, game, score);
+        bool transition = handleStateTransitions(state, next_state, menu, game, score);
+        if(transition) {
+            isfading = true;
+        }
 
         //Check if done
         if(next_state == Global::ProgramStates::Quit)
