@@ -1,5 +1,7 @@
 #include "gamestate.hpp"
 
+#include <SDL_mixer.h>
+
 #include "global.hpp"
 #include "util.hpp"
 #include "SheetSprite.hpp"
@@ -66,9 +68,15 @@ Global::ProgramStates GameState::processEvents() {
         }
         else if(event.type == SDL_KEYDOWN) {
             if(event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
-                //Allow escape to exit the pause menu
-                is_paused = !is_paused;
-                menu_state = 0;
+                if(is_paused) {
+                    is_paused = false;
+                    Mix_ResumeMusic();
+                }
+                else {
+                    is_paused = true;
+                    menu_state = 0;
+                    Mix_PauseMusic();
+                }
             }
             else if(is_paused) {
                 if(event.key.keysym.scancode == SDL_SCANCODE_UP) {
@@ -78,8 +86,10 @@ Global::ProgramStates GameState::processEvents() {
                     menu_state = 1;
                 }
                 else if(event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
-                    if(menu_state == 0)
+                    if(menu_state == 0) {
                         is_paused = false;
+                        Mix_ResumeMusic();
+                    }
                     else {
                         return Global::ProgramStates::Score;
                     }
